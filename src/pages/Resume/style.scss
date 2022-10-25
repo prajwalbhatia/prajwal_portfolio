@@ -1,0 +1,161 @@
+.resume-page {
+  .m-t-3 {
+    margin-top: 3rem;
+  }
+
+  .resume {
+    margin-top: 7.5rem;
+
+    .info {
+      flex-direction: column;
+    }
+
+    .info-left {
+      margin-right: 5rem;
+
+      .highlight-line {
+        display: none !important;
+      }
+
+      .info-text {
+        width: 30rem;
+        // font-size: 4rem;
+        font-size: 3rem;
+
+        font-family: OuickSandRegular;
+        // line-height: 0.8;
+      }
+    }
+
+    .info-right {
+      border-radius: 0.5rem;
+      background: #F8F8F8;
+      padding: 2.5rem;
+      width: 100%;
+      overflow: scroll;
+
+      .logo-lane {
+        width: 40rem;
+        overflow: scroll;
+      }
+
+      span {
+        font-family: RobotoRegular;
+      }
+
+      .information {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+
+        div {
+          width: 100%;
+          margin-bottom: 1rem;
+        }
+
+        span {
+          font-size: 1.6rem;
+          font-family: RobotoRegular;
+        }
+
+        .info-head {
+          font-size: 2.4rem;
+          font-family: OuickSandRegular;
+        }
+
+        .info-dates {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+
+      .decription {
+        font-size: 1.6rem;
+        margin-top: 2rem;
+        color: #7A7A7A;
+        font-family: RobotoRegular;
+
+        .sub-head {
+          margin-top: 2rem;
+          font-size: 1.6rem;
+          color: #212121;
+          font-family: RobotoMedium;
+        }
+
+        .sub-desc {
+          margin-top: 1.5rem;
+          font-size: 1.6rem;
+          color: #7A7A7A;
+          font-family: RobotoRegular;
+        }
+      }
+
+      .logo-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 10rem;
+
+        div {
+          font-size: 1.6rem;
+          margin-top: 1rem;
+          font-family: RobotoMedium;
+        }
+
+      }
+    }
+  }
+}
+
+//MEDIA QUERIES
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .resume-page {
+    .resume {
+      .info-right {
+        .information {
+          flex-direction: row;
+
+
+          div {
+            width: max-content;
+          }
+
+          .info-dates {
+            align-items: flex-start;
+            flex-direction: row;
+          }
+        }
+
+      }
+    }
+  }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 1040px) {
+  .resume-page {
+    .m-t-3 {
+      margin-top: 3rem;
+    }
+
+    .resume {
+      margin-top: 7.5rem;
+
+      .info {
+        flex-direction: row;
+      }
+
+      .info-left {
+
+        .highlight-line {
+          display: block !important
+        }
+      }
+
+    }
+  }
+}

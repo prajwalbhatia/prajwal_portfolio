@@ -1,0 +1,40 @@
+.skill-section {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  
+  .skills-container {
+    display: flex;
+    margin-top: 4rem;
+    justify-content: space-between;
+    overflow: scroll;
+
+    .skill-container {
+      min-width: 30rem;
+      margin-right: 1rem;
+      .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 8.4rem;
+        height: 8.4rem;
+        background: #E1E5F2;
+        border-radius: 4px;
+      }
+
+      .title {
+        font-size: 2.4rem;
+        margin-top: 2.5rem;
+        font-family: OuickSandRegular;
+      }
+
+      .description {
+        margin-top: 2rem;
+        font-size: 1.6rem;
+        color: #7A7A7A;
+        font-family: RobotoRegular;
+        max-width: 354px;
+      }
+    }
+  }
+}

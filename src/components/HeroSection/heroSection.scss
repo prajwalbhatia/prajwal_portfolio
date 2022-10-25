@@ -1,0 +1,113 @@
+.hero-section {
+  width: 100%;
+  background: url('Assets/images/HeroImage.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding-top: 2rem;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 1.5rem;
+  height: fit-content;
+  font-family: 'OuickSandRegular';
+}
+
+.hire-button {
+  width: 8rem;
+  height: 3.5rem;
+  border-radius: 6px;
+  background: #4763E4;
+  color: white;
+  // margin-left: 2rem;
+  margin-top: 2rem;
+
+  .btn-text {
+    font-size: 1.3rem;
+  font-family: 'OuickSandRegular';
+
+  }
+}
+
+
+//MEDIA QUERIES
+@media only screen and (min-width: 450px) {
+  .heading {
+    font-size: 2rem;
+  }
+
+  .hire-button {
+    width: 12rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .heading {
+    font-size: 3rem;
+  }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .hero-section {
+    padding-top: 6rem;
+  }
+
+  .heading {
+    font-size: 4rem;
+    padding-top: 0rem;
+  }
+
+  .hire-button {
+    width: 15rem;
+    height: 5rem;
+
+    .btn-text {
+      font-size: 2rem;
+    }
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .heading {
+    font-size: 5rem;
+    padding-top: 8rem;
+
+  }
+
+  .hire-button {
+    width: 15rem;
+    height: 5rem;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1280px) {
+  .heading {
+    font-size: 6rem;
+    // margin-left: 10rem;
+    padding-top: 10rem;
+
+  }
+
+  .hire-button {
+    width: 24rem;
+    height: 5rem;
+    // margin-left: 10rem;
+
+  }
+}
+
+@media only screen and (min-width: 1750px) {
+  .heading {
+    padding-top: 20rem;
+
+  }
+
+  .hero-section {
+    background-size: cover;
+  }
+}
