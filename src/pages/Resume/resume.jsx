@@ -55,7 +55,7 @@ let WORK_EXPERIENCE = [
     companyInfo: 'It is a technology consulting and solutions development company with expertise in Identity, Security, Infrastructure, and Development.',
     acheivements: [
       'Identified web-based user interactions and developed highly responsive user interface components via React Concept.',
-      'Translated design and wireframe into high quality code.<br />Developed reuseable components with proper documentaton for future use.',
+      'Translated design and wireframe into high quality code. Developed reuseable components with proper documentaton for future use.',
       'Coordinate with the frontend team to discuss user interface ideas and applications.',
       'Minimizing the Api calls by 50% by caching things. Implemented some cool configurable components.'
     ]
@@ -86,7 +86,7 @@ function resume() {
                 <div className='d-flex m-r-1'><Address /><span className='flex-center m-l-1'>Yamunanagar, India</span></div>
               </div>
               <div className='decription'>
-                3.5 years+ experienced React Developer with hands-on experience in identifying web-based user interactions along with designing and implementing highly responsive user interface components by using React Concepts. Proficient in translating design and wireframe
+                4.5 years+ experienced React Developer with hands-on experience in identifying web-based user interactions along with designing and implementing highly responsive user interface components by using React Concepts. Proficient in translating design and wireframe
                 into high-quality code, and writing application interface code via Javascript and ReactJS workflow.
               </div>
             </div>
