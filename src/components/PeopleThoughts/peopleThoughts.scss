@@ -5,7 +5,7 @@
 
   .thoughts-container {
     display: none;
-    overflow: scroll;
+    overflow: auto;
 
     .thought-container {
       min-width: 72rem;
@@ -33,7 +33,7 @@
           color: #212121;
           width: 31.4rem;
           max-height: 31.4rem;
-          overflow: scroll;
+          overflow: auto;
         }
 
         .company-detail {
