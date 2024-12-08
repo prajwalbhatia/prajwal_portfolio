@@ -5,14 +5,13 @@
 
   .projects-container {
     display: flex;
-    overflow: scroll;
+    overflow: auto;
 
     .project-container {
       flex-direction: column;
 
       min-width: 30rem;
       width: 100%;
-      // margin-top: 5rem;
       margin-top: 3rem;
 
       display: flex;
@@ -67,7 +66,7 @@
 
     .projects-container {
       display: flex;
-      overflow: scroll;
+      overflow: auto;
 
       .project-container {
         flex-direction: row;

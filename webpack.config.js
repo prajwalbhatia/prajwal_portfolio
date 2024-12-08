@@ -75,7 +75,8 @@ module.exports = {
       'Hooks' : path.resolve(__dirname , 'src/hooks'),
       'Pages' : path.resolve(__dirname , 'src/pages'),
       'Styles' : path.resolve(__dirname , 'src/styles'),
-      'Utilities' : path.resolve(__dirname, 'src/utilities')
+      'Utilities' : path.resolve(__dirname, 'src/utilities'),
+      'Helpers' : path.resolve(__dirname, 'src/helpers/')
     }
   }
 }
