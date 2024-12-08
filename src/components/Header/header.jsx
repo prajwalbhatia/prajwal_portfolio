@@ -36,6 +36,10 @@ function Header() {
     {
       socialMediaClick('blogs')
     }
+    else if(navValue && navValue === 'youtube')
+    {
+      socialMediaClick('youtube')
+    }
     else if(path === '/resume')
     {
       history.push('/')
@@ -66,10 +70,9 @@ function Header() {
           >
             <li data-value='services'>Services</li>
             <li data-value='projects'>Projects</li>
-            {/* <li data-value='testimonials'>Testimonials</li> */}
             <li data-value='blogs'>Blogs</li>
-            {/* <li data-value='contacts'>Contacts</li> */}
             <li data-value='resume'>Resume</li>
+            <li data-value='youtube'>Youtube</li>
           </ol>
         </nav>
       </div >
