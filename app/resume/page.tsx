@@ -7,7 +7,7 @@ import { rich } from '@/lib/rich'
 
 export const metadata: Metadata = {
   title: 'Résumé',
-  description: `Résumé of ${profile.name} — ${profile.title} (${profile.level}) with ${yearsOfExperience()} years in React and TypeScript.`,
+  description: `Résumé of ${profile.name} — ${profile.title}, ${profile.level}, with ${yearsOfExperience()} years in React and TypeScript.`,
 }
 
 function period(start: string, end: string) {
@@ -23,7 +23,7 @@ export default function ResumePage() {
             {profile.name}
           </h1>
           <p className="text-muted">
-            {profile.title} ({profile.level}) · {profile.qualifier}
+            {profile.title} · {profile.level}
           </p>
         </div>
         <div className="flex flex-col gap-1 sm:text-right label text-muted">
@@ -52,7 +52,7 @@ export default function ResumePage() {
       <section className="py-6 border-b border-rule">
         <h2 className="label text-muted mb-3">Summary</h2>
         <p className="text-sm leading-relaxed text-muted max-w-[75ch]">
-          {profile.title} ({profile.level}) with {yearsOfExperience()} years building and scaling
+          {profile.title}, {profile.level}, with {yearsOfExperience()} years building and scaling
           React + TypeScript products, shipping cross-stack features across React and Node. Combines
           hands-on delivery with team leadership — driving standards for code review, AI-assisted
           development, and design-to-engineering handoff. Specialises in scalable frontend

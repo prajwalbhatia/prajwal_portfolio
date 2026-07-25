@@ -5,16 +5,24 @@
 
 export const SITE_URL = 'https://prajwalbhatia.com'
 
-/** Career started 08/2019. Derived so it never goes stale. */
+/**
+ * Career started 08/2019. Derived so it never goes stale.
+ *
+ * Rounds rather than floors: at 6 years 11 months, flooring reported "6",
+ * which understates by a year for eleven months of every year. Rounding
+ * reports 7 now and rolls to 8 in early 2027.
+ */
 export function yearsOfExperience(from = new Date('2019-08-01')): number {
   const ms = Date.now() - from.getTime()
-  return Math.floor(ms / (1000 * 60 * 60 * 24 * 365.25))
+  return Math.round(ms / (1000 * 60 * 60 * 24 * 365.25))
 }
 
 export const profile = {
   name: 'Prajwal Bhatia',
-  title: 'Senior Software Engineer',
-  qualifier: 'Frontend-heavy',
+  /** Canonical, and matches the résumé PDF exactly. */
+  title: 'Senior Software Engineer (Frontend Heavy)',
+  /** For tight surfaces — the OG card, the hero eyebrow, structured data. */
+  titleShort: 'Senior Software Engineer',
   level: 'SDE-3',
   company: 'Virtual Internships',
   location: 'Yamunanagar, India',

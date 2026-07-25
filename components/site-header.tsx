@@ -11,11 +11,11 @@ function isActive(pathname: string, href: string) {
 }
 
 /**
- * `showReels` is resolved at build time in the root layout — the route 404s
- * without a YouTube key, and a nav item pointing at a 404 is worse than one
- * missing item.
+ * `showExplainers` is resolved at build time in the root layout — the route
+ * 404s without a YouTube key, and a nav item pointing at a 404 is worse than
+ * one missing item.
  */
-export function SiteHeader({ showReels = false }: { showReels?: boolean }) {
+export function SiteHeader({ showExplainers = false }: { showExplainers?: boolean }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
@@ -23,7 +23,7 @@ export function SiteHeader({ showReels = false }: { showReels?: boolean }) {
     { href: '/', label: 'Index' },
     { href: '/work', label: 'Work' },
     { href: '/projects', label: 'Projects' },
-    ...(showReels ? [{ href: '/reels', label: 'Reels' }] : []),
+    ...(showExplainers ? [{ href: '/explainers', label: 'Explainers' }] : []),
     { href: '/resume', label: 'Résumé' },
   ]
 

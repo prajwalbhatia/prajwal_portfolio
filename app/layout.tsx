@@ -4,8 +4,8 @@ import localFont from 'next/font/local'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { profile, SITE_URL, socials, yearsOfExperience } from '@/content/profile'
-import { CHANNEL_HANDLE, REELS_LIMIT } from '@/content/reels'
-import { fetchReels } from '@/lib/youtube'
+import { CHANNEL_HANDLE, EXPLAINERS_LIMIT } from '@/content/explainers'
+import { fetchExplainers } from '@/lib/youtube'
 
 import './globals.css'
 
@@ -76,7 +76,7 @@ const plexMono = localFont({
   adjustFontFallback: false,
 })
 
-const description = `${profile.title} (${profile.level}) with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
+const description = `${profile.title}, ${profile.level}, with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -124,7 +124,7 @@ function PersonSchema() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: profile.name,
-    jobTitle: profile.title,
+    jobTitle: profile.titleShort,
     email: `mailto:${profile.email}`,
     url: SITE_URL,
     address: { '@type': 'PostalAddress', addressLocality: profile.location },
@@ -143,7 +143,7 @@ function PersonSchema() {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Same limit as every other caller so the fetch cache collapses these into
   // one set of requests for the whole build.
-  const showReels = (await fetchReels(CHANNEL_HANDLE, REELS_LIMIT)).length > 0
+  const showExplainers = (await fetchExplainers(CHANNEL_HANDLE, EXPLAINERS_LIMIT)).length > 0
 
   return (
     <html
@@ -158,7 +158,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         >
           Skip to content
         </a>
-        <SiteHeader showReels={showReels} />
+        <SiteHeader showExplainers={showExplainers} />
         <main id="main" className="flex-1">
           {children}
         </main>

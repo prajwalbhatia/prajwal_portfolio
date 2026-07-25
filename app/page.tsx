@@ -3,12 +3,12 @@ import { Contact } from '@/components/contact'
 import { Practices } from '@/components/practices'
 import { ProjectCard } from '@/components/project-card'
 import { ProofLedger } from '@/components/proof-ledger'
-import { ReelCard } from '@/components/reel-card'
-import { CHANNEL_HANDLE, CHANNEL_URL, HOME_REELS, REELS_LIMIT } from '@/content/reels'
+import { ExplainerCard } from '@/components/explainer-card'
+import { CHANNEL_HANDLE, CHANNEL_URL, HOME_EXPLAINERS, EXPLAINERS_LIMIT } from '@/content/explainers'
 import { profile, yearsOfExperience } from '@/content/profile'
 import { homeProjects } from '@/content/projects'
 import { stack } from '@/content/skills'
-import { fetchReels } from '@/lib/youtube'
+import { fetchExplainers } from '@/lib/youtube'
 
 function Hero() {
   return (
@@ -48,7 +48,7 @@ function Hero() {
 
 export default async function HomePage() {
   // Empty unless YOUTUBE_API_KEY is set. No key, no section — never invented titles.
-  const reels = (await fetchReels(CHANNEL_HANDLE, REELS_LIMIT)).slice(0, HOME_REELS)
+  const explainers = (await fetchExplainers(CHANNEL_HANDLE, EXPLAINERS_LIMIT)).slice(0, HOME_EXPLAINERS)
 
   return (
     <>
@@ -90,12 +90,12 @@ export default async function HomePage() {
         </p>
       </Band>
 
-      {reels.length > 0 && (
-        <Band title="Explaining it" action="Watch the channel" actionHref={CHANNEL_URL}>
+      {explainers.length > 0 && (
+        <Band title="Explainers" action="Watch the channel" actionHref={CHANNEL_URL}>
           <ul className="measure flex flex-col">
-            {reels.map((r) => (
+            {explainers.map((r) => (
               <li key={r.id}>
-                <ReelCard reel={r} />
+                <ExplainerCard explainer={r} />
               </li>
             ))}
           </ul>

@@ -1,9 +1,9 @@
-import type { Reel } from '@/content/reels'
+import type { Explainer } from '@/content/explainers'
 
 /**
  * YouTube Data API v3 — uploads for a channel handle.
  *
- * Returns `[]` whenever anything is missing or fails, and the reels strip is
+ * Returns `[]` whenever anything is missing or fails, and the explainers strip is
  * hidden on empty. That is deliberate: the alternative to real data is no
  * section, never invented titles. The site is a job-search artefact, and a
  * fabricated video list is the one failure mode that would actually cost
@@ -83,7 +83,7 @@ type VideoResponse = {
  */
 const MAX_SHORT_SECONDS = 180
 
-export async function fetchReels(handle: string, limit = 6): Promise<Reel[]> {
+export async function fetchExplainers(handle: string, limit = 6): Promise<Explainer[]> {
   const channel = await get<ChannelResponse>('channels', {
     part: 'contentDetails',
     forHandle: handle,
@@ -105,7 +105,7 @@ export async function fetchReels(handle: string, limit = 6): Promise<Reel[]> {
   })
   const durations = new Map(details?.items?.map((v) => [v.id, v.contentDetails.duration]) ?? [])
 
-  const reels: Reel[] = []
+  const explainers: Explainer[] = []
   for (const item of items) {
     const id = item.contentDetails.videoId
     const iso = durations.get(id)
@@ -124,7 +124,7 @@ export async function fetchReels(handle: string, limit = 6): Promise<Reel[]> {
     const title = cleanTitle(item.snippet.title)
     if (!title) continue
 
-    reels.push({
+    explainers.push({
       id,
       title,
       duration,
@@ -132,8 +132,8 @@ export async function fetchReels(handle: string, limit = 6): Promise<Reel[]> {
       // should match what the viewer is being sent to.
       href: `https://www.youtube.com/shorts/${id}`,
     })
-    if (reels.length === limit) break
+    if (explainers.length === limit) break
   }
 
-  return reels
+  return explainers
 }
