@@ -15,7 +15,7 @@ export const stack: Skill[] = [
   { name: 'Next.js', core: true },
   { name: 'Redux · RTK Query' },
   { name: 'Node · Express' },
-  { name: 'Kafka' },
+  { name: 'BullMQ · Redis' },
   { name: 'Puppeteer · GCS' },
   { name: 'Jest · RTL' },
   { name: 'Core Web Vitals' },
@@ -41,7 +41,7 @@ export const skillGroups = [
   },
   {
     group: 'Backend & Tools',
-    items: 'Node.js, Express, Kafka, Puppeteer, GCS, REST APIs',
+    items: 'Node.js, Express, BullMQ, Redis, Puppeteer, GCS, REST APIs',
   },
   {
     group: 'Monitoring & Performance',

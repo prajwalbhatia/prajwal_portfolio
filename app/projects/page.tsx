@@ -7,7 +7,7 @@ import { projects } from '@/content/projects'
 export const metadata: Metadata = {
   title: 'Projects',
   description:
-    'Selected engineering work — an async thumbnail pipeline on Kafka, a Core Web Vitals programme, a video player platform, and one habit tracker that got shut down.',
+    'Selected engineering work — an async thumbnail pipeline on BullMQ, a Core Web Vitals programme, a versioned React package, and a batch-selection re-architecture.',
 }
 
 export default function ProjectsPage() {
@@ -34,15 +34,15 @@ export default function ProjectsPage() {
         </div>
       </Band>
 
-      <Band title="Sunset">
+      <Band title="Parked">
         <div className="grid gap-3 md:grid-cols-3">
           {sunset.map((p) => (
             <ProjectCard key={p.id} project={p} />
           ))}
         </div>
         <p className="text-xs text-muted mt-4 max-w-[58ch] leading-relaxed">
-          Shutting something down is a decision worth writing about. The postmortem is more useful
-          than a dead link would have been.
+          Listed because taking something down is part of the record. There is nothing to read yet
+          — the rebuild has to exist before it is worth writing about.
         </p>
       </Band>
     </>

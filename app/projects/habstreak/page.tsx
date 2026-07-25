@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: 'Habstreak — a postmortem',
   description:
     'A habit tracker built on streaks and rewards, shipped on web and the Play Store, then shut down. What worked, what did not, and what I would never build again.',
+  // Unlinked draft while Habstreak is rebuilt. Keep out of the index until the
+  // prose is written — it is also absent from app/sitemap.ts for the same reason.
+  robots: { index: false, follow: false },
 }
 
 /**

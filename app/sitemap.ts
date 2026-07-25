@@ -8,7 +8,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '', priority: 1 },
     { path: '/work', priority: 0.9 },
     { path: '/projects', priority: 0.8 },
-    { path: '/projects/habstreak', priority: 0.6 },
+    { path: '/projects/web-vitals', priority: 0.7 },
+    { path: '/projects/thumbnail-pipeline', priority: 0.7 },
+    { path: '/projects/intern-profile-package', priority: 0.7 },
+    { path: '/projects/batch-selection', priority: 0.7 },
+    // /projects/habstreak is deliberately absent — unlinked draft, noindexed.
     { path: '/resume', priority: 0.8 },
     { path: '/reels', priority: 0.6 },
   ]

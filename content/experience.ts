@@ -34,7 +34,7 @@ export const roles: Role[] = [
     coreWork: 'Async thumbnail pipeline · review standards · P0 ownership',
     result: '95% / 8×',
     highlights: [
-      'Built an async thumbnail extraction service on **Node, Kafka, Puppeteer and GCS** — a two-tier pipeline whose OG-tag fast path clears **~55% of URLs in ~1s**, **8× faster** than the Puppeteer fallback, at a **95%** success rate in production.',
+      'Built an async thumbnail extraction service on **Node, BullMQ, Puppeteer and GCS** — a two-tier pipeline whose OG-tag fast path clears **~55% of URLs in ~1s**, **8× faster** than the Puppeteer fallback, at a **95%** success rate in production.',
       'Re-architected the Batch Selection flow: a **500-line component** decomposed into focused hooks, Redux thunks migrated to **RTK Query**, and business rules moved server-side for a single source of truth.',
       "Co-authored the team's **AI-assisted development standards** — frontend guidelines and a reusable skills library across core repos.",
       'Rebuilt PR review from code-only into a three-layer standard covering code, functionality and design. Caught **17 issues** in one admin-surface review before release.',
