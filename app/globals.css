@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Broadcast — design tokens
+   Magenta is reserved for three things only: availability, the
+   current role, and hard numbers. If it starts appearing anywhere
+   else, the page stops signalling and starts decorating.
+   ============================================================ */
+@theme {
+  --color-ink: #0b0c0e;
+  --color-panel: #131519;
+  --color-line: #262a31;
+  --color-line-2: #343943;
+  --color-text: #f3f4f6;
+  --color-dim: #c6c8d0;
+  /* grey pulled slightly violet, toward the signal */
+  --color-muted: #8a8794;
+  --color-signal: #ff3d7f;
+  --color-sunset: #4a2436;
+
+  --font-display: var(--font-archivo-narrow), 'Arial Narrow', system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Nothing on this page is worth motion-sickness. */
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Condensed uppercase display — the title-card voice. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+  }
+
+  /* Small mono labels. Every eyebrow, timecode and column header. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .rule-t {
+    border-top: 1px solid var(--color-line);
+  }
+
+  /* Consistent page gutter. Used by every band so nothing drifts. */
+  .gutter {
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  /* Renders **bold** from content strings without a markdown dependency. */
+  .rich strong {
+    color: var(--color-text);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* The availability dot. The only ambient motion on the site. */
+@keyframes signal-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
+
+.signal-blip {
+  animation: signal-pulse 2.6s ease-in-out infinite;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
