@@ -14,14 +14,18 @@ export const socialMediaClick = (socialMedia) => {
       break;
     case "blogs":
       openInNewTab("https://prajwalbhatia.hashnode.dev/");
+      break;
     case "youtube":
       openInNewTab("https://www.youtube.com/@prajwalbhatia");
+      break;
     case "habstreak":
       openInNewTab("https://habstreak.com");
+      break;
     case "habstreak-app":
       openInNewTab(
         "https://play.google.com/store/apps/details?id=com.Habstreak"
       );
+      break;
     default:
       break;
   }
