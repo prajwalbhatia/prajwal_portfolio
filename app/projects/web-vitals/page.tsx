@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { BeforeAfter, CaseSection, CaseStudy } from '@/components/case-study'
+import { CaseSection, CaseStudy, MeasureTable } from '@/components/case-study'
 
 export const metadata: Metadata = {
   title: 'Web Vitals Programme',
@@ -13,7 +13,10 @@ export default function WebVitalsPage() {
     <CaseStudy
       context="Virtual Internships · 2023–25"
       title="Web Vitals Programme"
-      metric="−42% LCP"
+      // Label kept to one short line: a longer string wrapped differently in
+      // the mono fallback than in Plex Mono, changing the header height and
+      // costing CLS 0.11 on this page specifically.
+      pair={{ was: '5.45s', now: '3.17s', label: 'LCP p75' }}
       lede="The batch-selection page was the highest-traffic flow in the product and its LCP p75 sat at 5.45s. The instinct with a number like that is to reach for a rewrite. It didn't need one."
     >
       <CaseSection heading="What was actually slow">
@@ -48,11 +51,13 @@ export default function WebVitalsPage() {
       </CaseSection>
 
       <CaseSection heading="Results">
-        <BeforeAfter
+        <MeasureTable
           caption="Measured at p75 in the field, not on my laptop"
-          pairs={[
-            { label: 'Batch selection — LCP p75', before: '5.45s', after: '3.17s' },
-            { label: 'Intern profile — CLS p75', before: '0.229', after: '0.006' },
+          rows={[
+            { label: 'Batch selection — LCP p75', was: '5.45s', now: '3.17s' },
+            { label: 'Intern profile — CLS p75', was: '0.229', now: '0.006' },
+            { label: 'Onboarding — LCP p75', was: '9.9s', now: '8.6s' },
+            { label: 'Dashboard — CLS p75', was: '0.44', now: '0.24' },
           ]}
         />
       </CaseSection>

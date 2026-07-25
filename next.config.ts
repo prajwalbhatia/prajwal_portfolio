@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
   // An unrelated yarn.lock sits in the home directory; without this, Turbopack
   // walks up and picks that as the workspace root.
   turbopack: { root: path.resolve(process.cwd()) },
+  experimental: {
+    // Inlines the stylesheet into the document, removing a render-blocking
+    // round trip. The CSS is ~21 KB and every route is static, so there is no
+    // cache benefit being given up.
+    inlineCss: true,
+  },
   images: {
     remotePatterns: [
       // YouTube thumbnails, once the channel feed is wired up.

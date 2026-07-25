@@ -13,7 +13,6 @@ export default function ThumbnailPipelinePage() {
     <CaseStudy
       context="Virtual Internships · 2025"
       title="Thumbnail Pipeline"
-      metric="8× faster"
       lede="Intern profiles link out to portfolios and certifications, and those links needed thumbnails. The naive version is Puppeteer on request. That's a browser launch on the critical path of an API call, which is unacceptable at any traffic level."
     >
       <CaseSection heading="Two tiers">

@@ -1,39 +1,49 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/band'
 import { ReelCard } from '@/components/reel-card'
-import { CHANNEL_URL, reels } from '@/content/reels'
+import { CHANNEL_HANDLE, CHANNEL_URL } from '@/content/reels'
+import { fetchReels } from '@/lib/youtube'
 
 export const metadata: Metadata = {
   title: 'Reels',
   description:
-    'Short explainers on React, TypeScript and web performance — the same problems I work on during the day, in under a minute.',
+    'Short explainers on React, TypeScript and web performance — the same problems I work on during the day.',
 }
 
-export default function ReelsPage() {
+/**
+ * The route exists, but only renders when there is real data behind it.
+ *
+ * Without YOUTUBE_API_KEY this 404s rather than shipping a page that is a
+ * heading and a link to somewhere else. It is also absent from the sitemap and
+ * the nav until then — add both back in the same commit as the key.
+ */
+export default async function ReelsPage() {
+  const reels = await fetchReels(CHANNEL_HANDLE, 24)
+  if (reels.length === 0) notFound()
+
   return (
     <>
-      <section className="shell gutter pt-12 pb-6">
-        <h1 className="display text-[clamp(2.4rem,8vw,4.5rem)] mb-4">
-          Reels<span className="text-signal">.</span>
-        </h1>
-        <p className="text-base text-dim max-w-[58ch] leading-relaxed">
+      <section className="shell gutter pt-14 pb-8">
+        <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Reels</h1>
+        <p className="measure mt-5 text-muted">
           Short explainers on React, TypeScript and performance — the same problems I work on during
-          the day, compressed into under a minute. Being able to explain a thing simply is most of
-          understanding it.
+          the day, in under a minute. Being able to explain a thing simply is most of understanding
+          it.
         </p>
         <a
           href={CHANNEL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="label border border-signal text-signal px-4 py-2.5 hover:bg-signal hover:text-ink transition-colors inline-block mt-6"
+          className="label mt-6 inline-block border border-rule px-4 py-2.5 transition-colors hover:border-muted"
         >
-          Subscribe on YouTube →
+          Subscribe on YouTube &rarr;
         </a>
       </section>
 
       <Band title="All frames">
-        <ul className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+        <ul className="measure flex flex-col">
           {reels.map((r) => (
             <li key={r.id}>
               <ReelCard reel={r} />

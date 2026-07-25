@@ -10,7 +10,6 @@ const nav = [
   { href: '/', label: 'Index' },
   { href: '/work', label: 'Work' },
   { href: '/projects', label: 'Projects' },
-  { href: '/reels', label: 'Reels' },
   { href: '/resume', label: 'Résumé' },
 ]
 
@@ -23,20 +22,20 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-ink/90 backdrop-blur-sm no-print">
+    <header className="no-print sticky top-0 z-40 border-b border-rule bg-ground/95 backdrop-blur-sm">
       <div className="shell gutter flex items-center justify-between gap-4 py-3">
-        <Link href="/" className="display text-base tracking-normal shrink-0">
+        <Link href="/" className="display shrink-0 text-base">
           {profile.name}
         </Link>
 
-        <nav aria-label="Primary" className="hidden md:flex gap-6">
+        <nav aria-label="Primary" className="hidden gap-6 md:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               aria-current={isActive(pathname, item.href) ? 'page' : undefined}
-              className={`label transition-colors hover:text-text ${
-                isActive(pathname, item.href) ? 'text-text' : 'text-muted'
+              className={`label transition-colors hover:text-ink ${
+                isActive(pathname, item.href) ? 'text-ink' : 'text-muted'
               }`}
             >
               {item.label}
@@ -46,11 +45,8 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-4">
           {profile.openToWork && (
-            <span className="hidden sm:flex items-center gap-2 label text-signal">
-              <span
-                aria-hidden="true"
-                className="signal-blip size-1.5 rounded-full bg-signal"
-              />
+            <span className="label hidden items-center gap-2 text-ink sm:flex">
+              <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-live" />
               {profile.availabilityLabel}
             </span>
           )}
@@ -60,7 +56,7 @@ export function SiteHeader() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            className="md:hidden label text-muted hover:text-text"
+            className="label text-muted hover:text-ink md:hidden"
           >
             {open ? 'Close' : 'Menu'}
           </button>
@@ -71,7 +67,7 @@ export function SiteHeader() {
         <nav
           id="mobile-nav"
           aria-label="Primary mobile"
-          className="md:hidden border-t border-line gutter shell flex flex-col py-2"
+          className="shell gutter flex flex-col border-t border-rule py-2 md:hidden"
         >
           {nav.map((item) => (
             <Link
@@ -79,8 +75,8 @@ export function SiteHeader() {
               href={item.href}
               onClick={() => setOpen(false)}
               aria-current={isActive(pathname, item.href) ? 'page' : undefined}
-              className={`label py-3 border-b border-line last:border-0 ${
-                isActive(pathname, item.href) ? 'text-text' : 'text-muted'
+              className={`label border-b border-rule py-3 last:border-0 ${
+                isActive(pathname, item.href) ? 'text-ink' : 'text-muted'
               }`}
             >
               {item.label}

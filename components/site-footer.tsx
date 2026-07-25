@@ -1,43 +1,22 @@
 import Link from 'next/link'
 
-import { profile, socials } from '@/content/profile'
+import { profile } from '@/content/profile'
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line no-print">
-      <div className="shell gutter py-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex flex-col gap-2">
-          <span className="label text-muted">Elsewhere</span>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {socials.map((s) => (
-              <li key={s.id}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-dim hover:text-signal transition-colors"
-                >
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex flex-col gap-2 sm:items-end">
-          <a
-            href={`mailto:${profile.email}`}
-            className="text-sm text-dim hover:text-signal transition-colors"
-          >
-            {profile.email}
+    <footer className="no-print border-t border-rule">
+      <div className="shell gutter flex flex-col gap-3 py-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="label text-muted">
+          {profile.name} · {profile.location}
+        </p>
+        <p className="label flex gap-5 text-muted">
+          <Link href="/resume" className="hover:text-ink">
+            Résumé
+          </Link>
+          <a href={`mailto:${profile.email}`} className="hover:text-ink">
+            Email
           </a>
-          <p className="label text-muted">
-            {profile.location} · Built with Next.js ·{' '}
-            <Link href="/resume" className="hover:text-text">
-              Résumé
-            </Link>
-          </p>
-        </div>
+        </p>
       </div>
     </footer>
   )

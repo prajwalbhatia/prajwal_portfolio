@@ -12,9 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/projects/thumbnail-pipeline', priority: 0.7 },
     { path: '/projects/intern-profile-package', priority: 0.7 },
     { path: '/projects/batch-selection', priority: 0.7 },
+    { path: '/projects/application-flow', priority: 0.7 },
+    { path: '/projects/partner-landing', priority: 0.7 },
     // /projects/habstreak is deliberately absent — unlinked draft, noindexed.
     { path: '/resume', priority: 0.8 },
-    { path: '/reels', priority: 0.6 },
+    // /reels is absent until YOUTUBE_API_KEY exists — the route 404s without
+    // it. Add it back in the same commit as the key.
   ]
 
   return routes.map((r) => ({

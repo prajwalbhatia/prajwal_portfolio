@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { BeforeAfter, CaseSection, CaseStudy } from '@/components/case-study'
+import { CaseSection, CaseStudy } from '@/components/case-study'
 
 export const metadata: Metadata = {
   title: 'fe-intern-profile',
@@ -13,7 +13,7 @@ export default function InternProfilePackagePage() {
     <CaseStudy
       context="Virtual Internships · 2024–26"
       title="fe-intern-profile"
-      metric="−53% bundle"
+      pair={{ was: '513KB', now: '240KB', label: 'Bundle' }}
       lede="This started as intern-profile UI and became a package the main application installs. That shift changes the work: once something has consumers, you can't reshape an API because it would be tidier."
     >
       <CaseSection heading="Library maintenance, done properly">
@@ -37,10 +37,6 @@ export default function InternProfilePackagePage() {
           <code>fetchPriority=&quot;high&quot;</code> on the profile picture, <code>low</code> on
           four decorative header SVGs. Terser at two passes.
         </p>
-        <BeforeAfter
-          caption="Bundle size, measured at build"
-          pairs={[{ label: 'Package bundle', before: '513KB', after: '240KB' }]}
-        />
       </CaseSection>
 
       <CaseSection heading="And about fifteen PRs of CVEs">

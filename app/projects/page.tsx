@@ -7,42 +7,44 @@ import { projects } from '@/content/projects'
 export const metadata: Metadata = {
   title: 'Projects',
   description:
-    'Selected engineering work — an async thumbnail pipeline on BullMQ, a Core Web Vitals programme, a versioned React package, and a batch-selection re-architecture.',
+    'Selected engineering work — a Core Web Vitals programme, a versioned React package, an async thumbnail pipeline on BullMQ, and a batch-selection re-architecture.',
 }
 
 export default function ProjectsPage() {
   const shipped = projects.filter((p) => p.status === 'shipped')
-  const sunset = projects.filter((p) => p.status === 'sunset')
+  const parked = projects.filter((p) => p.status === 'sunset')
 
   return (
     <>
-      <section className="shell gutter pt-12 pb-6">
-        <h1 className="display text-[clamp(2.4rem,8vw,4.5rem)] mb-4">
-          Projects<span className="text-signal">.</span>
-        </h1>
-        <p className="text-base text-dim max-w-[58ch] leading-relaxed">
-          Mostly things built inside a company, which means no public repo — described by what they
-          do and what changed as a result.
+      <section className="shell gutter pt-14 pb-8">
+        <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Projects</h1>
+        <p className="measure mt-5 text-muted">
+          Mostly built inside a company, which means no public repo — described by what they do and
+          what changed as a result.
         </p>
       </section>
 
       <Band title="Shipped">
-        <div className="grid gap-3 md:grid-cols-3">
+        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {shipped.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+            <li key={p.id} className="flex">
+              <ProjectCard project={p} />
+            </li>
           ))}
-        </div>
+        </ul>
       </Band>
 
       <Band title="Parked">
-        <div className="grid gap-3 md:grid-cols-3">
-          {sunset.map((p) => (
-            <ProjectCard key={p.id} project={p} />
+        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {parked.map((p) => (
+            <li key={p.id} className="flex">
+              <ProjectCard project={p} />
+            </li>
           ))}
-        </div>
-        <p className="text-xs text-muted mt-4 max-w-[58ch] leading-relaxed">
-          Listed because taking something down is part of the record. There is nothing to read yet
-          — the rebuild has to exist before it is worth writing about.
+        </ul>
+        <p className="measure mt-5 text-xs text-muted">
+          Listed because taking something down is part of the record. There is nothing to read yet —
+          the rebuild has to exist before it is worth writing about.
         </p>
       </Band>
     </>

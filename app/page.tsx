@@ -1,102 +1,75 @@
-import Link from 'next/link'
-
 import { Band } from '@/components/band'
-import { MetricStrip } from '@/components/metric-strip'
+import { Contact } from '@/components/contact'
+import { Practices } from '@/components/practices'
 import { ProjectCard } from '@/components/project-card'
+import { ProofLedger } from '@/components/proof-ledger'
 import { ReelCard } from '@/components/reel-card'
-import { RoleEntry } from '@/components/role-entry'
-import { roles } from '@/content/experience'
+import { CHANNEL_HANDLE, CHANNEL_URL } from '@/content/reels'
 import { profile, yearsOfExperience } from '@/content/profile'
-import { featuredProjects } from '@/content/projects'
-import { CHANNEL_URL, reels, SHOW_REELS } from '@/content/reels'
+import { homeProjects } from '@/content/projects'
 import { stack } from '@/content/skills'
+import { fetchReels } from '@/lib/youtube'
 
 function Hero() {
-  const facts = [
-    { k: 'Experience', v: `${yearsOfExperience()} years` },
-    { k: 'Level', v: profile.level },
-    { k: 'Based', v: profile.locationShort },
-  ]
-
   return (
-    <section className="shell gutter pt-12 pb-8 sm:pt-16 flex flex-col gap-6">
-      <h1 className="display text-[clamp(3.2rem,13vw,8rem)]">
-        Prajwal
-        <br />
-        Bhatia<span className="text-signal">.</span>
-      </h1>
+    <section className="shell gutter pt-14 pb-10 sm:pt-20">
+      <p className="label mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-muted">
+        <span>
+          {profile.title} · {profile.level}
+        </span>
+        {profile.openToWork && (
+          <>
+            <span aria-hidden="true" className="h-px w-4 bg-rule" />
+            <span className="inline-flex items-center gap-2 text-ink">
+              <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-live" />
+              {profile.availabilityLabel}
+            </span>
+          </>
+        )}
+      </p>
 
-      <div className="rule-t pt-5 grid gap-8 lg:grid-cols-[1.55fr_1fr] lg:items-end">
-        <p className="text-base sm:text-lg leading-relaxed text-dim max-w-[50ch]">
-          Senior software engineer, frontend-heavy, {yearsOfExperience()} years in.{' '}
-          <span className="text-text font-semibold">{profile.tagline}</span> Currently{' '}
-          <span className="text-text font-semibold">
-            {profile.level} at {profile.company}
-          </span>
-          , where I took our highest-traffic flow from{' '}
-          <span className="text-text font-semibold tabular-nums">5.45s to 3.17s</span>, built the
-          async pipeline behind portfolio thumbnails, and rewrote how the team reviews code.
-        </p>
+      <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">{profile.name}</h1>
 
-        <dl className="flex flex-col gap-2">
-          {facts.map((f) => (
-            <div
-              key={f.k}
-              className="flex justify-between gap-4 border-b border-dotted border-line pb-1.5"
-            >
-              <dt className="label text-muted">{f.k}</dt>
-              <dd className="label text-text">{f.v}</dd>
-            </div>
-          ))}
-          {profile.openToWork && (
-            <div className="flex justify-between gap-4 border-b border-dotted border-line pb-1.5">
-              <dt className="label text-muted">Status</dt>
-              <dd className="label text-signal">Open to roles</dd>
-            </div>
-          )}
-        </dl>
-      </div>
+      <p className="display mt-8 max-w-[24ch] text-[clamp(1.75rem,5.5vw,3.25rem)] leading-[1.08] text-muted">
+        I make slow things fast <span className="text-ink">and I own what breaks.</span>
+      </p>
+
+      <p className="measure mt-8 text-base leading-relaxed text-muted sm:text-lg">
+        {yearsOfExperience()} years building React and TypeScript products, currently{' '}
+        <span className="text-ink">
+          {profile.level} at {profile.company}
+        </span>
+        . I work on the parts users feel — render cost, offline behaviour, and the state nobody
+        handled — and on the process that keeps a team shipping them.
+      </p>
     </section>
   )
 }
 
-function Contact() {
-  return (
-    <section className="rule-t">
-      <div className="shell gutter py-12 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="display text-[clamp(1.9rem,5vw,3rem)] mb-3">
-            Hiring for a
-            <br />
-            senior role<span className="text-signal">?</span>
-          </h2>
-          <p className="text-sm text-dim max-w-[42ch]">
-            I&rsquo;m open to conversations. Email is fastest — I answer everything.
-          </p>
-        </div>
-        <a
-          href={`mailto:${profile.email}`}
-          className="label border border-signal text-signal px-5 py-3 hover:bg-signal hover:text-ink transition-colors whitespace-nowrap self-start sm:self-auto"
-        >
-          {profile.email}
-        </a>
-      </div>
-    </section>
-  )
-}
+export default async function HomePage() {
+  // Empty unless YOUTUBE_API_KEY is set. No key, no section — never invented titles.
+  const reels = await fetchReels(CHANNEL_HANDLE)
 
-export default function HomePage() {
   return (
     <>
       <Hero />
-      <MetricStrip />
+      <ProofLedger />
 
-      <Band title="Track record" action="Full detail" actionHref="/work">
-        <div>
-          {roles.map((role) => (
-            <RoleEntry key={role.id} role={role} />
+      <Band title="Selected work" action="All projects" actionHref="/projects">
+        <ul className="grid gap-4 md:grid-cols-2">
+          {homeProjects.map((p) => (
+            <li key={p.id} className="flex">
+              <ProjectCard project={p} />
+            </li>
           ))}
-        </div>
+        </ul>
+      </Band>
+
+      <Band title="Engineering practice">
+        <p className="measure mb-6 text-sm text-muted">
+          The same before and after, applied to how a team works rather than how code runs.
+        </p>
+        <Practices />
       </Band>
 
       <Band title="Stack">
@@ -104,47 +77,28 @@ export default function HomePage() {
           {stack.map((s) => (
             <li
               key={s.name}
-              className={`border px-2.5 py-1.5 text-sm ${
-                s.core ? 'border-signal text-text' : 'border-line-2 text-dim'
+              className={`border px-3 py-1.5 text-sm ${
+                s.core ? 'border-now text-now' : 'border-rule text-muted'
               }`}
             >
               {s.name}
             </li>
           ))}
         </ul>
-        <p className="text-xs text-muted mt-3">
-          Outlined in magenta = what I write every day. The rest is shipped, working familiarity.
+        <p className="mt-4 text-xs text-muted">
+          Outlined in teal is what I write every day. The rest is shipped, working familiarity.
         </p>
       </Band>
 
-      <Band title="Selected work" action="All projects" actionHref="/projects">
-        <div className="grid gap-3 md:grid-cols-3">
-          {featuredProjects.map((p) => (
-            <ProjectCard key={p.id} project={p} />
-          ))}
-        </div>
-      </Band>
-
-      {SHOW_REELS && (
-        <Band title="I also teach this" action="Watch the channel" actionHref="/reels">
-          <ul className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
+      {reels.length > 0 && (
+        <Band title="Explaining it" action="Watch the channel" actionHref={CHANNEL_URL}>
+          <ul className="measure flex flex-col">
             {reels.map((r) => (
               <li key={r.id}>
                 <ReelCard reel={r} />
               </li>
             ))}
           </ul>
-          <p className="text-xs text-muted mt-4">
-            Short explainers on React, TypeScript and performance.{' '}
-            <a
-              href={CHANNEL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-dim hover:text-signal transition-colors"
-            >
-              youtube.com/@prajwalbhatia
-            </a>
-          </p>
         </Band>
       )}
 

@@ -90,15 +90,81 @@ export const roles: Role[] = [
 ]
 
 /**
- * The four figures in the strip under the hero. These are the first thing a
- * recruiter reads, so every one must be defensible in conversation.
+ * The proof ledger under the hero — the site's clearest statement of the
+ * before/after motif. Every entry must be a genuine measured pair, and every
+ * one must be defensible in conversation.
+ *
+ * Figures that are not pairs do not belong here. `95% pipeline success` and
+ * `29 min P0 resolution` are real but single-valued; they live in
+ * `beyondCode` and on the case studies instead. Do not pad this list with
+ * them — a fabricated "before" would undo the whole argument.
  */
-export const headlineMetrics = [
-  { value: '−42%', label: 'LCP p75 on the highest-traffic flow' },
-  { value: '0.006', label: 'CLS p75, down from 0.229' },
-  { value: '95%', label: 'Success rate, async thumbnail pipeline' },
-  { value: '29 min', label: 'P0 report to deployment' },
-] as const
+export type MetricPair = {
+  label: string
+  was: string
+  now: string
+  /** Where it was measured. Kept short; renders as a mono caption. */
+  where: string
+}
+
+export const proofLedger: MetricPair[] = [
+  {
+    label: 'LCP p75',
+    was: '5.45s',
+    now: '3.17s',
+    where: 'Batch selection · highest-traffic flow',
+  },
+  { label: 'CLS p75', was: '0.229', now: '0.006', where: 'Intern profile' },
+  { label: 'Bundle', was: '513KB', now: '240KB', where: 'fe-intern-profile package' },
+  { label: 'LCP p75', was: '9.9s', now: '8.6s', where: 'Onboarding' },
+  { label: 'CLS p75', was: '0.44', now: '0.24', where: 'Dashboard' },
+]
+
+/**
+ * Process changes, framed as before/after. Same motif, applied to how a team
+ * works rather than how code runs — which is the distinction between SDE-2
+ * and SDE-3 and is almost never shown on an engineering portfolio.
+ */
+export type PracticePair = {
+  area: string
+  was: string
+  now: string
+  /** A verified figure, or null when the change is real but unmeasured. */
+  evidence: string | null
+}
+
+export const practices: PracticePair[] = [
+  {
+    area: 'Code review',
+    was: 'Code-only review',
+    now: 'Three layers — code, functionality, design',
+    evidence: '17 issues caught in one admin-surface review, pre-release',
+  },
+  {
+    area: 'AI-assisted development',
+    was: 'No shared conventions',
+    now: 'Frontend guidelines and a reusable skills library across core repos',
+    evidence: null,
+  },
+  {
+    area: 'Incident response',
+    was: 'Ad hoc',
+    now: 'Post-incident delivery process, with product-design review required',
+    evidence: '29 min from P0 report to deployment',
+  },
+  {
+    area: 'Onboarding',
+    was: 'Unstructured ramp-up',
+    now: 'Mentoring through onboarding, codebase ramp-up and review cycles',
+    evidence: '2 interns mentored, 1 converted to full-time',
+  },
+  {
+    area: 'Handoff',
+    was: 'Requirements arriving mid-build',
+    now: 'Cross-functional kickoffs — Design, FE, BE, QA',
+    evidence: null,
+  },
+]
 
 /** What separates SDE-3 from SDE-2. Rendered as a table on /work. */
 export const beyondCode = [

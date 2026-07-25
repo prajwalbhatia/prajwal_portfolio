@@ -1,33 +1,73 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   Broadcast — design tokens
-   Magenta is reserved for three things only: availability, the
-   current role, and hard numbers. If it starts appearing anywhere
-   else, the page stops signalling and starts decorating.
+   Paired state — design tokens
+
+   The site's argument is change over time. Two accent colours
+   carry that and nothing else:
+
+     --color-was  rust  the before, the removed, the legacy
+     --color-now  teal  the after, the current, the shipped
+
+   They are never used for emphasis, links, hover, focus or
+   decoration. A section with no genuine before gets no accent at
+   all. The moment rust means "look here" instead of "this was",
+   the system stops signalling and becomes a colour scheme.
+
+   Deliberately not diff red/green: this is a system that improved,
+   not a patch under review.
    ============================================================ */
 @theme {
-  --color-ink: #0b0c0e;
-  --color-panel: #131519;
-  --color-line: #262a31;
-  --color-line-2: #343943;
-  --color-text: #f3f4f6;
-  --color-dim: #c6c8d0;
-  /* grey pulled slightly violet, toward the signal */
-  --color-muted: #8a8794;
-  --color-signal: #ff3d7f;
-  --color-sunset: #4a2436;
+  /* Dark is primary. Light is redefined below, designed rather than inverted. */
+  --color-ground: #191d21;
+  --color-surface: #1f2429;
+  --color-ink: #e9e7e2;
+  --color-muted: #8d9299;
+  --color-rule: #2c3238;
+  /* Specified as #b3714a, lightened to clear 4.5:1 on both dark grounds —
+     it was 4.34 on ground and 4.01 on surface, and both accents carry
+     14px body text in the practices list and the measure tables. Hue and
+     saturation unchanged. */
+  --color-was: #ba7c58;
+  --color-now: #56b3a7;
 
-  --font-display: var(--font-archivo-narrow), 'Arial Narrow', system-ui, sans-serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
+  /* Availability only. Not part of the was/now system — a live state,
+     not a comparison. Neutral by design so it can't be mistaken for either. */
+  --color-live: #e9e7e2;
+
+  --font-display: var(--font-source-serif), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-plex-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/*
+  Light theme. Not an inversion — the grounds shift warm, both accents
+  darken to hold contrast on paper, and the rule lightens rather than
+  simply flipping. Contrast verified against #f4f2ee and #ffffff.
+
+  Redefined as custom properties on :root rather than a second @theme
+  block: Tailwind emits utilities as var(--color-*), so overriding the
+  variable re-themes every utility at once. @theme is a build-time
+  directive and does not belong inside a media query.
+*/
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-ground: #f4f2ee;
+    --color-surface: #ffffff;
+    --color-ink: #1a1d20;
+    --color-muted: #5f656c;
+    --color-rule: #ddd9d2;
+    --color-was: #9c5a34;
+    /* Specified as #2c7d73; 4.38 on the light ground. Darkened marginally. */
+    --color-now: #2b7a71;
+    --color-live: #1a1d20;
+  }
 }
 
 @layer base {
   html {
+    color-scheme: dark light;
     scroll-behavior: smooth;
-    /* Nothing on this page is worth motion-sickness. */
-    color-scheme: dark;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -40,57 +80,73 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 
   body {
-    background: var(--color-ink);
-    color: var(--color-text);
+    background: var(--color-ground);
+    color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: var(--color-signal);
-    color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-ground);
   }
 
+  /* Load-bearing: accessibility is a claimed skill on this site. */
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
+    border-radius: 1px;
   }
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     text-wrap: balance;
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+  }
+
+  /* Every figure on the site lines up in columns. */
+  .tnum,
+  table,
+  time {
+    font-variant-numeric: tabular-nums;
   }
 }
 
 @layer components {
-  /* Condensed uppercase display — the title-card voice. */
+  /* Display / narrative voice. Source Serif, never uppercase. */
   .display {
     font-family: var(--font-display);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 0.88;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
 
-  /* Small mono labels. Every eyebrow, timecode and column header. */
+  /* Data, labels, code. The only uppercase on the site. */
   .label {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    font-weight: 500;
   }
 
   .rule-t {
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid var(--color-rule);
   }
 
-  /* Consistent page gutter. Used by every band so nothing drifts. */
   .gutter {
     padding-inline: clamp(1rem, 4vw, 2.5rem);
   }
@@ -100,47 +156,142 @@
     margin-inline: auto;
   }
 
+  /* Running prose never exceeds a comfortable measure. */
+  .measure {
+    max-width: 68ch;
+  }
+
   /* Renders **bold** from content strings without a markdown dependency. */
   .rich strong {
-    color: var(--color-text);
+    color: var(--color-ink);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  /* Inline identifiers in case-study prose — API names, props, files. */
+  /* Long-form case-study prose. */
+  .case-prose p {
+    max-width: 68ch;
+  }
+
   .case-prose code {
     font-family: var(--font-mono);
     font-size: 0.85em;
-    color: var(--color-text);
-    background: var(--color-panel);
-    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
     padding: 0.1em 0.35em;
     border-radius: 2px;
     overflow-wrap: anywhere;
   }
+
+  /* ---- the paired-state motif ----
+     A pair is always two values with the relationship carried by
+     layout and colour. No arrow glyph does the work; the rule
+     between them is the relationship. */
+  .pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .pair-was {
+    color: var(--color-was);
+  }
+
+  .pair-now {
+    color: var(--color-now);
+  }
+
+  /* The divider between a was and a now. Decorative, hidden from AT. */
+  .pair-rule {
+    width: 1.5rem;
+    height: 1px;
+    background: var(--color-rule);
+    align-self: center;
+  }
+
+  /* A `.was-struck` class for retired dependencies lived here. Removed as dead
+     CSS: only two honest migrations exist to list (Redux thunks -> RTK Query,
+     webpack -> Next.js), and a two-item group reads as padding. Reinstate
+     alongside the stack section if that list grows. */
 }
 
-/* The availability dot. The only ambient motion on the site. */
-@keyframes signal-pulse {
+/* Availability dot. The only ambient motion on the site. */
+@keyframes live-pulse {
   0%,
   100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.28;
+    opacity: 0.3;
   }
 }
 
-.signal-blip {
-  animation: signal-pulse 2.6s ease-in-out infinite;
+.live-blip {
+  animation: live-pulse 2.6s ease-in-out infinite;
 }
 
+/* ============================================================
+   Print. /resume is the page that matters here — it has to come
+   out of a printer looking like a résumé, not a screenshot.
+   ============================================================ */
 @media print {
+  @page {
+    margin: 14mm;
+  }
+
   .no-print {
     display: none !important;
   }
+
+  html,
   body {
-    background: #fff;
-    color: #000;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  .shell,
+  .gutter {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  /* Accents carry meaning, so keep them — but darkened for toner. */
+  .pair-was {
+    color: #8a4a24 !important;
+  }
+
+  .pair-now {
+    color: #1f5f57 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+
+  /* Print the destination of real links; skip in-page and mailto noise. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  section,
+  article,
+  li {
+    break-inside: avoid;
   }
 }

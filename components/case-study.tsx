@@ -1,45 +1,46 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 
+import { Pair } from '@/components/pair'
+
 /**
- * Shared shell for the four case studies. They differ in prose, not structure,
- * so the header, back link and measure live here rather than in four near-copies.
+ * Shared shell for the case studies. They differ in prose, not structure.
  *
- * Heading contract: this renders the only `h1`. Sections render `h2` via
- * `CaseSection`. Nothing renders `h3` — if a page ever needs one, add it here
- * so the order stays enforceable in one place.
+ * Where a project has a measured before/after it is stated once, at the top,
+ * as a pair — then the prose explains how. Where it doesn't (batch-selection,
+ * fe-intern-profile's process work), the page runs on serif and neutrals and
+ * the motif stays out of it. Rule 3: don't force it.
+ *
+ * Heading contract: this renders the only `h1`; sections render `h2` via
+ * `CaseSection`. Nothing renders `h3`.
  */
 export function CaseStudy({
   context,
   title,
-  metric,
+  pair,
   lede,
   children,
 }: {
   context: string
   title: string
-  metric?: string
+  pair?: { was: string; now: string; label: string }
   lede: string
   children: ReactNode
 }) {
   return (
-    <article className="shell gutter py-12 max-w-[72ch] case-prose">
-      <Link href="/projects" className="label text-muted hover:text-signal transition-colors">
-        ← Projects
+    <article className="case-prose shell gutter py-14">
+      <Link
+        href="/projects"
+        className="label text-muted underline decoration-rule underline-offset-4 hover:text-ink"
+      >
+        &larr; Projects
       </Link>
 
-      <header className="mt-6 mb-10">
-        <p className="label text-muted mb-3">{context}</p>
-        <h1 className="display text-[clamp(2.2rem,7vw,3.6rem)] mb-4">
-          {title}
-          <span className="text-signal">.</span>
-        </h1>
-        {metric && (
-          <p className="font-display text-3xl leading-none tracking-tight text-signal tabular-nums mb-4">
-            {metric}
-          </p>
-        )}
-        <p className="text-lg text-dim leading-relaxed">{lede}</p>
+      <header className="mt-8 mb-12 flex flex-col gap-6">
+        <p className="label text-muted">{context}</p>
+        <h1 className="display text-[clamp(2.25rem,6.5vw,3.75rem)]">{title}</h1>
+        {pair && <Pair size="lg" was={pair.was} now={pair.now} label={pair.label} />}
+        <p className="measure text-lg leading-relaxed text-muted">{lede}</p>
       </header>
 
       <div className="flex flex-col gap-10">{children}</div>
@@ -50,62 +51,58 @@ export function CaseStudy({
 export function CaseSection({ heading, children }: { heading: string; children: ReactNode }) {
   return (
     <section>
-      <h2 className="display text-2xl mb-3">{heading}</h2>
-      <div className="flex flex-col gap-4 text-[0.95rem] leading-relaxed text-dim">{children}</div>
+      <h2 className="display mb-4 text-2xl">{heading}</h2>
+      <div className="flex flex-col gap-4 leading-relaxed text-muted">{children}</div>
     </section>
   )
 }
 
-export type Pair = { label: string; before: string; after: string }
-
 /**
- * The before/after motif, as paired values in a table.
- *
- * A table because that is what this is — two measurements of the same thing at
- * two points in time. Arrows would be decoration; columns carry the comparison
- * on their own and stay readable with styles or JavaScript off.
+ * Secondary measurements, below the headline pair. Same colour contract as
+ * `Pair`; a table because these are several measurements of the same kind and
+ * columns let them be compared down as well as across.
  */
-export function BeforeAfter({ pairs, caption }: { pairs: Pair[]; caption: string }) {
+export function MeasureTable({
+  rows,
+  caption,
+}: {
+  rows: { label: string; was: string; now: string }[]
+  caption: string
+}) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-sm min-w-[22rem]">
-        <caption className="label text-muted text-left pb-2">{caption}</caption>
+      <table className="w-full min-w-88 border-collapse text-sm">
+        <caption className="label pb-3 text-left text-muted">{caption}</caption>
         <thead>
           <tr>
-            <th
-              scope="col"
-              className="label text-muted font-normal text-left border-b border-line-2 px-3 py-2"
-            >
+            <th scope="col" className="label border-b border-rule px-3 py-2 text-left text-muted">
               Measure
             </th>
-            <th
-              scope="col"
-              className="label text-muted font-normal text-right border-b border-line-2 px-3 py-2"
-            >
-              Before
+            <th scope="col" className="label border-b border-rule px-3 py-2 text-right text-muted">
+              Was
             </th>
-            <th
-              scope="col"
-              className="label text-muted font-normal text-right border-b border-line-2 px-3 py-2"
-            >
-              After
+            <th scope="col" className="label border-b border-rule px-3 py-2 text-right text-muted">
+              Now
             </th>
           </tr>
         </thead>
         <tbody>
-          {pairs.map((p) => (
-            <tr key={p.label}>
+          {rows.map((r) => (
+            <tr key={r.label}>
+              {/* nowrap: letting these wrap made row height depend on the
+                  loaded font, which reflowed the page on swap and cost CLS
+                  0.108. The container already scrolls horizontally. */}
               <th
                 scope="row"
-                className="border-b border-line px-3 py-2.5 text-left font-normal text-dim"
+                className="border-b border-rule px-3 py-3 text-left font-normal whitespace-nowrap"
               >
-                {p.label}
+                {r.label}
               </th>
-              <td className="border-b border-line px-3 py-2.5 text-right text-muted tabular-nums">
-                {p.before}
+              <td className="pair-was border-b border-rule px-3 py-3 text-right tabular-nums">
+                {r.was}
               </td>
-              <td className="border-b border-line px-3 py-2.5 text-right text-signal tabular-nums font-semibold">
-                {p.after}
+              <td className="pair-now border-b border-rule px-3 py-3 text-right tabular-nums">
+                {r.now}
               </td>
             </tr>
           ))}
