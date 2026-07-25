@@ -4,6 +4,8 @@ import localFont from 'next/font/local'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { profile, SITE_URL, socials, yearsOfExperience } from '@/content/profile'
+import { CHANNEL_HANDLE, REELS_LIMIT } from '@/content/reels'
+import { fetchReels } from '@/lib/youtube'
 
 import './globals.css'
 
@@ -138,7 +140,11 @@ function PersonSchema() {
   )
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Same limit as every other caller so the fetch cache collapses these into
+  // one set of requests for the whole build.
+  const showReels = (await fetchReels(CHANNEL_HANDLE, REELS_LIMIT)).length > 0
+
   return (
     <html
       lang="en"
@@ -152,7 +158,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <SiteHeader />
+        <SiteHeader showReels={showReels} />
         <main id="main" className="flex-1">
           {children}
         </main>

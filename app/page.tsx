@@ -4,7 +4,7 @@ import { Practices } from '@/components/practices'
 import { ProjectCard } from '@/components/project-card'
 import { ProofLedger } from '@/components/proof-ledger'
 import { ReelCard } from '@/components/reel-card'
-import { CHANNEL_HANDLE, CHANNEL_URL } from '@/content/reels'
+import { CHANNEL_HANDLE, CHANNEL_URL, HOME_REELS, REELS_LIMIT } from '@/content/reels'
 import { profile, yearsOfExperience } from '@/content/profile'
 import { homeProjects } from '@/content/projects'
 import { stack } from '@/content/skills'
@@ -48,7 +48,7 @@ function Hero() {
 
 export default async function HomePage() {
   // Empty unless YOUTUBE_API_KEY is set. No key, no section — never invented titles.
-  const reels = await fetchReels(CHANNEL_HANDLE)
+  const reels = (await fetchReels(CHANNEL_HANDLE, REELS_LIMIT)).slice(0, HOME_REELS)
 
   return (
     <>

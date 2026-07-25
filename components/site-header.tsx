@@ -6,20 +6,26 @@ import { useState } from 'react'
 
 import { profile } from '@/content/profile'
 
-const nav = [
-  { href: '/', label: 'Index' },
-  { href: '/work', label: 'Work' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/resume', label: 'Résumé' },
-]
-
 function isActive(pathname: string, href: string) {
   return href === '/' ? pathname === '/' : pathname.startsWith(href)
 }
 
-export function SiteHeader() {
+/**
+ * `showReels` is resolved at build time in the root layout — the route 404s
+ * without a YouTube key, and a nav item pointing at a 404 is worse than one
+ * missing item.
+ */
+export function SiteHeader({ showReels = false }: { showReels?: boolean }) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+
+  const nav = [
+    { href: '/', label: 'Index' },
+    { href: '/work', label: 'Work' },
+    { href: '/projects', label: 'Projects' },
+    ...(showReels ? [{ href: '/reels', label: 'Reels' }] : []),
+    { href: '/resume', label: 'Résumé' },
+  ]
 
   return (
     <header className="no-print sticky top-0 z-40 border-b border-rule bg-ground/95 backdrop-blur-sm">

@@ -15,6 +15,30 @@ import type { Reel } from '@/content/reels'
 
 const API = 'https://www.googleapis.com/youtube/v3'
 
+/**
+ * YouTube titles arrive HTML-escaped (`&amp;`, `&#39;`) and carry platform
+ * tags. Strips trailing hashtags — `#Shorts` is metadata for YouTube's
+ * algorithm, not part of the title — and normalises whitespace.
+ *
+ * Emoji are deliberately left alone: they're authored, unlike the hashtags.
+ */
+function cleanTitle(raw: string): string {
+  const entities: Record<string, string> = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&apos;': "'",
+  }
+  return raw
+    .replace(/&(?:amp|lt|gt|quot|#39|apos);/g, (m) => entities[m] ?? m)
+    .replace(/\s*#\w+\s*$/g, '')
+    .replace(/\s*\|\s*$/, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 /** ISO 8601 duration → m:ss. Returns null for anything unparseable. */
 function formatDuration(iso: string): string | null {
   const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso)
@@ -97,11 +121,16 @@ export async function fetchReels(handle: string, limit = 6): Promise<Reel[]> {
     const duration = formatDuration(iso)
     if (!duration) continue
 
+    const title = cleanTitle(item.snippet.title)
+    if (!title) continue
+
     reels.push({
       id,
-      title: item.snippet.title,
+      title,
       duration,
-      href: `https://www.youtube.com/watch?v=${id}`,
+      // Shorts URL rather than /watch — these are vertical, and the player
+      // should match what the viewer is being sent to.
+      href: `https://www.youtube.com/shorts/${id}`,
     })
     if (reels.length === limit) break
   }

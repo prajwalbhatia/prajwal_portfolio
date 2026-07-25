@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/band'
 import { ReelCard } from '@/components/reel-card'
-import { CHANNEL_HANDLE, CHANNEL_URL } from '@/content/reels'
+import { CHANNEL_HANDLE, CHANNEL_URL, REELS_LIMIT } from '@/content/reels'
 import { fetchReels } from '@/lib/youtube'
 
 export const metadata: Metadata = {
@@ -16,11 +16,11 @@ export const metadata: Metadata = {
  * The route exists, but only renders when there is real data behind it.
  *
  * Without YOUTUBE_API_KEY this 404s rather than shipping a page that is a
- * heading and a link to somewhere else. It is also absent from the sitemap and
- * the nav until then — add both back in the same commit as the key.
+ * heading and a link to somewhere else. The nav item and the sitemap entry
+ * resolve from the same fetch, so they appear and disappear with it.
  */
 export default async function ReelsPage() {
-  const reels = await fetchReels(CHANNEL_HANDLE, 24)
+  const reels = await fetchReels(CHANNEL_HANDLE, REELS_LIMIT)
   if (reels.length === 0) notFound()
 
   return (
