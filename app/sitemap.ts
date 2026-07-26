@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 
 import { SITE_URL } from '@/content/profile'
 import { CHANNEL_HANDLE, EXPLAINERS_LIMIT } from '@/content/explainers'
+import { hasKindWords } from '@/content/kind-words'
 import { fetchExplainers } from '@/lib/youtube'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -22,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // /projects/habstreak is deliberately absent — unlinked draft, noindexed.
     { path: '/resume', priority: 0.8 },
     ...(hasExplainers ? [{ path: '/explainers', priority: 0.6 }] : []),
+    ...(hasKindWords ? [{ path: '/kind-words', priority: 0.6 }] : []),
   ]
 
   return routes.map((r) => ({

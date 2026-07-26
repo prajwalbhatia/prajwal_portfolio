@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
+import { hasKindWords } from '@/content/kind-words'
 import { profile } from '@/content/profile'
 
 function isActive(pathname: string, href: string) {
@@ -23,6 +24,7 @@ export function SiteHeader({ showExplainers = false }: { showExplainers?: boolea
     { href: '/', label: 'Index' },
     { href: '/work', label: 'Work' },
     ...(showExplainers ? [{ href: '/explainers', label: 'Explainers' }] : []),
+    ...(hasKindWords ? [{ href: '/kind-words', label: 'Kind words' }] : []),
     { href: '/resume', label: 'Résumé' },
   ]
 
