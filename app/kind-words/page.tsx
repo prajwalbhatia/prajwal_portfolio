@@ -16,7 +16,16 @@ export const metadata: Metadata = {
  * worse than no wall at all, and the alternative — writing one — is not on
  * the table. See content/kind-words.ts.
  */
-function Card({ item, large }: { item: ResolvedKindWord; large?: boolean }) {
+function Card({
+  item,
+  large,
+  wide,
+}: {
+  item: ResolvedKindWord
+  large?: boolean
+  /** Full-bleed strip — for the very wide, very short Slack captures. */
+  wide?: boolean
+}) {
   return (
     <figure className="flex flex-col overflow-hidden rounded-xl border border-rule bg-surface">
       <Image
@@ -24,7 +33,7 @@ function Card({ item, large }: { item: ResolvedKindWord; large?: boolean }) {
         alt={item.alt}
         width={item.width}
         height={item.height}
-        sizes={large ? '(min-width: 768px) 45vw, 92vw' : '(min-width: 768px) 30vw, 92vw'}
+        sizes={wide ? '(min-width: 1024px) 56rem, 92vw' : large ? '(min-width: 768px) 45vw, 92vw' : '(min-width: 768px) 30vw, 92vw'}
         loading="lazy"
         className="w-full"
       />
@@ -97,10 +106,15 @@ export default function KindWordsPage() {
 
       {notes.length > 0 && (
         <Band title="Slack, PR threads and review notes">
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Single column, deliberately. Slack messages are ~1560x200 — a
+              10:1 strip. In a three-column grid they render around 290px wide,
+              which scales the text to about 6px and makes the most valuable
+              endorsements on the page the only unreadable ones. Full width
+              also stacks them the way Slack itself does. */}
+          <ul className="flex max-w-4xl flex-col gap-4">
             {notes.map((k) => (
               <li key={k.id}>
-                <Card item={k} />
+                <Card item={k} wide />
               </li>
             ))}
           </ul>
