@@ -6,46 +6,48 @@ function period(role: Role) {
 }
 
 /**
- * `promotion: true` renders as a continuation of the same employer rather than
- * a new job — a left rule joining it to the row above, and an explicit label.
- * That distinction is career signal and shouldn't rely on the reader noticing
- * the company name is repeated.
+ * A role: dates and a status tag in the left rail, everything else in the
+ * body. `promotion: true` renders as a continuation of the same employer
+ * rather than a new job — that distinction is career signal and shouldn't
+ * depend on the reader noticing the company name repeat.
  */
-export function RoleEntry({ role, samePlaceAsPrevious }: { role: Role; samePlaceAsPrevious: boolean }) {
-  const current = role.end === 'present'
-
+export function RoleEntry({
+  role,
+  samePlaceAsPrevious,
+  tag,
+}: {
+  role: Role
+  samePlaceAsPrevious: boolean
+  /** Short status word for the rail — "Current", "Frontend", "Early career". */
+  tag?: string
+}) {
   return (
     <article
-      className={`grid gap-x-8 gap-y-3 border-b border-rule py-6 first:border-t sm:grid-cols-[9rem_1fr] ${
-        samePlaceAsPrevious ? 'border-l border-l-rule pl-4 sm:pl-6' : ''
+      className={`grid gap-x-10 gap-y-3 border-b border-rule py-8 first:border-t md:grid-cols-[11rem_1fr] ${
+        samePlaceAsPrevious ? 'border-l border-l-rule pl-4 md:pl-6' : ''
       }`}
     >
       <div className="flex flex-col gap-1">
-        <time className="label text-muted">{period(role)}</time>
+        <time className="label text-ink">{period(role)}</time>
+        {tag && <span className="label text-muted">{tag}</span>}
         {role.promotion && samePlaceAsPrevious && (
-          // Neutral, not teal. A promotion is a single state, not a measured
-          // pair — the joining rule and the label carry it structurally, which
-          // is what the accent colours are protected for.
-          <span className="label text-ink normal-case tracking-normal">↳ Promoted</span>
+          <span className="label text-muted">↳ Promoted</span>
         )}
-        {current && <span className="label text-muted">Current</span>}
       </div>
 
       <div>
-        <h3 className="display text-xl">{role.title}</h3>
-        <p className="mt-1 mb-4 text-sm text-muted">
-          {samePlaceAsPrevious ? (
-            <span className="sr-only">{role.company}, </span>
-          ) : (
-            <span>{role.company} · </span>
-          )}
-          {role.location}
+        <h3 className="display text-[clamp(1.4rem,2.6vw,1.8rem)]">{role.title}</h3>
+        <p className="mt-1.5 mb-5 text-sm text-muted">
+          {role.company} · {role.location}
         </p>
 
-        <ul className="rich flex flex-col gap-2">
+        <ul className="rich flex flex-col gap-2.5">
           {role.highlights.map((h, i) => (
-            <li key={i} className="relative pl-4 text-sm leading-relaxed text-muted">
-              <span aria-hidden="true" className="absolute left-0">
+            <li
+              key={i}
+              className="relative max-w-[76ch] pl-5 text-[0.9rem] leading-relaxed text-muted"
+            >
+              <span aria-hidden="true" className="absolute left-0 text-rule">
                 —
               </span>
               {rich(h)}

@@ -52,7 +52,7 @@ export default function Image() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <span style={{ fontSize: 104, lineHeight: 1, letterSpacing: -3 }}>{profile.name}</span>
           <span style={{ fontSize: 40, lineHeight: 1.2, color: MUTED, letterSpacing: -1 }}>
-            I own what I ship — including the part that breaks.
+            I own what I ship, including the part that breaks.
           </span>
         </div>
 

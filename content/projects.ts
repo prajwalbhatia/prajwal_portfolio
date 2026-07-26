@@ -33,7 +33,7 @@ export const projects: Project[] = [
       "The highest-traffic flow in the product — batch selection — took 5.45s to paint at p75. Layout shifted under people as late assets landed.",
     tech: ['Core Web Vitals', 'Datadog RUM', 'React'],
     summary:
-      'Preloaded the LCP image, preconnected the third-party origins, deferred analytics past interactive, and reserved layout space so nothing arrives late and pushes content down. Fifty-eight lines for the LCP work, fourteen for the CLS.',
+      'Preloaded the LCP image, preconnected the third-party origins, deferred analytics past interactive, and reserved layout space so nothing arrives late and pushes content down.',
     href: '/projects/web-vitals',
     linkLabel: 'Read the case study',
     status: 'shipped',
@@ -48,7 +48,7 @@ export const projects: Project[] = [
       "A versioned React package the main platform installs — and every consumer paid for the whole thing on first paint, including an accessibility gap filed downstream.",
     tech: ['React', 'TypeScript', 'Accessibility'],
     summary:
-      'A versioned React package the main platform installs. Above-the-fold sections stay synchronous, the rest moved behind React.lazy. Full keyboard navigation, driven by an accessibility issue filed downstream, and ongoing CVE remediation across the dependency tree.',
+      'A versioned React package the main platform installs. Above-the-fold sections stay synchronous, the rest moved behind React.lazy. Full keyboard navigation, driven by an accessibility issue filed downstream.',
     href: '/projects/intern-profile-package',
     linkLabel: 'Read the case study',
     status: 'shipped',
@@ -85,7 +85,7 @@ export const projects: Project[] = [
       "A five-step application that lost people's work. Refresh the tab mid-way and the draft was gone — the single biggest source of support tickets on the flow.",
     tech: ['React', 'RTK Query', 'TypeScript'],
     summary:
-      "A five-step application rebuilt around not losing people's work. Hybrid auto-save — localStorage on blur, debounced API persistence, draft recovery on refresh — plus a resume parser that fills most of it in.",
+      "A five-step application rebuilt around not losing people's work. Hybrid auto-save — localStorage on blur, debounced API persistence, draft recovery on refresh.",
     href: '/projects/application-flow',
     linkLabel: 'Read the case study',
     status: 'shipped',

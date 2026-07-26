@@ -36,7 +36,7 @@ export const profile = {
   // Phone deliberately omitted — it lives on the résumé PDF only.
   // Public phone numbers get scraped within days.
 
-  tagline: 'I own what I ship — including the part that breaks.',
+  tagline: 'I own what I ship, including the part that breaks.',
 
   bio: [
     `Senior software engineer, frontend-heavy, ${yearsOfExperience()} years in. I build React and`,
@@ -52,7 +52,7 @@ export const socials = [
   { id: 'github', label: 'GitHub', href: 'https://github.com/prajwalbhatia' },
   { id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/prajwalbhatia/' },
   { id: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/@prajwalbhatia' },
-  { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/prajwal_bhatia/' },
+  { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/prajwal_the_developer/' },
   { id: 'twitter', label: 'X', href: 'https://twitter.com/bhatia_prajwal' },
 ] as const
 

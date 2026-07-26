@@ -5,7 +5,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'fe-intern-profile',
   description:
-    'A versioned React package with downstream consumers — keyboard navigation across 25 files, a 513KB to 240KB bundle reduction via targeted code-splitting, and fifteen PRs of CVE remediation.',
+    'A versioned React package with downstream consumers — keyboard navigation across 25 files and a 513KB to 240KB bundle reduction via targeted code-splitting.',
 }
 
 export default function InternProfilePackagePage() {
@@ -39,12 +39,6 @@ export default function InternProfilePackagePage() {
         </p>
       </CaseSection>
 
-      <CaseSection heading="And about fifteen PRs of CVEs">
-        <p>
-          Rollup, minimatch, serialize-javascript, qs, handlebars. Nobody puts dependency triage on
-          a portfolio. It&rsquo;s most of what owning a published package actually is.
-        </p>
-      </CaseSection>
     </CaseStudy>
   )
 }

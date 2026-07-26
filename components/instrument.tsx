@@ -518,9 +518,7 @@ export function Instrument() {
               ))}
             </div>
 
-            <p className="label mt-1 text-muted">
-              {demo.caveat ?? 'Reconstructed from field measurements — not a screen recording'}
-            </p>
+            {demo.caveat && <p className="label mt-1 text-muted">{demo.caveat}</p>}
           </div>
         </div>
       </div>

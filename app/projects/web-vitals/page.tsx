@@ -5,7 +5,7 @@ import { CaseSection, CaseStudy, MeasureTable } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Web Vitals Programme',
   description:
-    'Taking the highest-traffic flow from 5.45s LCP p75 to 3.17s in fifty-eight lines — preload, preconnect, deferred analytics — plus the duller CLS work behind 0.229 to 0.006.',
+    'Taking the highest-traffic flow from 5.45s LCP p75 to 3.17s — preload, preconnect, deferred analytics — plus the duller CLS work behind 0.229 to 0.006.',
 }
 
 export default function WebVitalsPage() {
@@ -38,15 +38,14 @@ export default function WebVitalsPage() {
           Add an <code>eager</code> prop to <code>BgImageWithLoader</code> so an already-preloaded
           image skips its JavaScript load check entirely.
         </p>
-        <p>Fifty-eight lines.</p>
       </CaseSection>
 
       <CaseSection heading="Layout shift">
         <p>
           CLS was a separate, duller problem: things arriving late and pushing content down. Reserve
           the header height, reserve the container, and make skeleton cards exactly 145&times;325px
-          so the swap to real content moves nothing. Fourteen lines took it under 0.1. On intern
-          profiles the same approach took CLS p75 from 0.229 to 0.006.
+          so the swap to real content moves nothing. That took it under 0.1, and on intern profiles
+          the same approach took CLS p75 from 0.229 to 0.006.
         </p>
       </CaseSection>
 

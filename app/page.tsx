@@ -13,7 +13,7 @@ function Hero() {
       {/* Name and role lead as a byline, not a title. Nobody has heard of the
           name yet; the claim is what earns the next ten seconds. */}
       <p className="mb-7 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span className="display text-lg">{profile.name}</span>
+        <span className="display text-2xl sm:text-3xl">{profile.name}</span>
         <span aria-hidden="true" className="h-4 w-px bg-rule" />
         <span className="label font-semibold text-ink">
           {profile.title} · {profile.level}
@@ -21,8 +21,8 @@ function Hero() {
       </p>
 
       <h1 className="display max-w-[17ch] text-[clamp(2.6rem,8vw,5.6rem)]">
-        I own what I ship{' '}
-        <span className="text-muted">— including the part that breaks.</span>
+        I own what I ship,
+        <span className="text-muted"> including the part that breaks.</span>
       </h1>
 
       <div className="mt-8 flex flex-wrap items-end justify-between gap-6">

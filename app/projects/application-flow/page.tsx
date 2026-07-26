@@ -5,7 +5,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Application Flow',
   description:
-    'A five-step application rebuilt so that nobody loses their work — hybrid auto-save across localStorage and the API, draft recovery on refresh, and a resume parser that fills most of the form in.',
+    'A five-step application rebuilt so that nobody loses their work — hybrid auto-save across localStorage and the API, and draft recovery on refresh.',
 }
 
 export default function ApplicationFlowPage() {
@@ -26,14 +26,6 @@ export default function ApplicationFlowPage() {
         <p>
           On return, a draft is recovered rather than silently discarded. Refreshing mid-application
           is the most ordinary thing a user can do and it should cost nothing.
-        </p>
-      </CaseSection>
-
-      <CaseSection heading="The resume parser">
-        <p>
-          Most of what a five-step form asks for is already in the document the applicant is about
-          to upload. Parsing it and pre-filling the fields turns most of the flow into review rather
-          than transcription — which is where the time reduction comes from, if it holds.
         </p>
       </CaseSection>
 
