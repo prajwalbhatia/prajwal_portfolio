@@ -232,6 +232,7 @@ export function Instrument() {
   const [playing, setPlaying] = useState(false)
   const raf = useRef<number | null>(null)
   const started = useRef(false)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   const demo = demos[active]
 
@@ -267,6 +268,15 @@ export function Instrument() {
     return stop
   }, [play, stop])
 
+  const select = useCallback(
+    (i: number) => {
+      setActive(i)
+      setP(1)
+      stop()
+    },
+    [stop],
+  )
+
   const v = vitalsState(p)
   const q = queueState(p)
   const f = formState(p)
@@ -290,10 +300,23 @@ export function Instrument() {
               aria-selected={i === active}
               aria-controls={`panel-${d.id}`}
               tabIndex={i === active ? 0 : -1}
-              onClick={() => {
-                setActive(i)
-                setP(1)
-                stop()
+              ref={(el) => {
+                tabRefs.current[i] = el
+              }}
+              onClick={() => select(i)}
+              onKeyDown={(e) => {
+                // Roving tabindex: a tablist is one tab stop, arrows move within.
+                const last = demos.length - 1
+                const to =
+                  e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
+                  : e.key === 'ArrowLeft' ? (i === 0 ? last : i - 1)
+                  : e.key === 'Home' ? 0
+                  : e.key === 'End' ? last
+                  : null
+                if (to === null) return
+                e.preventDefault()
+                select(to)
+                tabRefs.current[to]?.focus()
               }}
               className={`flex min-w-0 flex-1 items-baseline gap-2 border-r border-rule px-3 py-3 text-left last:border-r-0 transition-colors ${
                 i === active ? 'bg-surface text-ink' : 'bg-ground text-muted hover:text-ink'

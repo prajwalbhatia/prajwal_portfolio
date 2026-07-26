@@ -128,6 +128,11 @@ export async function fetchExplainers(handle: string, limit = 6): Promise<Explai
       id,
       title,
       duration,
+      // `oardefault` is the vertical crop YouTube serves for Shorts; hqdefault
+      // is 16:9 with pillarboxing, which looks wrong in a 9:16 frame.
+      thumb: `https://i.ytimg.com/vi/${id}/oardefault.jpg`,
+      thumbWidth: 1080,
+      thumbHeight: 1920,
       // Shorts URL rather than /watch — these are vertical, and the player
       // should match what the viewer is being sent to.
       href: `https://www.youtube.com/shorts/${id}`,

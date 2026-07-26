@@ -4,6 +4,11 @@ export type Project = {
   context: string
   /** Mono, uppercase, hairline border. Two at most — they classify, not decorate. */
   tags: string[]
+  /** What was wrong before the work. Leads the detail panel — the fix only
+      reads as impressive once the problem is stated. */
+  problem?: string
+  /** Technologies actually used. Distinct from `tags`, which classify. */
+  tech?: string[]
   /**
    * A genuine measured before/after. Only set this where both numbers are
    * real; there is no single-value variant by design. Projects without one
@@ -24,6 +29,9 @@ export const projects: Project[] = [
     context: 'Virtual Internships · 2023–25',
     tags: ['Performance'],
     pair: { was: '5.45s', now: '3.17s', label: 'LCP p75' },
+    problem:
+      "The highest-traffic flow in the product — batch selection — took 5.45s to paint at p75. Layout shifted under people as late assets landed.",
+    tech: ['Core Web Vitals', 'Datadog RUM', 'React'],
     summary:
       'Preloaded the LCP image, preconnected the third-party origins, deferred analytics past interactive, and reserved layout space so nothing arrives late and pushes content down. Fifty-eight lines for the LCP work, fourteen for the CLS.',
     href: '/projects/web-vitals',
@@ -36,6 +44,9 @@ export const projects: Project[] = [
     context: 'Virtual Internships · 2024–26',
     tags: ['Package', 'Performance'],
     pair: { was: '513KB', now: '240KB', label: 'Bundle' },
+    problem:
+      "A versioned React package the main platform installs — and every consumer paid for the whole thing on first paint, including an accessibility gap filed downstream.",
+    tech: ['React', 'TypeScript', 'Accessibility'],
     summary:
       'A versioned React package the main platform installs. Above-the-fold sections stay synchronous, the rest moved behind React.lazy. Full keyboard navigation, driven by an accessibility issue filed downstream, and ongoing CVE remediation across the dependency tree.',
     href: '/projects/intern-profile-package',
@@ -49,6 +60,9 @@ export const projects: Project[] = [
     title: 'Thumbnail Pipeline',
     context: 'Virtual Internships · 2025',
     tags: ['Architecture', 'Backend'],
+    problem:
+      "Every thumbnail went through a headless browser, so a single slow page could hold up the queue — and nothing was safe against SSRF.",
+    tech: ['Node', 'BullMQ', 'Puppeteer', 'GCS', 'Redis'],
     summary:
       'Two-tier async extraction on BullMQ. An og:image fast path via cheerio handles most URLs with one HTTP request; Puppeteer is the fallback, not the default. SSRF validation at the edge, URL-hash deduplication, and nothing on the critical path of an API call.',
     href: '/projects/thumbnail-pipeline',
@@ -67,6 +81,9 @@ export const projects: Project[] = [
     context: 'Virtual Internships · 2025–26',
     tags: ['Product', 'Reliability'],
     pair: { was: '28 min', now: '12 min', label: 'Time to apply (unconfirmed)' },
+    problem:
+      "A five-step application that lost people's work. Refresh the tab mid-way and the draft was gone — the single biggest source of support tickets on the flow.",
+    tech: ['React', 'RTK Query', 'TypeScript'],
     summary:
       "A five-step application rebuilt around not losing people's work. Hybrid auto-save — localStorage on blur, debounced API persistence, draft recovery on refresh — plus a resume parser that fills most of it in.",
     href: '/projects/application-flow',

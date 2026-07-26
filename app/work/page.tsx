@@ -5,6 +5,7 @@ import { Practices } from '@/components/practices'
 import { RoleEntry } from '@/components/role-entry'
 import { roles } from '@/content/experience'
 import { awards, education } from '@/content/profile'
+import { stack } from '@/content/skills'
 
 export const metadata: Metadata = {
   title: 'Work',
@@ -36,6 +37,24 @@ export default function WorkPage() {
 
       <Band title="Engineering practice">
         <Practices />
+      </Band>
+
+      <Band title="Stack">
+        <ul className="flex flex-wrap gap-2">
+          {stack.map((sk) => (
+            <li
+              key={sk.name}
+              className={`border px-3 py-1.5 text-sm ${
+                sk.core ? 'border-now text-now' : 'border-rule text-muted'
+              }`}
+            >
+              {sk.name}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-muted">
+          Outlined in green is what I write every day. The rest is shipped, working familiarity.
+        </p>
       </Band>
 
       <Band title="Education & recognition">

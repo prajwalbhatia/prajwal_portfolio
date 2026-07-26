@@ -1,14 +1,10 @@
 import { Band } from '@/components/band'
 import { Contact } from '@/components/contact'
 import { Instrument } from '@/components/instrument'
-import { Practices } from '@/components/practices'
-import { ProjectCard } from '@/components/project-card'
-import { ProofLedger } from '@/components/proof-ledger'
+import { WorkShowcase } from '@/components/work-showcase'
 import { ExplainerCard } from '@/components/explainer-card'
 import { CHANNEL_HANDLE, CHANNEL_URL, HOME_EXPLAINERS, EXPLAINERS_LIMIT } from '@/content/explainers'
 import { profile, yearsOfExperience } from '@/content/profile'
-import { homeProjects } from '@/content/projects'
-import { stack } from '@/content/skills'
 import { fetchExplainers } from '@/lib/youtube'
 
 function Hero() {
@@ -58,49 +54,14 @@ export default async function HomePage() {
     <>
       <Hero />
       <Instrument />
-      <ProofLedger />
-
-      <Band title="Selected work" action="All projects" actionHref="/projects">
-        <ul className="grid gap-4 md:grid-cols-2">
-          {homeProjects.map((p) => (
-            <li key={p.id} className="flex">
-              <ProjectCard project={p} />
-            </li>
-          ))}
-        </ul>
-      </Band>
-
-      <Band title="Engineering practice">
-        <p className="measure mb-6 text-sm text-muted">
-          The same before and after, applied to how a team works rather than how code runs.
-        </p>
-        <Practices />
-      </Band>
-
-      <Band title="Stack">
-        <ul className="flex flex-wrap gap-2">
-          {stack.map((s) => (
-            <li
-              key={s.name}
-              className={`border px-3 py-1.5 text-sm ${
-                s.core ? 'border-now text-now' : 'border-rule text-muted'
-              }`}
-            >
-              {s.name}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-4 text-xs text-muted">
-          Outlined in teal is what I write every day. The rest is shipped, working familiarity.
-        </p>
-      </Band>
+      <WorkShowcase />
 
       {explainers.length > 0 && (
-        <Band title="Explainers" action="Watch the channel" actionHref={CHANNEL_URL}>
-          <ul className="measure flex flex-col">
-            {explainers.map((r) => (
-              <li key={r.id}>
-                <ExplainerCard explainer={r} />
+        <Band title="I explain this stuff in sixty seconds" action="Watch the channel" actionHref={CHANNEL_URL}>
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {explainers.map((e) => (
+              <li key={e.id}>
+                <ExplainerCard explainer={e} />
               </li>
             ))}
           </ul>

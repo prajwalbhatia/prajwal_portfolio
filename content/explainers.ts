@@ -14,6 +14,10 @@ export type Explainer = {
   title: string
   duration: string
   href: string
+  /** i.ytimg.com still. Allow-listed in next.config.ts. */
+  thumb: string
+  thumbWidth: number
+  thumbHeight: number
 }
 
 export const CHANNEL_HANDLE = '@prajwalbhatia'
