@@ -237,7 +237,9 @@ export function formState(p: number) {
     afterW: pct(m / 12),
     beforeNote:
       m < 18.6
-        ? 'Four steps in, nothing saved anywhere but the browser’s memory.'
+        ? bCount === 0
+          ? 'Filling in the first step. Nothing is saved anywhere but the browser’s memory.'
+          : `${bCount} of 5 filled in, and none of it saved anywhere but the browser’s memory.`
         : m < 20.6
           ? 'The tab reloaded. Every field is gone and they start again from step one.'
           : m < 28

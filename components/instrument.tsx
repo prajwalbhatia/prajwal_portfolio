@@ -484,38 +484,60 @@ export function Instrument() {
               />
             </div>
 
-            {/* Marks and their labels share one positioned track, so the text
-                sits under the tick it belongs to instead of being spread by a
-                flex row that knows nothing about the timings. */}
-            <div className="relative h-10 select-none">
-              <span aria-hidden="true" className="label absolute left-0 top-0 text-muted">
-                {demo.axisStart}
-              </span>
-              <span aria-hidden="true" className="label absolute right-0 top-0 text-muted">
-                {demo.axisEnd}
-              </span>
-              {(
-                [
-                  [demo.markA, 'now'],
-                  [demo.markB, 'was'],
-                ] as const
-              ).map(([m, tone]) => (
-                <span
-                  key={m.label}
-                  className="absolute top-0 flex flex-col items-center gap-1"
-                  style={{ left: `${m.pct}%`, transform: 'translateX(-50%)' }}
-                >
+            {/* Ticks sit on the timeline; their labels get a row of their own
+                beneath the axis, so a long one cannot collide with the start
+                and end labels. Labels near an edge align inward rather than
+                centring — "28 min — submitted" at 99% otherwise hangs half its
+                width outside the panel. */}
+            <div className="select-none">
+              <div className="relative h-2.5" aria-hidden="true">
+                {(
+                  [
+                    [demo.markA, 'now'],
+                    [demo.markB, 'was'],
+                  ] as const
+                ).map(([m, tone]) => (
                   <span
-                    aria-hidden="true"
-                    className={`block h-2.5 w-px ${tone === 'now' ? 'bg-now' : 'bg-was'}`}
+                    key={m.label}
+                    className={`absolute top-0 block h-2.5 w-px ${
+                      tone === 'now' ? 'bg-now' : 'bg-was'
+                    }`}
+                    style={{ left: `${m.pct}%`, transform: 'translateX(-50%)' }}
                   />
+                ))}
+              </div>
+
+              <div className="flex justify-between">
+                <span className="label text-muted">{demo.axisStart}</span>
+                <span className="label text-muted">{demo.axisEnd}</span>
+              </div>
+
+              <div className="relative mt-1.5 h-4">
+                {(
+                  [
+                    [demo.markA, 'now'],
+                    [demo.markB, 'was'],
+                  ] as const
+                ).map(([m, tone]) => (
                   <span
-                    className={`label whitespace-nowrap ${tone === 'now' ? 'text-now' : 'text-was'}`}
+                    key={m.label}
+                    className={`label absolute top-0 whitespace-nowrap ${
+                      tone === 'now' ? 'text-now' : 'text-was'
+                    }`}
+                    style={{
+                      left: `${m.pct}%`,
+                      transform:
+                        m.pct >= 82
+                          ? 'translateX(-100%)'
+                          : m.pct <= 14
+                            ? 'translateX(0)'
+                            : 'translateX(-50%)',
+                    }}
                   >
                     {m.label}
                   </span>
-                </span>
-              ))}
+                ))}
+              </div>
             </div>
 
             {demo.caveat && <p className="label mt-1 text-muted">{demo.caveat}</p>}

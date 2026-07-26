@@ -88,7 +88,7 @@ export const kindWords: KindWord[] = [
   {
     // Corroborates the "rebuilt PR review" line on /work.
     id: 'slack-pr-review',
-    image: '/kind-words/slack-pr-review.png',
+    image: '/kind-words/slack-pr-review_1.png',
     name: 'Nitin',
     title: 'VP, Engineering @ Virtual Internships',
     relationship: 'Posted to the whole channel',

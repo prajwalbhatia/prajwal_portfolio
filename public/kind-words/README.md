@@ -6,7 +6,7 @@ content/kind-words.ts:
   linkedin-saniya-shaikh.png
   linkedin-vishwanath-telsang.png
   linkedin-vinayak-singh.png
-  slack-pr-review.png
+  slack-pr-review_1.png
   slack-qa-depth.png
   slack-ownership.png
   slack-ai.png
