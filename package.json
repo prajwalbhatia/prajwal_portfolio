@@ -1,11 +1,13 @@
 {
-  "name": "prajwal_portfolio",
-  "version": "1.0.0",
-  "description": "My Portfolio website",
-  "main": "index.js",
+  "name": "prajwal-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Portfolio of Prajwal Bhatia — Senior Software Engineer",
   "scripts": {
-    "build": "webpack --mode production ",
-    "start": "webpack-dev-server --mode development --open --hot"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
@@ -13,27 +15,18 @@
   },
   "author": "Prajwal Bhatia",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.18.13",
-    "@babel/preset-env": "^7.18.10",
-    "@babel/preset-react": "^7.18.6",
-    "@svgr/webpack": "^6.4.0",
-    "babel-loader": "^8.2.5",
-    "css-loader": "^6.7.1",
-    "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.6.1",
-    "sass": "^1.54.5",
-    "sass-loader": "^13.0.2",
-    "style-loader": "^3.3.1",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.10.0"
-  },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^5.2.0"
+    "next": "^16.2.12",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "lighthouse": "^13.4.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
   }
 }

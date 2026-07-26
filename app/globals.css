@@ -1,0 +1,325 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Instrument — design tokens
+
+   The site's argument is change over time, and the home page is a
+   working demo of it. Two accent colours carry that and nothing
+   else:
+
+     --color-was  orange  the before, the slow path, the legacy
+     --color-now  green   the after, the fast path, the shipped
+
+   They are never used for emphasis, links, hover, focus or
+   decoration. A section with no genuine before gets no accent at
+   all. The moment orange means "look here" instead of "this was",
+   the system stops signalling and becomes a colour scheme.
+
+   --color-live is a third state the pair cannot express: in flight,
+   running, currently happening. Never used for a measured value.
+
+   Dark only, deliberately. The instrument panels read as screens;
+   a light inversion would turn them into paper and break the
+   metaphor. `color-scheme: dark` is set so form controls follow.
+   ============================================================ */
+@theme {
+  --color-ground: #101314;
+  --color-surface: #151819;
+  --color-raise: #191d1f;
+  --color-ink: #e7e5e1;
+  --color-muted: #8a8880;
+  /* 3.1–3.4:1 on these grounds — clears the 3:1 UI-component threshold but
+     NOT the 4.5:1 text one. Idle indicators and inactive glyphs only. Never
+     body copy, never a label anyone has to read. Use --color-muted for that
+     (5.0:1+ everywhere). */
+  --color-dim: #6b6863;
+  --color-rule: #1e2324;
+
+  --color-was: #e8703a;
+  --color-now: #a0ff5a;
+  --color-live: #4ecfc4;
+
+  /* Two families, not three. 2a sets everything in Space Grotesk and uses
+     JetBrains Mono for labels; Syne belongs to the other direction. */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-ground);
+  }
+
+  /* Load-bearing: accessibility is a claimed skill on this site. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  /* Every figure on the site lines up in columns. */
+  .tnum,
+  table,
+  time {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  /* Display voice. Space Grotesk at 700, tight, never uppercase — the mono
+     already owns uppercase and two shouty registers fight each other. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  /* Data, labels, code. The only uppercase on the site. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .rule-t {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .gutter {
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin-inline: auto;
+  }
+
+  /* Running prose never exceeds a comfortable measure. */
+  .measure {
+    max-width: 68ch;
+  }
+
+  /* Renders **bold** from content strings without a markdown dependency. */
+  .rich strong {
+    color: var(--color-ink);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Long-form case-study prose. */
+  .case-prose p {
+    max-width: 68ch;
+  }
+
+  .case-prose code {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    color: var(--color-ink);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  /* ---- the paired-state motif ----
+     A pair is always two values with the relationship carried by
+     layout and colour. No arrow glyph does the work; the rule
+     between them is the relationship. */
+  .pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-variant-numeric: tabular-nums;
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .pair-was {
+    color: var(--color-was);
+  }
+
+  .pair-now {
+    color: var(--color-now);
+  }
+
+  /* The divider between a was and a now. Decorative, hidden from AT. */
+  .pair-rule {
+    width: 1.5rem;
+    height: 1px;
+    background: var(--color-rule);
+    align-self: center;
+  }
+
+  /* A `.was-struck` class for retired dependencies lived here. Removed as dead
+     CSS: only two honest migrations exist to list (Redux thunks -> RTK Query,
+     webpack -> Next.js), and a two-item group reads as padding. Reinstate
+     alongside the stack section if that list grows. */
+
+  /* The scrubber. Styled from scratch — a native range control brings its own
+     colour scheme, and this one sits inside a panel meant to read as a screen. */
+  .scrub {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 1.5rem;
+    background: transparent;
+    cursor: ew-resize;
+  }
+  .scrub::-webkit-slider-runnable-track {
+    height: 2px;
+    background: var(--color-rule);
+  }
+  .scrub::-moz-range-track {
+    height: 2px;
+    background: var(--color-rule);
+  }
+  .scrub::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: var(--color-ink);
+  }
+  .scrub::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-ink);
+  }
+  .scrub:focus-visible::-webkit-slider-thumb {
+    box-shadow:
+      0 0 0 3px var(--color-ground),
+      0 0 0 5px var(--color-ink);
+  }
+  .scrub:focus-visible::-moz-range-thumb {
+    box-shadow:
+      0 0 0 3px var(--color-ground),
+      0 0 0 5px var(--color-ink);
+  }
+}
+
+/* Availability dot. The only ambient motion on the site. */
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.live-blip {
+  animation: live-pulse 2.6s ease-in-out infinite;
+}
+
+/* ============================================================
+   Print. /resume is the page that matters here — it has to come
+   out of a printer looking like a résumé, not a screenshot.
+   ============================================================ */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  .shell,
+  .gutter {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  /* Accents carry meaning, so keep them — but darkened for toner. */
+  /* Acid green is invisible on paper; both accents get print-safe hues. */
+  .pair-was {
+    color: #a8461a !important;
+  }
+
+  .pair-now {
+    color: #3d6b12 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+
+  /* Print the destination of real links; skip in-page and mailto noise. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  section,
+  article,
+  li {
+    break-inside: avoid;
+  }
+}

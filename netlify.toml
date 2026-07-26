@@ -1,0 +1,30 @@
+# Netlify build configuration.
+#
+# This file takes precedence over the build settings in the Netlify UI, which
+# still point at the old webpack site (`webpack --mode production`, publishing
+# `build/`). Without it the first deploy of the Next.js app would run the wrong
+# command against a directory that no longer exists.
+#
+# The Next.js runtime is not declared as a plugin on purpose: Netlify detects
+# Next and installs its own runtime automatically, and pinning a plugin version
+# here is a way to end up on a stale one.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Next 16 needs 20+. Pinned so a Netlify default change can't move it under us.
+  NODE_VERSION = "22"
+
+# Long-cache the immutable build output. Everything under /_next/static is
+# content-hashed, so it can never go stale at the URL it was published at.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    cache-control = "public, max-age=31536000, immutable"

@@ -1,0 +1,59 @@
+import type { Metadata } from 'next'
+
+import { CaseSection, CaseStudy } from '@/components/case-study'
+
+export const metadata: Metadata = {
+  title: 'Thumbnail Pipeline',
+  description:
+    'Generating portfolio thumbnails instead of waiting for uploads — og:image via cheerio as the primary path, Puppeteer as the fallback, and SSRF validation at the edge.',
+}
+
+export default function ThumbnailPipelinePage() {
+  return (
+    <CaseStudy
+      context="Virtual Internships · 2025"
+      title="Thumbnail Pipeline"
+      lede="Intern profiles link out to portfolios and certifications, and the browse page showed a card for each. A card only had an image if the intern had uploaded one — and most never did, so the page was mostly empty boxes. The fix was to stop waiting for an upload and generate the thumbnail from the link itself."
+    >
+      <CaseSection heading="Two tiers">
+        <p>
+          The pipeline is two-tier because most of the web already solves this problem for you:
+          sites publish <code>og:image</code>. Extracting it with cheerio costs one HTTP request and
+          no browser, and it covers the majority of links on its own.
+        </p>
+        <p>
+          Puppeteer handles the remainder — the pages with no <code>og:image</code> to read. It is
+          the fallback rather than the default, which is what keeps a browser launch off the
+          critical path of an API call.
+        </p>
+      </CaseSection>
+
+      <CaseSection heading="Never blocking">
+        <p>
+          Everything else is about never blocking. Redis with a 10-minute TTL, then a database
+          lookup on <code>url_hash</code> — a generated <code>BINARY(32)</code> column holding{' '}
+          <code>SHA2(url, 256)</code> with a unique index, so lookups are O(1) and duplicate URLs
+          across profiles generate once. On a miss the API writes a PENDING row, enqueues a BullMQ
+          job and returns a placeholder immediately.
+        </p>
+        <p>
+          <code>Promise.allSettled</code> on the batch enqueue so one failure doesn&rsquo;t take the
+          others with it. Stale PENDING rows re-queue after five minutes, because jobs do get lost.
+        </p>
+      </CaseSection>
+
+      <CaseSection heading="Two things worth pointing at">
+        <p>
+          Fetching arbitrary user-supplied URLs server-side is an SSRF hole, so{' '}
+          <code>urlValidator</code> does IP-range and DNS-level validation behind safe HTTP agents —
+          125 lines of implementation, 434 lines of tests.
+        </p>
+        <p>
+          And <code>BrowserPool</code> keeps a <code>launchPromises</code> map to deduplicate
+          concurrent launches for the same slot: a race closed before it happened rather than after.
+        </p>
+      </CaseSection>
+
+    </CaseStudy>
+  )
+}
