@@ -104,6 +104,25 @@ export const projects: Project[] = [
     status: 'shipped',
   },
   {
+    // "3+ calls" is a floor, not a count — the backend PR describes the old
+    // frontend making three or more sequential calls. WorkFilter therefore
+    // suppresses a delta percentage for it; "-67%" would be arithmetic on an
+    // approximation.
+    id: 'signup-funnel',
+    title: 'Signup Funnel Rebuild',
+    context: 'Virtual Internships · 2026',
+    tags: ['Architecture', 'Product'],
+    pair: { was: '3+', now: '1', label: 'Sequential API calls' },
+    problem:
+      'Signup ran across multiple screens, each accumulating partial state, and batch selection fetched through three or more sequential frontend calls with the business rules duplicated client-side.',
+    tech: ['React', 'TypeScript', 'RTK Query'],
+    summary:
+      'Deleted the registration page. Signup went from multiple screens accumulating partial state to a single transactional endpoint, and batch selection from 3+ sequential frontend calls with duplicated business rules to one backend endpoint that owns them.',
+    href: '/projects/signup-funnel',
+    linkLabel: 'Read the case study',
+    status: 'shipped',
+  },
+  {
     id: 'batch-selection',
     title: 'Batch Selection Re-architecture',
     context: 'Virtual Internships · 2026',
@@ -137,7 +156,7 @@ const HOME_IDS = [
   'web-vitals',
   'thumbnail-pipeline',
   'application-flow',
-  'intern-profile-package',
+  'signup-funnel',
 ] as const
 
 export const homeProjects: Project[] = HOME_IDS.map((id) => {

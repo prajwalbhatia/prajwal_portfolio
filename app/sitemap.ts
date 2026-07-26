@@ -18,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/projects/thumbnail-pipeline', priority: 0.7 },
     { path: '/projects/intern-profile-package', priority: 0.7 },
     { path: '/projects/batch-selection', priority: 0.7 },
+    { path: '/projects/signup-funnel', priority: 0.7 },
     { path: '/projects/application-flow', priority: 0.7 },
     { path: '/projects/partner-landing', priority: 0.7 },
     { path: '/resume', priority: 0.8 },

@@ -22,8 +22,15 @@ function magnitude(v: string): number | null {
   return Number.isFinite(n) ? n : null
 }
 
-/** Percentage reduction between the two sides of a pair, when both parse. */
+/**
+ * Percentage reduction between the two sides of a pair, when both parse.
+ *
+ * Suppressed when the before value is approximate — "3+" or "~55%" is a bound,
+ * not a measurement, and turning it into a precise percentage invents accuracy
+ * the source never had.
+ */
 function delta(was: string, now: string): string | null {
+  if (/[+~<>]/.test(was) || /[+~<>]/.test(now)) return null
   const a = magnitude(was)
   const b = magnitude(now)
   if (a === null || b === null || a === 0) return null
