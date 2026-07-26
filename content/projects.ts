@@ -123,18 +123,7 @@ export const projects: Project[] = [
       'Owned playback end to end, including background downloads for students on unreliable connections, session activity tracking and milestone event instrumentation.',
     status: 'shipped',
   },
-  // Parked. Being rebuilt from scratch, so there is nothing honest to show yet.
-  // The postmortem page stays at /projects/habstreak but is unlinked and
-  // noindexed until the rebuild lands — don't re-add `href` before then.
-  {
-    id: 'habstreak',
-    title: 'Habstreak',
-    context: 'Personal · rebuilding',
-    tags: ['Personal'],
-    summary:
-      'A habit tracker built on streaks and rewards. Shipped on web and the Play Store, then taken down. Currently being rebuilt from scratch.',
-    status: 'sunset',
-  },
+
 ]
 
 /**
@@ -168,3 +157,7 @@ export const workProjects: Project[] = [
   ...projects.filter((p) => p.status === 'shipped'),
   ...projects.filter((p) => p.status === 'sunset'),
 ]
+
+// Habstreak was the only 'sunset' entry; it and its postmortem page were
+// removed while it is being rebuilt. The status field and the ordering above
+// stay so that reinstating it is a content change, not a code change.
