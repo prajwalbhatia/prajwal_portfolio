@@ -5,7 +5,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Thumbnail Pipeline',
   description:
-    'Generating portfolio thumbnails instead of waiting for uploads — og:image via cheerio as the primary path, Puppeteer as the fallback, SSRF validation at the edge, and 4,300 lines of tests.',
+    'Generating portfolio thumbnails instead of waiting for uploads — og:image via cheerio as the primary path, Puppeteer as the fallback, and SSRF validation at the edge.',
 }
 
 export default function ThumbnailPipelinePage() {
@@ -54,12 +54,6 @@ export default function ThumbnailPipelinePage() {
         </p>
       </CaseSection>
 
-      <CaseSection heading="What shipped with it">
-        <p>
-          Roughly 4,300 lines of tests against 1,100 of implementation, plus a technical doc for
-          whoever owns it next.
-        </p>
-      </CaseSection>
     </CaseStudy>
   )
 }

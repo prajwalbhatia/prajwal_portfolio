@@ -27,7 +27,7 @@ function Hero() {
 
       <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
         <p className="measure text-base leading-relaxed text-muted sm:text-lg">
-          {yearsOfExperience()} years building React and TypeScript products, currently{' '}
+          {yearsOfExperience()} years of building React and TypeScript products, currently{' '}
           <span className="text-ink">
             {profile.level} at {profile.company}
           </span>

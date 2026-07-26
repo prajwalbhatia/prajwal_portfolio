@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/projects/batch-selection', priority: 0.7 },
     { path: '/projects/signup-funnel', priority: 0.7 },
     { path: '/projects/application-flow', priority: 0.7 },
-    { path: '/projects/partner-landing', priority: 0.7 },
+    // /projects/partner-landing is out while its entry is commented out.
     { path: '/resume', priority: 0.8 },
     ...(hasExplainers ? [{ path: '/explainers', priority: 0.6 }] : []),
     ...(getKindWords().length > 0 ? [{ path: '/kind-words', priority: 0.6 }] : []),

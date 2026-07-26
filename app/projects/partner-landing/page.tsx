@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: '10x Partner Landing Page',
   description:
     'A partner-branded landing page rendered from a catch-all slug route — eight sections, three live API integrations, and error states for invalid, expired and inactive partners.',
+  // Unlinked while the project entry is commented out in content/projects.ts.
+  // Drop this when the entry comes back.
+  robots: { index: false, follow: false },
 }
 
 export default function PartnerLandingPage() {

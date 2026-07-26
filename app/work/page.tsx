@@ -12,7 +12,7 @@ import { workProjects } from '@/content/projects'
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    "Everything I'd defend in a technical interview, and the roles it came out of — Core Web Vitals, a thumbnail pipeline, an application rebuild and a published React package.",
+    'Projects and roles, newest first — Core Web Vitals, a thumbnail pipeline, a signup rebuild and a published React package.',
 }
 
 /** Short rail labels, keyed by role id. Purely editorial, so it lives here. */
@@ -30,8 +30,7 @@ export default function WorkPage() {
         <p className="label mb-5 text-now">Every number here is measured, not estimated</p>
         <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">Work</h1>
         <p className="measure mt-6 text-base leading-relaxed text-muted sm:text-lg">
-          Everything I&rsquo;d defend in a technical interview, and the roles it came out of.
-          Where there isn&rsquo;t an honest number, there isn&rsquo;t one shown.
+          Projects and the roles they came out of. Each one links to a longer write-up.
         </p>
       </section>
 

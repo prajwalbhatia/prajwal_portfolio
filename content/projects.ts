@@ -70,17 +70,16 @@ export const projects: Project[] = [
     status: 'shipped',
   },
   {
-    // TODO — VERIFY BEFORE THIS IS QUOTED IN AN INTERVIEW.
-    // "28 → 12 min" comes from the product designer's public case study, not
-    // from our own measurement. The related "50% → 83% submission rate" and
-    // "+9% revenue" figures are from the same source and are deliberately NOT
-    // used anywhere on the site. This pair is also kept out of `proofLedger`,
-    // which is reserved for figures we measured ourselves.
+    // "28 → 12 min" originates in the product designer's case study rather
+    // than instrumentation of our own. Prajwal has confirmed it. The related
+    // submission-rate and revenue figures from the same source are still not
+    // used anywhere, and this pair stays out of `proofLedger`, which is
+    // reserved for figures measured directly.
     id: 'application-flow',
     title: 'Application Flow',
     context: 'Virtual Internships · 2025–26',
     tags: ['Product', 'Reliability'],
-    pair: { was: '28 min', now: '12 min', label: 'Time to apply (unconfirmed)' },
+    pair: { was: '28 min', now: '12 min', label: 'Time to apply' },
     problem:
       "A five-step application that lost people's work. Refresh the tab mid-way and the draft was gone — the single biggest source of support tickets on the flow.",
     tech: ['React', 'RTK Query', 'TypeScript'],
@@ -90,19 +89,25 @@ export const projects: Project[] = [
     linkLabel: 'Read the case study',
     status: 'shipped',
   },
-  {
-    // No metric by design. Nothing has been measured on this yet, and a vague
-    // one would be worse than none.
-    id: 'partner-landing',
-    title: '10x Partner Landing Page',
-    context: 'Virtual Internships · 2026',
-    tags: ['Product', 'Routing'],
-    summary:
-      'A partner-branded landing page rendered from a catch-all slug route. Eight sections, three live API integrations, full error handling for invalid, expired and inactive partners, and correct behaviour under prefers-reduced-motion.',
-    href: '/projects/partner-landing',
-    linkLabel: 'Read the case study',
-    status: 'shipped',
-  },
+  // ---------------------------------------------------------------------
+  // Commented out for now. app/projects/partner-landing/page.tsx stays in
+  // place but is unlinked and noindexed while this entry is out; putting
+  // it back means uncommenting here and dropping the robots override.
+  // {
+  //   // No metric by design. Nothing has been measured on this yet, and a vague
+  //   // one would be worse than none.
+  //   id: 'partner-landing',
+  //   title: '10x Partner Landing Page',
+  //   context: 'Virtual Internships · 2026',
+  //   tags: ['Product', 'Routing'],
+  //   summary:
+  //     'A partner-branded landing page rendered from a catch-all slug route. Eight sections, three live API integrations, full error handling for invalid, expired and inactive partners, and correct behaviour under prefers-reduced-motion.',
+  //   href: '/projects/partner-landing',
+  //   linkLabel: 'Read the case study',
+  //   status: 'shipped',
+  // },
+  // ---------------------------------------------------------------------
+
   {
     // "3+ calls" is a floor, not a count — the backend PR describes the old
     // frontend making three or more sequential calls. WorkFilter therefore
@@ -122,6 +127,7 @@ export const projects: Project[] = [
     linkLabel: 'Read the case study',
     status: 'shipped',
   },
+
   {
     id: 'batch-selection',
     title: 'Batch Selection Re-architecture',
