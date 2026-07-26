@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { profile, SITE_URL, socials, yearsOfExperience } from '@/content/profile'
 import { CHANNEL_HANDLE, EXPLAINERS_LIMIT } from '@/content/explainers'
+import { getKindWords } from '@/lib/kind-words'
 import { fetchExplainers } from '@/lib/youtube'
 
 import './globals.css'
@@ -113,6 +114,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Same limit as every other caller so the fetch cache collapses these into
   // one set of requests for the whole build.
   const showExplainers = (await fetchExplainers(CHANNEL_HANDLE, EXPLAINERS_LIMIT)).length > 0
+  const showKindWords = getKindWords().length > 0
 
   return (
     <html
@@ -127,7 +129,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         >
           Skip to content
         </a>
-        <SiteHeader showExplainers={showExplainers} />
+        <SiteHeader showExplainers={showExplainers} showKindWords={showKindWords} />
         <main id="main" className="flex-1">
           {children}
         </main>

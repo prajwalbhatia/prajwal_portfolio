@@ -1,9 +1,20 @@
-Screenshots of real endorsements — LinkedIn recommendations, Slack messages,
-PR comments, review notes.
+Screenshots of real endorsements. Filenames must match the `image` paths in
+content/kind-words.ts:
 
-Drop the image here, then add an entry to content/kind-words.ts with the
-author's name, their title, the source, and an `alt` that transcribes what the
-screenshot says. The page and its nav item appear as soon as there is one.
+  linkedin-bikash-das.png
+  linkedin-hardik-singh.png
+  linkedin-saniya-shaikh.png
+  linkedin-vishwanath-telsang.png
+  linkedin-vinayak-singh.png
+  slack-pr-review.png
+  slack-qa-depth.png
+  slack-ownership.png
+  slack-ai.png
+
+.jpg works too — change the extension in the content file to match.
+
+An entry whose file is missing here is dropped at build time, so a partial set
+renders fine. With none present the page 404s and its nav item disappears.
 
 Nothing in here is generated. If a file appears that you did not put here,
 something is wrong.

@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
-import { hasKindWords } from '@/content/kind-words'
 import { profile } from '@/content/profile'
 
 function isActive(pathname: string, href: string) {
@@ -16,7 +15,13 @@ function isActive(pathname: string, href: string) {
  * 404s without a YouTube key, and a nav item pointing at a 404 is worse than
  * one missing item.
  */
-export function SiteHeader({ showExplainers = false }: { showExplainers?: boolean }) {
+export function SiteHeader({
+  showExplainers = false,
+  showKindWords = false,
+}: {
+  showExplainers?: boolean
+  showKindWords?: boolean
+}) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
@@ -24,7 +29,7 @@ export function SiteHeader({ showExplainers = false }: { showExplainers?: boolea
     { href: '/', label: 'Index' },
     { href: '/work', label: 'Work' },
     ...(showExplainers ? [{ href: '/explainers', label: 'Explainers' }] : []),
-    ...(hasKindWords ? [{ href: '/kind-words', label: 'Kind words' }] : []),
+    ...(showKindWords ? [{ href: '/kind-words', label: 'Kind words' }] : []),
     { href: '/resume', label: 'Résumé' },
   ]
 

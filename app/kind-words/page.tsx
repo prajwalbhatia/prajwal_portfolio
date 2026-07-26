@@ -3,13 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/band'
-import {
-  hasKindWords,
-  kindWordStats,
-  notes,
-  recommendations,
-  type KindWord,
-} from '@/content/kind-words'
+import { getKindWordSections, type ResolvedKindWord } from '@/lib/kind-words'
 
 export const metadata: Metadata = {
   title: 'Kind words',
@@ -22,7 +16,7 @@ export const metadata: Metadata = {
  * worse than no wall at all, and the alternative — writing one — is not on
  * the table. See content/kind-words.ts.
  */
-function Card({ item, large }: { item: KindWord; large?: boolean }) {
+function Card({ item, large }: { item: ResolvedKindWord; large?: boolean }) {
   return (
     <figure className="flex flex-col overflow-hidden rounded-xl border border-rule bg-surface">
       <Image
@@ -34,19 +28,25 @@ function Card({ item, large }: { item: KindWord; large?: boolean }) {
         loading="lazy"
         className="w-full"
       />
-      <figcaption className="flex flex-wrap items-baseline justify-between gap-2 border-t border-rule px-4 py-3">
-        <span className="text-sm text-ink">
-          {item.name}
-          <span className="text-muted"> · {item.title}</span>
+      <figcaption className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-t border-rule px-4 py-3">
+        <span className="flex min-w-0 flex-col">
+          <span className="text-sm text-ink">
+            {item.name}
+            <span className="text-muted"> · {item.title}</span>
+          </span>
+          <span className="label mt-1 text-muted">{item.relationship}</span>
         </span>
-        <span className="label text-muted">{item.source}</span>
+        <span className="label shrink-0 text-muted">
+          {item.source} · {item.date}
+        </span>
       </figcaption>
     </figure>
   )
 }
 
 export default function KindWordsPage() {
-  if (!hasKindWords) notFound()
+  const { all, recommendations, notes, stats } = getKindWordSections()
+  if (all.length === 0) notFound()
 
   return (
     <>
@@ -65,17 +65,17 @@ export default function KindWordsPage() {
           <dl className="flex gap-10">
             <div>
               <dd className="display text-3xl text-now tabular-nums">
-                {kindWordStats.recommendations}
+                {stats.recommendations}
               </dd>
               <dt className="label mt-1 text-muted">Recommendations</dt>
             </div>
             <div>
-              <dd className="display text-3xl text-now tabular-nums">{kindWordStats.people}</dd>
+              <dd className="display text-3xl text-now tabular-nums">{stats.people}</dd>
               <dt className="label mt-1 text-muted">People</dt>
             </div>
             <div>
               <dd className="display text-3xl text-now tabular-nums">
-                {kindWordStats.internsMentored}
+                {stats.internsMentored}
               </dd>
               <dt className="label mt-1 text-muted">Interns mentored</dt>
             </div>
