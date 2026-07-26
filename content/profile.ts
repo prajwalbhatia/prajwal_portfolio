@@ -36,7 +36,7 @@ export const profile = {
   // Phone deliberately omitted — it lives on the résumé PDF only.
   // Public phone numbers get scraped within days.
 
-  tagline: 'I make slow things fast and I own what breaks.',
+  tagline: 'I own what I ship — including the part that breaks.',
 
   bio: [
     `Senior software engineer, frontend-heavy, ${yearsOfExperience()} years in. I build React and`,

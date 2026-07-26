@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { Pair } from '@/components/pair'
 import { homeProjects } from '@/content/projects'
 
 /**
@@ -23,7 +22,7 @@ export function WorkShowcase() {
       <div className="shell gutter py-10 sm:py-14">
         <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
           <h2 id="work-heading" className="label text-muted">
-            Selected work — point at one to read it
+            Selected work — hover to read
           </h2>
           <Link href="/projects" className="label text-muted transition-colors hover:text-ink">
             All projects →
@@ -51,7 +50,7 @@ export function WorkShowcase() {
                     </span>
                     <span className="flex min-w-0 flex-col gap-1">
                       <span
-                        className={`display text-xl transition-colors sm:text-2xl ${
+                        className={`display text-2xl transition-colors sm:text-[1.75rem] ${
                           on ? 'text-ink' : 'text-muted'
                         }`}
                       >
@@ -71,15 +70,20 @@ export function WorkShowcase() {
           <article
             id="work-detail"
             aria-live="polite"
-            className="flex flex-col gap-5 border border-rule bg-surface p-5 sm:p-6"
+            className="flex flex-col gap-5 rounded-2xl border border-rule bg-surface p-6 sm:p-8"
           >
             {project.pair ? (
-              <Pair
-                size="md"
-                was={project.pair.was}
-                now={project.pair.now}
-                label={project.pair.label}
-              />
+              /* The outcome leads at display scale; where it came from is a
+                 footnote beside it. A symmetrical pair gave both numbers equal
+                 weight, which buries the result. */
+              <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="display text-[clamp(2.4rem,5vw,3.4rem)] tabular-nums text-now">
+                  {project.pair.now}
+                </span>
+                <span className="label text-muted">
+                  from <span className="text-was">{project.pair.was}</span> · {project.pair.label}
+                </span>
+              </p>
             ) : (
               <p className="label text-muted">{project.context}</p>
             )}
@@ -99,7 +103,7 @@ export function WorkShowcase() {
             {project.tech && (
               <ul className="flex flex-wrap gap-1.5">
                 {project.tech.map((t) => (
-                  <li key={t} className="label border border-rule px-2 py-1 text-muted">
+                  <li key={t} className="label rounded-full border border-rule px-3 py-1.5 text-muted">
                     {t}
                   </li>
                 ))}

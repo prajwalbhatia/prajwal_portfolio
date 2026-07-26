@@ -8,7 +8,7 @@ import {
   demos,
   FORM_STEPS,
   formState,
-  queueState,
+  coverageState,
   vitalsState,
   type Chip,
   type Chunk,
@@ -85,7 +85,7 @@ function PageSkeleton({ state, tone }: { state: PageState; tone: 'was' | 'now' }
   const heroFill = tone === 'now' ? 'bg-now/25' : 'bg-was/25'
   return (
     <div
-      className={`flex h-52 flex-col gap-2 transition-transform duration-300 ${
+      className={`flex min-h-52 flex-col gap-2 transition-transform duration-300 ${
         state.shifted ? 'translate-y-3' : ''
       }`}
     >
@@ -117,7 +117,7 @@ function PageSkeleton({ state, tone }: { state: PageState; tone: 'was' | 'now' }
 
 function Chips({ chips, done, width }: { chips: Chip[]; done: string; width: string }) {
   return (
-    <div className="flex h-52 flex-col gap-3">
+    <div className="flex min-h-52 flex-col gap-3">
       <div className="grid grid-cols-4 gap-1.5">
         {chips.map((c, i) => (
           <span
@@ -135,7 +135,7 @@ function Chips({ chips, done, width }: { chips: Chip[]; done: string; width: str
         ))}
       </div>
       <div className="mt-auto flex flex-col gap-1.5">
-        <span className="label text-muted">{done} drained</span>
+        <span className="label text-muted">{done} with a thumbnail</span>
         <span className="block h-1.5 w-full bg-rule">
           <span className="block h-full bg-live transition-[width] duration-100" style={{ width }} />
         </span>
@@ -162,7 +162,7 @@ function Steps({
   tone: 'was' | 'now'
 }) {
   return (
-    <div className="flex h-52 flex-col gap-2">
+    <div className="flex min-h-52 flex-col gap-2">
       {FORM_STEPS.map((s, i) => (
         <span
           key={s}
@@ -212,7 +212,7 @@ function Chunks({
   flagTone: Tone
 }) {
   return (
-    <div className="flex h-52 flex-col gap-3">
+    <div className="flex min-h-52 flex-col gap-3">
       {chunks.map((c) => (
         <div key={c.name} className="flex flex-col gap-1">
           <span className="flex items-baseline justify-between gap-2 text-[0.72rem] text-muted">
@@ -290,7 +290,7 @@ export function Instrument() {
   )
 
   const v = vitalsState(p)
-  const q = queueState(p)
+  const c = coverageState(p)
   const f = formState(p)
   const b = bundleState(p)
 
@@ -372,13 +372,13 @@ export function Instrument() {
               </>
             )}
 
-            {demo.id === 'queue' && (
+            {demo.id === 'coverage' && (
               <>
-                <Panel side="Before" stat={demo.beforeStat} note={q.beforeNote}>
-                  <Chips chips={q.before} done={q.beforeDone} width={q.beforeW} />
+                <Panel side="Before" stat={demo.beforeStat} note={c.beforeNote}>
+                  <Chips chips={c.before} done={c.beforeDone} width={c.beforeW} />
                 </Panel>
-                <Panel side="After" stat={demo.afterStat} note={q.afterNote}>
-                  <Chips chips={q.after} done={q.afterDone} width={q.afterW} />
+                <Panel side="After" stat={demo.afterStat} note={c.afterNote}>
+                  <Chips chips={c.after} done={c.afterDone} width={c.afterW} />
                 </Panel>
               </>
             )}
@@ -492,7 +492,7 @@ export function Instrument() {
             </div>
 
             <p className="label mt-1 text-muted">
-              Reconstructed from field measurements — not a screen recording
+              {demo.caveat ?? 'Reconstructed from field measurements — not a screen recording'}
             </p>
           </div>
         </div>

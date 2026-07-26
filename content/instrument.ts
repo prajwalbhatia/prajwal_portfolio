@@ -28,6 +28,8 @@ export type Demo = {
   /** Total duration the axis represents, in the demo's own unit. */
   domain: number
   unit: 's' | 'min'
+  /** Shown instead of the standard footer when a demo isn't purely measured. */
+  caveat?: string
 }
 
 export const demos: Demo[] = [
@@ -47,19 +49,22 @@ export const demos: Demo[] = [
     unit: 's',
   },
   {
-    id: 'queue',
+    id: 'coverage',
     num: '02',
     tab: 'Thumbnail pipeline',
-    eyebrow: 'Thumbnail extraction · 12 URLs through the queue',
-    caption: 'Same twelve jobs. Watch how long the queue takes to drain.',
-    beforeStat: 'Serial · ~1.6s each',
-    afterStat: '~55% on the fast path',
-    markA: { pct: 20.8, label: '4.2s — queue drained' },
-    markB: { pct: 96, label: '19.2s — queue drained' },
+    eyebrow: 'Portfolio thumbnails · twelve profile cards on the browse page',
+    caption: 'Same twelve profiles. Watch how many end up with a thumbnail at all.',
+    beforeStat: 'User upload only',
+    afterStat: 'og:image primary · Puppeteer fallback',
+    markA: { pct: 15.8, label: '~1s — og:image path done' },
+    markB: { pct: 69, label: '4.2s — fallback done' },
     axisStart: '0s',
-    axisEnd: '20s',
-    domain: 20000,
+    axisEnd: '6s',
+    domain: 6000,
     unit: 's',
+    // The before-coverage was never instrumented; "most" is Prajwal's
+    // recollection, not a measurement, and the panel says so.
+    caveat: 'Proportions illustrative — the upload rate was never measured',
   },
   {
     id: 'form',
@@ -143,48 +148,50 @@ export function vitalsState(p: number): { before: PageState; after: PageState } 
   }
 }
 
-/* ----------------------------------------------------------------- 02 queue */
+/* -------------------------------------------------------------- 02 coverage */
 
 export type Chip = { tone: Tone; label: string }
 
-export function queueState(p: number) {
-  const t = p * 20000
-  const chip = (done: boolean, running: boolean, label: string): Chip =>
-    done ? { tone: 'now', label } : running ? { tone: 'was', label: '···' } : { tone: 'idle', label: '—' }
+/**
+ * The problem here was coverage, not speed.
+ *
+ * Before, a card only had a thumbnail if the intern had uploaded a picture,
+ * and most hadn't — so the browse page was mostly empty boxes. Puppeteer
+ * wasn't slow; it wasn't there. The fix added og:image extraction as the
+ * primary path with Puppeteer as the fallback, which filled nearly all of them.
+ */
+const UPLOADED = 4 // of 12 — illustrative, see the demo's caveat
 
-  const before: Chip[] = []
-  const after: Chip[] = []
-  for (let i = 0; i < 12; i++) {
-    // Serial Puppeteer: every job pays the full ~1.6s, one after another.
-    const doneAt = (i + 1) * 1600
-    before.push(chip(t >= doneAt, t >= doneAt - 1600 && t < doneAt, 'PUP'))
-    // Two-tier: the og:image fast path clears roughly 55% in about a second.
-    const fast = i < 7
-    const aDone = fast ? 950 : i < 10 ? 2550 : 4150
-    after.push(chip(t >= aDone, t >= aDone - 900 && t < aDone, fast ? 'FAST' : 'PUP'))
-  }
-  const beforeDone = before.filter((c) => c.tone === 'now').length
+export function coverageState(p: number) {
+  const t = p * 6000
+  const before: Chip[] = Array.from({ length: 12 }, (_, i) =>
+    i < UPLOADED ? { tone: 'was', label: 'IMG' } : { tone: 'idle', label: '—' },
+  )
+  // og:image clears most of them in about a second; Puppeteer picks up the rest.
+  const after: Chip[] = Array.from({ length: 12 }, (_, i) => {
+    const viaOg = i < 7
+    const at = viaOg ? 950 : 4150
+    if (t >= at) return { tone: 'now', label: viaOg ? 'OG' : 'PUP' }
+    if (t >= at - 900) return { tone: 'live', label: '···' }
+    return { tone: 'idle', label: '—' }
+  })
   const afterDone = after.filter((c) => c.tone === 'now').length
 
   return {
     before,
     after,
-    beforeDone: `${beforeDone} / 12`,
+    beforeDone: `${UPLOADED} / 12`,
     afterDone: `${afterDone} / 12`,
-    beforeW: pct(t / 19200),
-    afterW: pct(t / 4150),
+    beforeW: `${(UPLOADED / 12) * 100}%`,
+    afterW: `${(afterDone / 12) * 100}%`,
     beforeNote:
-      t < 1600
-        ? 'First job is still in a headless browser.'
-        : beforeDone < 12
-          ? `${beforeDone} of 12 done. Every URL pays the full Puppeteer cost, one after another.`
-          : 'Twelve jobs, 19.2 seconds — and a single slow page could hold up everything behind it.',
+      'A card only had a thumbnail if the intern uploaded one, and most never did. The browse page was mostly empty boxes.',
     afterNote:
       t < 950
-        ? 'Both tiers started at once.'
+        ? 'Both tiers start at once.'
         : afterDone < 12
-          ? `${afterDone} of 12 done. The og:image path cleared most of them in about a second.`
-          : 'Drained in 4.2s. Puppeteer is the fallback now, not the default.',
+          ? `${afterDone} of 12. The og:image path cleared most of them with one HTTP request each.`
+          : 'All twelve have one. Puppeteer only ran for the links with no og:image to read.',
   }
 }
 

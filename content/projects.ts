@@ -61,10 +61,10 @@ export const projects: Project[] = [
     context: 'Virtual Internships · 2025',
     tags: ['Architecture', 'Backend'],
     problem:
-      "Every thumbnail went through a headless browser, so a single slow page could hold up the queue — and nothing was safe against SSRF.",
+      "Portfolio cards only had a thumbnail if the intern had uploaded a picture, and most never did — so the browse page was mostly empty boxes.",
     tech: ['Node', 'BullMQ', 'Puppeteer', 'GCS', 'Redis'],
     summary:
-      'Two-tier async extraction on BullMQ. An og:image fast path via cheerio handles most URLs with one HTTP request; Puppeteer is the fallback, not the default. SSRF validation at the edge, URL-hash deduplication, and nothing on the critical path of an API call.',
+      'Two-tier async extraction on BullMQ that generates the thumbnail instead of waiting for one. An og:image fast path via cheerio covers most links with a single HTTP request; Puppeteer screenshots only what has no og:image to read. SSRF validation at the edge, URL-hash deduplication, and nothing on the critical path of an API call.',
     href: '/projects/thumbnail-pipeline',
     linkLabel: 'Read the case study',
     status: 'shipped',

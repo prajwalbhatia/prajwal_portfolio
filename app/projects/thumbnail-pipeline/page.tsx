@@ -5,7 +5,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Thumbnail Pipeline',
   description:
-    'A two-tier async thumbnail service on BullMQ — og:image via cheerio as the fast path, Puppeteer as the fallback, SSRF validation at the edge, and 4,300 lines of tests.',
+    'Generating portfolio thumbnails instead of waiting for uploads — og:image via cheerio as the primary path, Puppeteer as the fallback, SSRF validation at the edge, and 4,300 lines of tests.',
 }
 
 export default function ThumbnailPipelinePage() {
@@ -13,14 +13,18 @@ export default function ThumbnailPipelinePage() {
     <CaseStudy
       context="Virtual Internships · 2025"
       title="Thumbnail Pipeline"
-      lede="Intern profiles link out to portfolios and certifications, and those links needed thumbnails. The naive version is Puppeteer on request. That's a browser launch on the critical path of an API call, which is unacceptable at any traffic level."
+      lede="Intern profiles link out to portfolios and certifications, and the browse page showed a card for each. A card only had an image if the intern had uploaded one — and most never did, so the page was mostly empty boxes. The fix was to stop waiting for an upload and generate the thumbnail from the link itself."
     >
       <CaseSection heading="Two tiers">
         <p>
           The pipeline is two-tier because most of the web already solves this problem for you:
           sites publish <code>og:image</code>. Extracting it with cheerio costs one HTTP request and
-          no browser. Puppeteer became the fallback for the minority that don&rsquo;t, not the
-          default.
+          no browser, and it covers the majority of links on its own.
+        </p>
+        <p>
+          Puppeteer handles the remainder — the pages with no <code>og:image</code> to read. It is
+          the fallback rather than the default, which is what keeps a browser launch off the
+          critical path of an API call.
         </p>
       </CaseSection>
 
