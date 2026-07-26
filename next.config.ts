@@ -4,6 +4,9 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // The floating dev-tools badge, bottom-left. Development only — it never
+  // shipped to production — but it sits over the page while working on it.
+  devIndicators: false,
   // An unrelated yarn.lock sits in the home directory; without this, Turbopack
   // walks up and picks that as the workspace root.
   turbopack: { root: path.resolve(process.cwd()) },
