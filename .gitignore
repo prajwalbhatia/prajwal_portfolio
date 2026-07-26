@@ -27,3 +27,6 @@ yarn-error.log*
 # hosting
 .netlify
 .vercel
+
+# Local design references — never committed
+/reference

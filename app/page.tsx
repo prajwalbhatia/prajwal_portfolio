@@ -1,5 +1,6 @@
 import { Band } from '@/components/band'
 import { Contact } from '@/components/contact'
+import { Instrument } from '@/components/instrument'
 import { Practices } from '@/components/practices'
 import { ProjectCard } from '@/components/project-card'
 import { ProofLedger } from '@/components/proof-ledger'
@@ -12,36 +13,39 @@ import { fetchExplainers } from '@/lib/youtube'
 
 function Hero() {
   return (
-    <section className="shell gutter pt-14 pb-10 sm:pt-20">
-      <p className="label mb-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-muted">
-        <span>
+    <section className="shell gutter pt-12 pb-10 sm:pt-16">
+      {/* Name and role lead as a byline, not a title. Nobody has heard of the
+          name yet; the claim is what earns the next ten seconds. */}
+      <p className="mb-7 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span className="display text-lg">{profile.name}</span>
+        <span aria-hidden="true" className="h-4 w-px bg-rule" />
+        <span className="label text-muted">
           {profile.title} · {profile.level}
         </span>
+      </p>
+
+      <h1 className="display max-w-[16ch] text-[clamp(2.6rem,8vw,5.6rem)]">
+        I make slow things fast{' '}
+        <span className="text-muted">and I own what breaks.</span>
+      </h1>
+
+      <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
+        <p className="measure text-base leading-relaxed text-muted sm:text-lg">
+          {yearsOfExperience()} years building React and TypeScript products, currently{' '}
+          <span className="text-ink">
+            {profile.level} at {profile.company}
+          </span>
+          . I work on the parts users feel — render cost, offline behaviour, and the state nobody
+          handled — and on the process that keeps a team shipping them.
+        </p>
+
         {profile.openToWork && (
-          <>
-            <span aria-hidden="true" className="h-px w-4 bg-rule" />
-            <span className="inline-flex items-center gap-2 text-ink">
-              <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-live" />
-              {profile.availabilityLabel}
-            </span>
-          </>
+          <p className="label inline-flex shrink-0 items-center gap-2 rounded-full border border-now/40 px-3 py-2 text-now">
+            <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-now" />
+            {profile.availabilityLabel}
+          </p>
         )}
-      </p>
-
-      <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">{profile.name}</h1>
-
-      <p className="display mt-8 max-w-[24ch] text-[clamp(1.75rem,5.5vw,3.25rem)] leading-[1.08] text-muted">
-        I make slow things fast <span className="text-ink">and I own what breaks.</span>
-      </p>
-
-      <p className="measure mt-8 text-base leading-relaxed text-muted sm:text-lg">
-        {yearsOfExperience()} years building React and TypeScript products, currently{' '}
-        <span className="text-ink">
-          {profile.level} at {profile.company}
-        </span>
-        . I work on the parts users feel — render cost, offline behaviour, and the state nobody
-        handled — and on the process that keeps a team shipping them.
-      </p>
+      </div>
     </section>
   )
 }
@@ -53,6 +57,7 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
+      <Instrument />
       <ProofLedger />
 
       <Band title="Selected work" action="All projects" actionHref="/projects">

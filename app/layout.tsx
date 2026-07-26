@@ -10,69 +10,48 @@ import { fetchExplainers } from '@/lib/youtube'
 import './globals.css'
 
 /*
-  Served from public/fonts, latin-subset woff2, 136 KB for all three
-  families. No font CDN: a site arguing about performance shouldn't put a
-  third party on its critical path.
+  Served from public/fonts as latin-subset variable woff2 — 95 KB for all
+  three. No font CDN: a site whose home page is a performance demo should not
+  put a third party on its own critical path.
 
-  On `display`, which is a deliberate split and not an oversight:
+  Syne carries display, Space Grotesk the body and UI, JetBrains Mono every
+  label and figure. Only Space Grotesk preloads — it renders the hero claim,
+  which is the LCP element.
 
-  The display face is preloaded and uses `swap` — it carries the identity of
-  the design and is worth waiting for. The sans and mono use `optional`.
-
-  Measured reason: with all three on `swap`, the sans and mono arriving late
-  reflowed the hero lede by a line and shifted everything below it. That was
-  CLS 0.108 on /projects/web-vitals — a page whose subject is fixing CLS.
-  Lighthouse named the exact cause ("Web font loaded", plex_sans_400,
-  plex_mono_400/500). `optional` gives them a ~100ms window and otherwise
-  keeps the fallback for that page load, so no swap and no shift. Both are
-  small and same-origin, so in practice they make the window; on a slow first
-  visit the reader gets Arial and a system mono, and the real faces on the
-  next. Every page now measures CLS 0.
-
-  Ruled out along the way: `optional` on the serif (no effect — it was never
-  the cause), preloading the sans (FCP 1.1s -> 0.9s, LCP and CLS unchanged,
-  three extra critical requests), and nowrap on the measure-table labels.
+  On `display`: the body and mono faces use `optional` rather than `swap`.
+  With all three on swap, late arrivals reflowed the hero and cost CLS 0.108
+  on a case-study page. `optional` gives them a ~100ms window and otherwise
+  keeps the fallback for that load, so there is no swap and no shift.
 */
-const sourceSerif = localFont({
-  src: '../public/fonts/source-serif-4-latin.woff2',
-  weight: '400 700',
-  style: 'normal',
-  variable: '--font-source-serif',
+const syne = localFont({
+  src: '../public/fonts/syne-latin.woff2',
+  weight: '400 800',
+  variable: '--font-syne',
   display: 'swap',
-  preload: true,
-  // The fallback list must lead with the same family the metric override is
-  // computed from, or the swap shifts. Georgia first here cost CLS 0.11 on the
-  // case studies — on a page about fixing CLS, which is a good way to be caught.
-  fallback: ['Times New Roman', 'Georgia', 'serif'],
-  adjustFontFallback: 'Times New Roman',
-})
-
-const plexSans = localFont({
-  src: [
-    { path: '../public/fonts/plex-sans-400-latin.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/plex-sans-500-latin.woff2', weight: '500', style: 'normal' },
-    { path: '../public/fonts/plex-sans-600-latin.woff2', weight: '600', style: 'normal' },
-  ],
-  variable: '--font-plex-sans',
-  display: 'optional',
   preload: false,
   fallback: ['Arial', 'system-ui', 'sans-serif'],
   adjustFontFallback: 'Arial',
 })
 
-const plexMono = localFont({
-  src: [
-    { path: '../public/fonts/plex-mono-400-latin.woff2', weight: '400', style: 'normal' },
-    { path: '../public/fonts/plex-mono-500-latin.woff2', weight: '500', style: 'normal' },
-  ],
-  variable: '--font-plex-mono',
+const spaceGrotesk = localFont({
+  src: '../public/fonts/space-grotesk-latin.woff2',
+  weight: '300 700',
+  variable: '--font-space-grotesk',
+  display: 'swap',
+  preload: true,
+  fallback: ['Arial', 'system-ui', 'sans-serif'],
+  adjustFontFallback: 'Arial',
+})
+
+const jetbrains = localFont({
+  src: '../public/fonts/jetbrains-mono-latin.woff2',
+  weight: '100 800',
+  variable: '--font-jetbrains',
   display: 'optional',
   preload: false,
   fallback: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-  // Off deliberately. Next defaults to an Arial-derived override, which is a
-  // proportional face standing in for a monospace one — it produced a
-  // size-adjust of 131% and the uppercase labels reflowed hard on swap. A real
-  // monospace fallback is far closer on width than any adjusted Arial.
+  // Next defaults to an Arial-derived override — a proportional face standing
+  // in for a monospace one, which reflows uppercase labels hard on swap.
   adjustFontFallback: false,
 })
 
@@ -148,7 +127,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${sourceSerif.variable} ${plexSans.variable} ${plexMono.variable}`}
+      className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-dvh flex flex-col">
         <PersonSchema />
