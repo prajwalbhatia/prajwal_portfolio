@@ -39,7 +39,9 @@
   --color-now: #a0ff5a;
   --color-live: #4ecfc4;
 
-  --font-display: var(--font-syne), 'Space Grotesk', system-ui, sans-serif;
+  /* Two families, not three. 2a sets everything in Space Grotesk and uses
+     JetBrains Mono for labels; Syne belongs to the other direction. */
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-sans: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
 }
@@ -106,7 +108,7 @@
 }
 
 @layer components {
-  /* Display voice. Syne, tight and heavy, never uppercase — the mono
+  /* Display voice. Space Grotesk at 700, tight, never uppercase — the mono
      already owns uppercase and two shouty registers fight each other. */
   .display {
     font-family: var(--font-display);

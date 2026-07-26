@@ -19,14 +19,21 @@ import {
 /**
  * The home page as a working demo of the thing being hired for.
  *
- * Server-renders at p = 1 — the completed comparison — so the section is fully
- * informative with JavaScript off or still loading. Only once mounted does it
- * rewind and play through, and only if the visitor hasn't asked for reduced
- * motion. Nothing here is a screen recording; every timing is a reconstruction
- * from a measured figure, and the caption says so.
+ * Renders at p = 1 — the completed comparison — so the section is fully
+ * informative with JavaScript off, still loading, or never touched. It does
+ * not autoplay: picking a demo runs that demo, and picking the open one
+ * replays it. Under prefers-reduced-motion selection jumps straight to the
+ * end state instead.
+ *
+ * Nothing here is a screen recording; every timing is a reconstruction from a
+ * measured figure, and the panel footer says so.
  */
 
 const PLAY_MS = 5200
+
+const reducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 const toneText: Record<Tone | 'lazy', string> = {
   was: 'text-was',
@@ -70,8 +77,12 @@ function Panel({
 
 /* -------------------------------------------------------------- 01 vitals */
 
-function PageSkeleton({ state }: { state: PageState }) {
+function PageSkeleton({ state, tone }: { state: PageState; tone: 'was' | 'now' }) {
   const bar = 'rounded-[2px] bg-rule'
+  // The hero block takes the panel's own colour. Deriving it from whether the
+  // hero had painted meant the before-panel turned green at the end, which
+  // said the opposite of what the demo is arguing.
+  const heroFill = tone === 'now' ? 'bg-now/25' : 'bg-was/25'
   return (
     <div
       className={`flex h-52 flex-col gap-2 transition-transform duration-300 ${
@@ -79,14 +90,14 @@ function PageSkeleton({ state }: { state: PageState }) {
       }`}
     >
       <div className={`h-4 w-1/3 ${bar} ${state.header ? 'opacity-100' : 'opacity-0'}`} />
-      {state.heroReserved || state.hero ? (
-        <div
-          className={`h-20 w-full rounded-[2px] transition-colors duration-300 ${
-            state.hero ? 'bg-now/25' : 'border border-dashed border-rule bg-transparent'
-          }`}
-        />
+      {state.hero ? (
+        <div className={`h-20 w-full rounded-[2px] transition-colors duration-300 ${heroFill}`} />
+      ) : state.heroReserved ? (
+        /* Space held for an image that hasn't arrived — the whole point of
+           the CLS fix, and worth showing as a deliberate empty slot. */
+        <div className="h-20 w-full rounded-[2px] border border-dashed border-rule" />
       ) : (
-        <div className={`h-20 w-full ${state.hero ? 'bg-was/25' : 'opacity-0'} rounded-[2px]`} />
+        <div className="h-20 w-full" aria-hidden="true" />
       )}
       <div className={`flex flex-col gap-1.5 ${state.text ? 'opacity-100' : 'opacity-0'}`}>
         <div className={`h-2.5 w-full ${bar}`} />
@@ -231,7 +242,6 @@ export function Instrument() {
   const [p, setP] = useState(1)
   const [playing, setPlaying] = useState(false)
   const raf = useRef<number | null>(null)
-  const started = useRef(false)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   const demo = demos[active]
@@ -258,23 +268,25 @@ export function Instrument() {
     raf.current = requestAnimationFrame(tick)
   }, [stop])
 
-  // Play through once on mount. Skipped entirely for reduced motion, which
-  // leaves the completed state the server already rendered.
-  useEffect(() => {
-    if (started.current) return
-    started.current = true
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    play()
-    return stop
-  }, [play, stop])
+  // Deliberately no autoplay. The instrument runs when someone picks a demo,
+  // not while they are still reading the hero — four panels animating on load
+  // reads as noise and gives the visitor nothing to have caused.
+  // Cancels any in-flight frame on unmount.
+  useEffect(() => stop, [stop])
 
   const select = useCallback(
     (i: number) => {
       setActive(i)
-      setP(1)
-      stop()
+      // Selecting a demo plays it. Picking the one already open replays it,
+      // which is what a second click on a tab should do here.
+      if (reducedMotion()) {
+        stop()
+        setP(1)
+        return
+      }
+      play()
     },
-    [stop],
+    [play, stop],
   )
 
   const v = vitalsState(p)
@@ -352,10 +364,10 @@ export function Instrument() {
             {demo.id === 'vitals' && (
               <>
                 <Panel side="Before" stat={demo.beforeStat} note={v.before.note}>
-                  <PageSkeleton state={v.before} />
+                  <PageSkeleton state={v.before} tone="was" />
                 </Panel>
                 <Panel side="After" stat={demo.afterStat} note={v.after.note}>
-                  <PageSkeleton state={v.after} />
+                  <PageSkeleton state={v.after} tone="now" />
                 </Panel>
               </>
             )}

@@ -10,29 +10,19 @@ import { fetchExplainers } from '@/lib/youtube'
 import './globals.css'
 
 /*
-  Served from public/fonts as latin-subset variable woff2 — 95 KB for all
-  three. No font CDN: a site whose home page is a performance demo should not
+  Served from public/fonts as latin-subset variable woff2 — 61 KB for the
+  pair. No font CDN: a site whose home page is a performance demo should not
   put a third party on its own critical path.
 
-  Syne carries display, Space Grotesk the body and UI, JetBrains Mono every
-  label and figure. Only Space Grotesk preloads — it renders the hero claim,
-  which is the LCP element.
+  Space Grotesk carries display, body and UI; JetBrains Mono every label and
+  figure. Two families is the whole system. Space Grotesk preloads — it
+  renders the hero claim, which is the LCP element.
 
   On `display`: the body and mono faces use `optional` rather than `swap`.
   With all three on swap, late arrivals reflowed the hero and cost CLS 0.108
   on a case-study page. `optional` gives them a ~100ms window and otherwise
   keeps the fallback for that load, so there is no swap and no shift.
 */
-const syne = localFont({
-  src: '../public/fonts/syne-latin.woff2',
-  weight: '400 800',
-  variable: '--font-syne',
-  display: 'swap',
-  preload: false,
-  fallback: ['Arial', 'system-ui', 'sans-serif'],
-  adjustFontFallback: 'Arial',
-})
-
 const spaceGrotesk = localFont({
   src: '../public/fonts/space-grotesk-latin.woff2',
   weight: '300 700',
@@ -127,7 +117,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrains.variable}`}
+      className={`${spaceGrotesk.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-dvh flex flex-col">
         <PersonSchema />
