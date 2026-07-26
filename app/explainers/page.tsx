@@ -43,10 +43,10 @@ export default async function ExplainersPage() {
       </section>
 
       <Band title="Every one">
-        <ul className="measure flex flex-col">
-          {explainers.map((r) => (
-            <li key={r.id}>
-              <ExplainerCard explainer={r} />
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {explainers.map((e) => (
+            <li key={e.id}>
+              <ExplainerCard explainer={e} />
             </li>
           ))}
         </ul>

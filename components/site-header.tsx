@@ -22,7 +22,6 @@ export function SiteHeader({ showExplainers = false }: { showExplainers?: boolea
   const nav = [
     { href: '/', label: 'Index' },
     { href: '/work', label: 'Work' },
-    { href: '/projects', label: 'Projects' },
     ...(showExplainers ? [{ href: '/explainers', label: 'Explainers' }] : []),
     { href: '/resume', label: 'Résumé' },
   ]

@@ -47,8 +47,8 @@ const sections = [
 export default function HabstreakPage() {
   return (
     <article className="shell gutter py-12 max-w-[70ch]">
-      <Link href="/projects" className="label text-muted hover:text-ink transition-colors">
-        ← Projects
+      <Link href="/work" className="label text-muted hover:text-ink transition-colors">
+        ← Work
       </Link>
 
       <header className="mt-6 mb-8">

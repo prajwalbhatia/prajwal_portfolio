@@ -7,8 +7,8 @@ function period(role: Role) {
 
 /**
  * A role: dates and a status tag in the left rail, everything else in the
- * body. `promotion: true` renders as a continuation of the same employer
- * rather than a new job — that distinction is career signal and shouldn't
+ * body. `promotion: true` adds a "Promoted" marker so an internal move reads
+ * as career progression rather than a job change — that distinction shouldn't
  * depend on the reader noticing the company name repeat.
  */
 export function RoleEntry({
@@ -22,11 +22,7 @@ export function RoleEntry({
   tag?: string
 }) {
   return (
-    <article
-      className={`grid gap-x-10 gap-y-3 border-b border-rule py-8 first:border-t md:grid-cols-[11rem_1fr] ${
-        samePlaceAsPrevious ? 'border-l border-l-rule pl-4 md:pl-6' : ''
-      }`}
-    >
+    <article className="grid gap-x-10 gap-y-3 border-b border-rule py-8 first:border-t md:grid-cols-[11rem_1fr]">
       <div className="flex flex-col gap-1">
         <time className="label text-ink">{period(role)}</time>
         {tag && <span className="label text-muted">{tag}</span>}

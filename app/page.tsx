@@ -2,7 +2,7 @@ import { Band } from '@/components/band'
 import { Contact } from '@/components/contact'
 import { Instrument } from '@/components/instrument'
 import { WorkShowcase } from '@/components/work-showcase'
-import { ExplainerCard } from '@/components/explainer-card'
+import { ExplainerRail } from '@/components/explainer-rail'
 import { CHANNEL_HANDLE, CHANNEL_URL, HOME_EXPLAINERS, EXPLAINERS_LIMIT } from '@/content/explainers'
 import { profile, yearsOfExperience } from '@/content/profile'
 import { fetchExplainers } from '@/lib/youtube'
@@ -59,13 +59,7 @@ export default async function HomePage() {
 
       {explainers.length > 0 && (
         <Band title="I explain this stuff in sixty seconds" action="Watch the channel" actionHref={CHANNEL_URL}>
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {explainers.map((e) => (
-              <li key={e.id}>
-                <ExplainerCard explainer={e} />
-              </li>
-            ))}
-          </ul>
+          <ExplainerRail explainers={explainers} />
         </Band>
       )}
 

@@ -129,6 +129,9 @@ export type PracticePair = {
   area: string
   was: string
   now: string
+  /** One sentence on why the change mattered. The was/now pair is the claim;
+      this is the reasoning an interviewer would ask for next. */
+  detail: string
   /** A verified figure, or null when the change is real but unmeasured. */
   evidence: string | null
 }
@@ -136,33 +139,43 @@ export type PracticePair = {
 export const practices: PracticePair[] = [
   {
     area: 'Code review',
-    was: 'Code-only review',
+    was: 'Reviews stopped at the code',
     now: 'Three layers — code, functionality, design',
-    evidence: '17 issues caught in one admin-surface review, pre-release',
-  },
-  {
-    area: 'AI-assisted development',
-    was: 'No shared conventions',
-    now: 'Frontend guidelines and a reusable skills library across core repos',
-    evidence: null,
+    detail:
+      'Approving a diff that compiles is not the same as approving a feature. Reviewers now open the branch, use it, and check it against the PRD and the design before approving.',
+    evidence: '17 issues caught in one admin-surface review, before release',
   },
   {
     area: 'Incident response',
-    was: 'Ad hoc',
-    now: 'Post-incident delivery process, with product-design review required',
-    evidence: '29 min from P0 report to deployment',
+    was: 'Fix it, ship it, move on',
+    now: 'Post-incident review is part of the fix',
+    detail:
+      'A P0 that gets patched without asking how it shipped will happen again in a different file. Every incident now ends with a product-design review rather than a closed ticket.',
+    evidence: '29 minutes from P0 report to deployment',
   },
   {
-    area: 'Onboarding',
-    was: 'Unstructured ramp-up',
-    now: 'Mentoring through onboarding, codebase ramp-up and review cycles',
-    evidence: '2 interns mentored, 1 converted to full-time',
+    area: 'AI-assisted development',
+    was: 'Everyone prompting their own way',
+    now: 'Shared frontend guidelines and a reusable skills library',
+    detail:
+      'Without shared conventions, generated code arrives in four different styles and review gets slower, not faster. Co-authored the standards so the output lands consistent across core repos.',
+    evidence: null,
   },
   {
     area: 'Handoff',
     was: 'Requirements arriving mid-build',
-    now: 'Cross-functional kickoffs — Design, FE, BE, QA',
+    now: 'Cross-functional kickoff before a line is written',
+    detail:
+      'Most late-stage rework traces back to a question nobody asked at the start. Design, frontend, backend and QA now agree the shape of a feature up front.',
     evidence: null,
+  },
+  {
+    area: 'Mentoring',
+    was: 'Interns left to find their own way in',
+    now: 'Structured onboarding, ramp-up and review cycles',
+    detail:
+      'Two interns taken from first commit to conversion, with review used as teaching rather than gatekeeping.',
+    evidence: '1 of 2 converted to a full-time offer',
   },
 ]
 

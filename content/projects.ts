@@ -138,7 +138,7 @@ export const projects: Project[] = [
 ]
 
 /**
- * The home page shows four, in this order. /projects carries everything.
+ * The home page shows four, in this order. /work carries everything.
  *
  * An explicit list rather than a `featured` flag: the home page is the one
  * surface where order and count are a design decision, and a boolean spread
@@ -157,3 +157,14 @@ export const homeProjects: Project[] = HOME_IDS.map((id) => {
   if (!project) throw new Error(`HOME_IDS references unknown project id: ${id}`)
   return project
 })
+
+/**
+ * Everything, for /work — shipped first, parked last.
+ *
+ * /work absorbed the old /projects index, so this list is the only place a
+ * case study is linked from. Dropping an entry here orphans its page.
+ */
+export const workProjects: Project[] = [
+  ...projects.filter((p) => p.status === 'shipped'),
+  ...projects.filter((p) => p.status === 'sunset'),
+]

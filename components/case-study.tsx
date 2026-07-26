@@ -30,10 +30,10 @@ export function CaseStudy({
   return (
     <article className="case-prose shell gutter py-14">
       <Link
-        href="/projects"
+        href="/work"
         className="label text-muted underline decoration-rule underline-offset-4 hover:text-ink"
       >
-        &larr; Projects
+        &larr; Work
       </Link>
 
       <header className="mt-8 mb-12 flex flex-col gap-6">

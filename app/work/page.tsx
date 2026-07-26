@@ -7,12 +7,12 @@ import { RoleEntry } from '@/components/role-entry'
 import { WorkFilter } from '@/components/work-filter'
 import { roles } from '@/content/experience'
 import { profile } from '@/content/profile'
-import { homeProjects } from '@/content/projects'
+import { workProjects } from '@/content/projects'
 
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    "Four pieces of work I'd defend in a technical interview, and the roles they came out of — Core Web Vitals, a thumbnail pipeline, an application rebuild and a published React package.",
+    "Everything I'd defend in a technical interview, and the roles it came out of — Core Web Vitals, a thumbnail pipeline, an application rebuild and a published React package.",
 }
 
 /** Short rail labels, keyed by role id. Purely editorial, so it lives here. */
@@ -30,8 +30,8 @@ export default function WorkPage() {
         <p className="label mb-5 text-now">Every number here is measured, not estimated</p>
         <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">Work</h1>
         <p className="measure mt-6 text-base leading-relaxed text-muted sm:text-lg">
-          Four pieces of work I&rsquo;d defend in a technical interview, and the roles they came out
-          of. Where there isn&rsquo;t an honest number, there isn&rsquo;t one shown.
+          Everything I&rsquo;d defend in a technical interview, and the roles it came out of.
+          Where there isn&rsquo;t an honest number, there isn&rsquo;t one shown.
         </p>
       </section>
 
@@ -40,7 +40,7 @@ export default function WorkPage() {
           <h2 id="projects-heading" className="sr-only">
             Selected projects
           </h2>
-          <WorkFilter projects={homeProjects} />
+          <WorkFilter projects={workProjects} />
         </div>
       </section>
 

@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   // An unrelated yarn.lock sits in the home directory; without this, Turbopack
   // walks up and picks that as the workspace root.
   turbopack: { root: path.resolve(process.cwd()) },
+  async redirects() {
+    // /projects was folded into /work — they had become the same page.
+    return [{ source: '/projects', destination: '/work', permanent: true }]
+  },
   experimental: {
     // Inlines the stylesheet into the document, removing a render-blocking
     // round trip. The CSS is ~21 KB and every route is static, so there is no

@@ -24,8 +24,8 @@ export function WorkShowcase() {
           <h2 id="work-heading" className="label text-muted">
             Selected work — hover to read
           </h2>
-          <Link href="/projects" className="label text-muted transition-colors hover:text-ink">
-            All projects →
+          <Link href="/work" className="label text-muted transition-colors hover:text-ink">
+            All work →
           </Link>
         </div>
 
