@@ -40,7 +40,7 @@ export function CaseStudy({
         <p className="label text-muted">{context}</p>
         <h1 className="display text-[clamp(2.25rem,6.5vw,3.75rem)]">{title}</h1>
         {pair && <Pair size="lg" was={pair.was} now={pair.now} label={pair.label} />}
-        <p className="measure text-lg leading-relaxed text-muted">{lede}</p>
+        <p className="measure text-lg leading-relaxed text-body">{lede}</p>
       </header>
 
       <div className="flex flex-col gap-10">{children}</div>
@@ -52,7 +52,7 @@ export function CaseSection({ heading, children }: { heading: string; children: 
   return (
     <section>
       <h2 className="display mb-4 text-2xl">{heading}</h2>
-      <div className="flex flex-col gap-4 leading-relaxed text-muted">{children}</div>
+      <div className="flex flex-col gap-4 leading-relaxed text-body">{children}</div>
     </section>
   )
 }

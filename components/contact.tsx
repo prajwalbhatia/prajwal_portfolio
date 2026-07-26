@@ -32,7 +32,7 @@ export function Contact() {
           <h2 id="contact-heading" className="display text-[clamp(1.75rem,4.5vw,2.75rem)]">
             Hiring for a senior role?
           </h2>
-          <p className="measure text-muted">
+          <p className="measure text-body">
             I&rsquo;m open to conversations. Email is fastest — I answer everything.
           </p>
 
@@ -65,7 +65,7 @@ export function Contact() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink"
+                  className="text-sm text-body underline decoration-rule underline-offset-4 transition-colors hover:text-ink"
                 >
                   {s.label}
                 </a>

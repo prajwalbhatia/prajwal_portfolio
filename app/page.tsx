@@ -22,11 +22,11 @@ function Hero() {
 
       <h1 className="display max-w-[17ch] text-[clamp(2.6rem,8vw,5.6rem)]">
         I own what I ship,
-        <span className="text-muted"> including the part that breaks.</span>
+        <span className="text-body"> including the part that breaks.</span>
       </h1>
 
       <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
-        <p className="measure text-base leading-relaxed text-muted sm:text-lg">
+        <p className="measure text-base leading-relaxed text-body sm:text-lg">
           {yearsOfExperience()} years of building React and TypeScript products, currently{' '}
           <span className="text-ink">
             {profile.level} at {profile.company}
