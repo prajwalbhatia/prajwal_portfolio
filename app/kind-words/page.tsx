@@ -41,7 +41,7 @@ function Card({
         <span className="flex min-w-0 flex-col">
           <span className="text-sm text-ink">
             {item.name}
-            <span className="text-muted"> · {item.title}</span>
+            <span className="text-body"> · {item.title}</span>
           </span>
           <span className="label mt-1 text-muted">{item.relationship}</span>
         </span>
@@ -66,7 +66,7 @@ export default function KindWordsPage() {
         </h1>
 
         <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
-          <p className="measure text-base leading-relaxed text-muted sm:text-lg">
+          <p className="measure text-base leading-relaxed text-body sm:text-lg">
             Recommendations, review notes and the odd Slack message. I&rsquo;ve left them as
             screenshots so you can see who wrote them.
           </p>

@@ -35,7 +35,7 @@ export function ExplainerCard({ explainer }: { explainer: Explainer }) {
           {explainer.duration}
         </span>
       </span>
-      <span className="text-[0.82rem] leading-snug text-muted transition-colors group-hover:text-ink">
+      <span className="text-[0.82rem] leading-snug text-body transition-colors group-hover:text-ink">
         {explainer.title}
       </span>
     </a>

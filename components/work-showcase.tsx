@@ -21,7 +21,7 @@ export function WorkShowcase() {
     <section aria-labelledby="work-heading" className="rule-t">
       <div className="shell gutter py-10 sm:py-14">
         <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
-          <h2 id="work-heading" className="label text-muted">
+          <h2 id="work-heading" className="label text-ink">
             Selected work — hover to read
           </h2>
           <Link href="/work" className="label text-muted transition-colors hover:text-ink">
@@ -51,7 +51,7 @@ export function WorkShowcase() {
                     <span className="flex min-w-0 flex-col gap-1">
                       <span
                         className={`display text-2xl transition-colors sm:text-[1.75rem] ${
-                          on ? 'text-ink' : 'text-muted'
+                          on ? 'text-ink' : 'text-body'
                         }`}
                       >
                         {p.title}
@@ -91,13 +91,13 @@ export function WorkShowcase() {
             {project.problem && (
               <div className="flex flex-col gap-1.5">
                 <h3 className="label text-was">The problem</h3>
-                <p className="text-[0.92rem] leading-relaxed text-muted">{project.problem}</p>
+                <p className="text-[0.92rem] leading-relaxed text-body">{project.problem}</p>
               </div>
             )}
 
             <div className="flex flex-col gap-1.5">
               <h3 className="label text-now">What I did</h3>
-              <p className="text-[0.92rem] leading-relaxed text-muted">{project.summary}</p>
+              <p className="text-[0.92rem] leading-relaxed text-body">{project.summary}</p>
             </div>
 
             {project.tech && (

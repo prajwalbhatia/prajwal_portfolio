@@ -5,7 +5,7 @@ export default function NotFound() {
     <section className="shell gutter flex flex-col items-start gap-5 py-24">
       <p className="label text-muted">404</p>
       <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Nothing here</h1>
-      <p className="measure text-muted">
+      <p className="measure text-body">
         That page doesn&rsquo;t exist. It may have been renamed when the site was rebuilt.
       </p>
       <Link

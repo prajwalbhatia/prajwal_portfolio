@@ -63,7 +63,7 @@ export function WorkFilter({ projects }: { projects: Project[] }) {
                 className={`label rounded-full border px-3 py-1.5 transition-colors ${
                   on
                     ? 'border-now bg-now text-ground'
-                    : 'border-rule text-muted hover:border-muted hover:text-ink'
+                    : 'border-rule text-body hover:border-muted hover:text-ink'
                 }`}
               >
                 {f}
@@ -91,7 +91,7 @@ export function WorkFilter({ projects }: { projects: Project[] }) {
               <div className="flex flex-col gap-3">
                 <h3 className="display text-[clamp(1.5rem,3vw,2rem)]">{p.title}</h3>
                 {p.problem && (
-                  <p className="max-w-[52ch] text-[0.9rem] leading-relaxed text-muted">
+                  <p className="max-w-[52ch] text-[0.9rem] leading-relaxed text-body">
                     {p.problem}
                   </p>
                 )}

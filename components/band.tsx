@@ -25,11 +25,11 @@ export function Band({
       <div className="shell gutter py-8 sm:py-10">
         {title && (
           <div className="flex items-baseline justify-between gap-4 mb-5">
-            <h2 className="label text-text">{title}</h2>
+            <h2 className="label text-ink">{title}</h2>
             {action && actionHref && (
               <Link
                 href={actionHref}
-                className="label text-muted hover:text-signal transition-colors"
+                className="label text-muted transition-colors hover:text-ink"
               >
                 {action} →
               </Link>

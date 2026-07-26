@@ -29,7 +29,7 @@ export default function WorkPage() {
       <section className="shell gutter pt-14 pb-10">
         <p className="label mb-5 text-now">Every number here is measured, not estimated</p>
         <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">Work</h1>
-        <p className="measure mt-6 text-base leading-relaxed text-muted sm:text-lg">
+        <p className="measure mt-6 text-base leading-relaxed text-body sm:text-lg">
           Projects and the roles they came out of. Each one links to a longer write-up.
         </p>
       </section>
@@ -57,7 +57,7 @@ export default function WorkPage() {
       </Band>
 
       <Band title="Engineering practice">
-        <p className="measure mb-6 text-sm text-muted">
+        <p className="measure mb-6 text-sm text-body">
           The same before and after, applied to how a team works rather than how code runs.
         </p>
         <Practices />

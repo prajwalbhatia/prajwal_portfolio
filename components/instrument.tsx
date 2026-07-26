@@ -39,7 +39,7 @@ const toneText: Record<Tone | 'lazy', string> = {
   was: 'text-was',
   now: 'text-now',
   live: 'text-live',
-  idle: 'text-muted',
+  idle: 'text-body',
   lazy: 'text-live',
 }
 
@@ -70,7 +70,7 @@ function Panel({
         <span className="label text-muted">{stat}</span>
       </header>
       <div className="flex-1 p-4">{children}</div>
-      <p className="border-t border-rule px-4 py-3 text-[0.82rem] leading-snug text-muted">{note}</p>
+      <p className="border-t border-rule px-4 py-3 text-[0.82rem] leading-snug text-body">{note}</p>
     </section>
   )
 }
@@ -127,7 +127,7 @@ function Chips({ chips, done, width }: { chips: Chip[]; done: string; width: str
                 ? 'border-now/40 bg-now/10 text-now'
                 : c.tone === 'was'
                   ? 'border-was/40 bg-was/10 text-was'
-                  : 'border-rule bg-surface text-muted'
+                  : 'border-rule bg-surface text-body'
             }`}
           >
             {c.label}
@@ -171,7 +171,7 @@ function Steps({
               ? tone === 'now'
                 ? 'border-now/30 bg-now/8 text-ink'
                 : 'border-was/30 bg-was/8 text-ink'
-              : 'border-rule bg-surface text-muted'
+              : 'border-rule bg-surface text-body'
           }`}
         >
           <span
@@ -215,7 +215,7 @@ function Chunks({
     <div className="flex min-h-52 flex-col gap-3">
       {chunks.map((c) => (
         <div key={c.name} className="flex flex-col gap-1">
-          <span className="flex items-baseline justify-between gap-2 text-[0.72rem] text-muted">
+          <span className="flex items-baseline justify-between gap-2 text-[0.72rem] text-body">
             <span className="truncate">{c.name}</span>
             <span className="shrink-0 tabular-nums">{c.size}</span>
           </span>
@@ -358,7 +358,7 @@ export function Instrument() {
                 tabRefs.current[to]?.focus()
               }}
               className={`flex min-w-0 flex-1 items-baseline gap-2 border-r border-rule px-3 py-3 text-left last:border-r-0 transition-colors ${
-                i === active ? 'bg-surface text-ink' : 'bg-ground text-muted hover:text-ink'
+                i === active ? 'bg-surface text-ink' : 'bg-ground text-body hover:text-ink'
               }`}
             >
               <span className={`label ${i === active ? 'text-now' : 'text-muted'}`}>{d.num}</span>

@@ -33,6 +33,12 @@ export const profile = {
   availabilityLabel: 'Open to senior roles',
 
   email: 'prajwal6bhatia@gmail.com',
+  /* Prajwal's own export, replaced by hand at public/prajwal-bhatia-resume.pdf.
+     Deliberately NOT generated from /resume — he maintains the document
+     separately. The consequence to watch is drift: the previous PDF still said
+     "6.5+ years" and listed Kafka long after the site had corrected both, so
+     whenever résumé content changes here, re-export there. */
+  resumePdf: '/prajwal-bhatia-resume.pdf',
   // Phone deliberately omitted — it lives on the résumé PDF only.
   // Public phone numbers get scraped within days.
 

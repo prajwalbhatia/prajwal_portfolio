@@ -47,7 +47,7 @@ export function SiteHeader({
               href={item.href}
               aria-current={isActive(pathname, item.href) ? 'page' : undefined}
               className={`label transition-colors hover:text-ink ${
-                isActive(pathname, item.href) ? 'text-ink' : 'text-muted'
+                isActive(pathname, item.href) ? 'text-ink' : 'text-body'
               }`}
             >
               {item.label}
@@ -88,7 +88,7 @@ export function SiteHeader({
               onClick={() => setOpen(false)}
               aria-current={isActive(pathname, item.href) ? 'page' : undefined}
               className={`label border-b border-rule py-3 last:border-0 ${
-                isActive(pathname, item.href) ? 'text-ink' : 'text-muted'
+                isActive(pathname, item.href) ? 'text-ink' : 'text-body'
               }`}
             >
               {item.label}

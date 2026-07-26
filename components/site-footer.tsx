@@ -13,6 +13,9 @@ export function SiteFooter() {
           <Link href="/resume" className="hover:text-ink">
             Résumé
           </Link>
+          <a href={profile.resumePdf} download className="hover:text-ink">
+            PDF ↓
+          </a>
           <a href={`mailto:${profile.email}`} className="hover:text-ink">
             Email
           </a>

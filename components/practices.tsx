@@ -21,13 +21,13 @@ export function Practices() {
           <div className="flex flex-col gap-3">
             <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[0.95rem]">
               <span className="text-was line-through decoration-was/50">{p.was}</span>
-              <span aria-hidden="true" className="text-muted">
+              <span aria-hidden="true" className="text-body">
                 →
               </span>
               <span className="font-semibold text-now">{p.now}</span>
             </p>
 
-            <p className="max-w-[68ch] text-[0.9rem] leading-relaxed text-muted">{p.detail}</p>
+            <p className="max-w-[68ch] text-[0.9rem] leading-relaxed text-body">{p.detail}</p>
 
             {p.evidence && <p className="label text-muted">{p.evidence}</p>}
           </div>

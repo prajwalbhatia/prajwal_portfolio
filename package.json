@@ -2,7 +2,7 @@
   "name": "prajwal-portfolio",
   "version": "2.0.0",
   "private": true,
-  "description": "Portfolio of Prajwal Bhatia — Senior Software Engineer",
+  "description": "Portfolio of Prajwal Bhatia \u2014 Senior Software Engineer",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

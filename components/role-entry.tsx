@@ -33,7 +33,7 @@ export function RoleEntry({
 
       <div>
         <h3 className="display text-[clamp(1.4rem,2.6vw,1.8rem)]">{role.title}</h3>
-        <p className="mt-1.5 mb-5 text-sm text-muted">
+        <p className="mt-1.5 mb-5 text-sm text-body">
           {role.company} · {role.location}
         </p>
 
@@ -41,7 +41,7 @@ export function RoleEntry({
           {role.highlights.map((h, i) => (
             <li
               key={i}
-              className="relative max-w-[76ch] pl-5 text-[0.9rem] leading-relaxed text-muted"
+              className="relative max-w-[76ch] pl-5 text-[0.9rem] leading-relaxed text-body"
             >
               <span aria-hidden="true" className="absolute left-0 text-rule">
                 —

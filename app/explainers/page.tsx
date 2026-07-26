@@ -27,7 +27,7 @@ export default async function ExplainersPage() {
     <>
       <section className="shell gutter pt-14 pb-8">
         <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Explainers</h1>
-        <p className="measure mt-5 text-muted">
+        <p className="measure mt-5 text-body">
           Short explainers on React, TypeScript and performance — the same problems I work on during
           the day, in under a minute. Being able to explain a thing simply is most of understanding
           it.
