@@ -6,7 +6,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Signup Funnel Rebuild',
   description:
-    'Deleting a registration page and collapsing signup into a single transaction — plus moving batch-selection business rules out of the frontend and into one backend endpoint.',
+    'Three signup screens down to one, country and timezone inferred rather than asked, and a single transactional endpoint that had to absorb everyone already halfway through the old flow.',
 }
 
 export default function SignupFunnelPage() {
@@ -15,60 +15,90 @@ export default function SignupFunnelPage() {
       context="Virtual Internships · 2026"
       title="Signup Funnel Rebuild"
       pair={{ was: '3+', now: '1', label: 'Sequential API calls' }}
-      lede="Signup ran across several screens, each one accumulating a bit more partial state before anything was committed. The rebuild deleted a page, made the whole thing one transaction, and moved the rules that decide what a user is eligible for out of the browser."
+      lede="Signup was three screens, one of which collected nothing. The rebuild deleted a page, collapsed the rest into a single transaction, and then had to deal with everyone who was already partway through the old flow when it shipped."
     >
-      <CaseSection heading="Deleting the registration page">
+      <CaseSection heading="Three screens, one of them an animation">
         <p>
-          The clearest win was removing a screen. A page that exists only to collect fields the rest
-          of the flow could collect is a page that can be deleted, and every screen removed from a
-          funnel is one fewer place for someone to abandon it or for state to go stale between
-          steps.
+          Signup was three screens. <code>basicDetails</code> collected first name, last name, date
+          of birth, timezone, current country, and how you heard about us.{' '}
+          <code>personalizationScreen</code> followed. Then <code>congratulationsScreen</code>: 148
+          lines of TSX, 160 of SCSS, one Lottie file, collecting nothing.
         </p>
       </CaseSection>
 
-      <CaseSection heading="One transaction instead of accumulated state">
+      <CaseSection heading="Why the registration screen went">
         <p>
-          The old flow built a user up in pieces across several requests. That means intermediate
-          states exist — half-created accounts, records that are valid at step two and invalid by
-          step four — and every one of them is something the backend has to tolerate and someone
-          eventually has to clean up.
+          It existed to gather timezone and a handful of other fields. It also stood between signing
+          up and seeing what the platform actually offered — one more screen before anyone could
+          tell whether the thing was worth their time. The reasoning for removing it was that the
+          length of signup was where people were being lost.
         </p>
         <p>
-          Signup is now a single transactional endpoint. It either produces a complete user or it
-          produces nothing, which removes the partial states rather than handling them.
+          The fields didn&rsquo;t need a screen of their own. Country and timezone are now inferred
+          from IP through a <code>useIpBasedDefaults</code> hook, because the browser already knows
+          roughly where you are and asking is friction. The rest moved into the application flow,
+          where someone is already filling in a form and one more field costs nothing.{' '}
+          <code>congratulationsScreen</code> was deleted outright.
         </p>
       </CaseSection>
 
-      <CaseSection heading="Moving the rules off the frontend">
+      <CaseSection heading="One call">
         <p>
-          Batch selection previously fetched through three or more sequential calls, and the logic
-          deciding which batches a user was eligible for lived in the browser alongside a copy of it
-          on the server. Two implementations of one rule drift, and the drift shows up in
-          production.
+          <code>POST /register/start-onboarding</code> replaced the walk. Inside it, one database
+          transaction creates the <code>Intern</code>, the <code>InternBatchPartnerMapping</code>{' '}
+          and the <code>InternApplication</code> together. <code>batch_id</code> is required up
+          front for the flows that need it, rather than discovered missing three steps later.
+        </p>
+        <p>I wrote both sides: the frontend deletion and the endpoint behind it.</p>
+      </CaseSection>
+
+      <CaseSection heading="The people already halfway through">
+        <p>
+          That was the hard part. At deploy time someone could be sitting between old screen two and
+          three, holding a partly-built record, with no way to finish a flow that no longer existed.
         </p>
         <p>
-          One backend endpoint now owns those rules and returns what the user is actually eligible
-          for, so the frontend renders an answer rather than computing one.{' '}
+          So the endpoint treats an existing intern as the normal case rather than the exception. If
+          the record is there it updates in place and carries the name fields forward instead of
+          minting a new <code>uuid</code>. Before creating the batch mapping it looks for one, and
+          skips both the mapping and the application if it finds it. If{' '}
+          <code>is_intern_onboarding_started</code> is already set it returns a token and touches
+          nothing at all.
+        </p>
+        <p>
+          One step isn&rsquo;t idempotency. The old flow wrote a{' '}
+          <code>UserPartnerBatchMapping</code> keyed by <code>uuid</code>, before the user was an
+          intern. The new one writes an <code>InternBatchPartnerMapping</code> keyed by{' '}
+          <code>intern_id</code>. The transaction creates the second and deletes the first, so a
+          record that straddled the pre- and post-authentication boundary lands cleanly on one side
+          of it.
+        </p>
+        <p>
+          Every branch in that method is a version of the same question: what if they&rsquo;ve
+          already done part of this?
+        </p>
+      </CaseSection>
+
+      <CaseSection heading="What wasn't measured">
+        <p>
+          Nothing was. There&rsquo;s no before-and-after on signup completion, drop-off or
+          time-to-first-screen — no dashboard, no instrumentation added, no number in any of the
+          four pull requests. The change was made on the reasoning above, not on a measurement, and
+          I&rsquo;m not going to claim a result I didn&rsquo;t record.
+        </p>
+      </CaseSection>
+
+      <CaseSection heading="Related">
+        <p>
+          The batch-selection frontend was rewritten separately — hooks, an RTK Query migration, and
+          a bug that had been dropping query params on every request.{' '}
           <Link
             href="/projects/batch-selection"
             className="text-ink underline decoration-rule underline-offset-4 hover:decoration-current"
           >
-            Batch selection&rsquo;s frontend was rewritten around that in a separate piece of work
+            That one has its own write-up
           </Link>
           .
-        </p>
-      </CaseSection>
-
-      <CaseSection heading="What isn't measured">
-        <p>
-          The call count is verified — the backend change describes the previous frontend making
-          three or more sequential requests where there is now one. Everything else here is
-          structural: a screen removed, partial states removed, one owner for a rule instead of two.
-        </p>
-        <p>
-          There is no conversion or completion figure for this work, so there isn&rsquo;t one on
-          this page. A shorter funnel is a reasonable thing to expect to help; whether it did is not
-          something I measured.
         </p>
       </CaseSection>
     </CaseStudy>

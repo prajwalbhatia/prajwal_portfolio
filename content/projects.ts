@@ -114,10 +114,10 @@ export const projects: Project[] = [
     tags: ['Architecture', 'Product'],
     pair: { was: '3+', now: '1', label: 'Sequential API calls' },
     problem:
-      'Signup ran across multiple screens, each accumulating partial state, and batch selection fetched through three or more sequential frontend calls with the business rules duplicated client-side.',
-    tech: ['React', 'TypeScript', 'RTK Query'],
+      'Signup ran across three screens — one of them 148 lines of TSX and a Lottie file that collected nothing — each accumulating partial state before anything was committed.',
+    tech: ['React', 'TypeScript', 'Node'],
     summary:
-      'Deleted the registration page. Signup went from multiple screens accumulating partial state to a single transactional endpoint, and batch selection from 3+ sequential frontend calls with duplicated business rules to one backend endpoint that owns them.',
+      'Deleted the registration page — three signup screens down to one, with country and timezone inferred rather than asked. One transactional endpoint replaced the walk, and had to absorb everyone already halfway through the old flow.',
     href: '/projects/signup-funnel',
     linkLabel: 'Read the case study',
     status: 'shipped',
