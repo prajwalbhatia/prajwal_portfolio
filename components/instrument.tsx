@@ -243,6 +243,8 @@ export function Instrument() {
   const [playing, setPlaying] = useState(false)
   const raf = useRef<number | null>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const playedOnce = useRef(false)
 
   const demo = demos[active]
 
@@ -268,15 +270,40 @@ export function Instrument() {
     raf.current = requestAnimationFrame(tick)
   }, [stop])
 
-  // Deliberately no autoplay. The instrument runs when someone picks a demo,
-  // not while they are still reading the hero — four panels animating on load
-  // reads as noise and gives the visitor nothing to have caused.
+  // Plays the open demo once, when the section first scrolls into view.
+  //
+  // Not on mount: the instrument sits below the fold, so firing at load meant
+  // it animated while the reader was still on the hero and was already
+  // finished by the time they got here. Not never, either — arriving at a
+  // static panel gives no clue it does anything. Every play after this one is
+  // something the visitor asked for.
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el || playedOnce.current) return
+    if (reducedMotion()) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting || playedOnce.current) continue
+          playedOnce.current = true
+          io.disconnect()
+          play()
+        }
+      },
+      { threshold: 0.35 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [play])
+
   // Cancels any in-flight frame on unmount.
   useEffect(() => stop, [stop])
 
   const select = useCallback(
     (i: number) => {
       setActive(i)
+      playedOnce.current = true
       // Selecting a demo plays it. Picking the one already open replays it,
       // which is what a second click on a tab should do here.
       if (reducedMotion()) {
@@ -295,7 +322,7 @@ export function Instrument() {
   const b = bundleState(p)
 
   return (
-    <section aria-labelledby="instrument-heading" className="rule-t">
+    <section ref={sectionRef} aria-labelledby="instrument-heading" className="rule-t">
       <div className="shell gutter py-10 sm:py-14">
         <h2 id="instrument-heading" className="sr-only">
           Interactive before-and-after demonstrations
