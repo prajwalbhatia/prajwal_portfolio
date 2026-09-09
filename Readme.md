@@ -1,7 +1,7 @@
 # prajwalbhatia.com
 
-Personal site for Prajwal Bhatia — Senior Software Engineer (Frontend Heavy),
-SDE-3 at Virtual Internships.
+Personal site for Prajwal Bhatia — Senior Frontend Engineer, SDE-3 at
+Virtual Internships.
 
 The home page is a working demo of the thing being hired for: a scrubbable
 timeline that replays four real before/after changes. Everything else — case

@@ -7,7 +7,7 @@ import { rich } from '@/lib/rich'
 
 export const metadata: Metadata = {
   title: 'Résumé',
-  description: `Résumé of ${profile.name} — ${profile.title}, ${profile.level}, with ${yearsOfExperience()} years in React and TypeScript.`,
+  description: `Résumé of ${profile.name} — ${profile.title} with ${yearsOfExperience()} years in React and TypeScript.`,
 }
 
 function period(start: string, end: string) {
@@ -25,7 +25,6 @@ export default function ResumePage() {
         >
           Download PDF ↓
         </a>
-        <span className="label text-muted">PDF · for sharing and applications</span>
       </div>
 
       <header className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 pb-5 border-b border-rule">
@@ -33,9 +32,7 @@ export default function ResumePage() {
           <h1 className="display text-[clamp(2.2rem,6vw,3.4rem)] leading-none mb-2">
             {profile.name}
           </h1>
-          <p className="text-body">
-            {profile.title} · {profile.level}
-          </p>
+          <p className="text-body">{profile.title}</p>
         </div>
         <div className="flex flex-col gap-1 sm:text-right label text-muted">
           <a href={`mailto:${profile.email}`} className="hover:text-ink">
@@ -63,12 +60,9 @@ export default function ResumePage() {
       <section className="py-6 border-b border-rule">
         <h2 className="label text-ink mb-3">Summary</h2>
         <p className="text-sm leading-relaxed text-body max-w-[75ch]">
-          {profile.title}, {profile.level}, with {yearsOfExperience()} years building and scaling
-          React + TypeScript products, shipping cross-stack features across React and Node. Combines
-          hands-on delivery with team leadership — driving standards for code review, AI-assisted
-          development, and design-to-engineering handoff. Specialises in scalable frontend
-          architecture, Core Web Vitals optimisation, and operational ownership of production
-          reliability.
+          {profile.title} with {yearsOfExperience()} years of experience building production web
+          applications with React, TypeScript and JavaScript. Strong in frontend architecture,
+          performance, testing, reusable components, and cross-stack development with Node.js.
         </p>
       </section>
 

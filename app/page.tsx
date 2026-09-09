@@ -4,45 +4,33 @@ import { Instrument } from '@/components/instrument'
 import { WorkShowcase } from '@/components/work-showcase'
 import { ExplainerRail } from '@/components/explainer-rail'
 import { CHANNEL_HANDLE, CHANNEL_URL, HOME_EXPLAINERS, EXPLAINERS_LIMIT } from '@/content/explainers'
-import { profile, yearsOfExperience } from '@/content/profile'
+import { profile } from '@/content/profile'
 import { fetchExplainers } from '@/lib/youtube'
 
 function Hero() {
   return (
-    <section className="shell gutter pt-12 pb-10 sm:pt-16">
-      {/* Name and role lead as a byline, not a title. Nobody has heard of the
-          name yet; the claim is what earns the next ten seconds. */}
-      <p className="mb-7 flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span className="display text-2xl sm:text-3xl">{profile.name}</span>
-        <span aria-hidden="true" className="h-4 w-px bg-rule" />
-        <span className="label font-semibold text-ink">
-          {profile.title} · {profile.level}
-        </span>
-      </p>
-
-      <h1 className="display max-w-[17ch] text-[clamp(2.6rem,8vw,5.6rem)]">
-        I own what I ship,
-        <span className="text-body"> including the part that breaks.</span>
+    <section className="shell gutter pt-14 pb-12 text-center sm:pt-20 sm:pb-16">
+      {/* The name leads. Space Grotesk tops out at 700, so `.display-heavy`
+          adds the extra weight with a hairline stroke — see globals.css. */}
+      <h1 className="display display-heavy text-[clamp(2.4rem,7vw,4rem)] text-ink">
+        {profile.name}
       </h1>
 
-      <div className="mt-8 flex flex-wrap items-end justify-between gap-6">
-        <p className="measure text-base leading-relaxed text-body sm:text-lg">
-          {yearsOfExperience()} years of building React and TypeScript products, currently{' '}
-          <span className="text-ink">
-            {profile.level} at {profile.company}
-          </span>
-          . I take features from an ambiguous brief to production and stay on them afterwards — the
-          P0 at 9pm, the review standard that catches it next time, the state nobody handled.
-          Performance is part of that, not the whole of it.
-        </p>
+      <p className="label mt-3.5 text-sm font-extrabold text-ink">{profile.title}</p>
 
-        {profile.openToWork && (
-          <p className="label inline-flex shrink-0 items-center gap-2 rounded-full border border-now/40 px-3 py-2 text-now">
-            <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-now" />
-            {profile.availabilityLabel}
-          </p>
-        )}
-      </div>
+      {/* Subordinate to the name on purpose: this is the claim, but the name
+          is the thing being introduced. Roughly a third of the h1's size. */}
+      <p className="mx-auto mt-7 max-w-[34ch] text-xl text-body sm:text-2xl">
+        {profile.tagline}
+      </p>
+
+      {/* inline-flex is inline-level, so the section's text-center centres it. */}
+      {profile.openToWork && (
+        <p className="label mt-8 inline-flex items-center gap-2 rounded-full border border-now/40 px-3 py-2 text-now">
+          <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-now" />
+          {profile.availabilityLabel}
+        </p>
+      )}
     </section>
   )
 }

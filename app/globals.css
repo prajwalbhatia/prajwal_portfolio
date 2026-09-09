@@ -123,6 +123,18 @@
     letter-spacing: -0.035em;
   }
 
+  /* Space Grotesk is a 300–700 variable face, so `font-weight: 700` on
+     `.display` is already its heaviest — `font-bold` on top of it changes
+     nothing. This is how the name goes heavier than the family allows: a
+     hairline stroke in the current text colour thickens every glyph without
+     loading a second font file. Kept at 0.02em; past about 0.03em the
+     counters in "a" and "e" start to fill in and it reads as smudged.
+     Deliberately not applied to .display globally — only the hero name is
+     meant to carry this much weight. */
+  .display-heavy {
+    -webkit-text-stroke: 0.02em currentColor;
+  }
+
   /* Data, labels, code. The only uppercase on the site. */
   .label {
     font-family: var(--font-mono);

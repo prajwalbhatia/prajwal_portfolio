@@ -34,6 +34,25 @@ const spaceGrotesk = localFont({
   adjustFontFallback: 'Arial',
 })
 
+/*
+  Inclusive Sans — the humanist sans from the reference. Self-hosted latin
+  subset like the others: a Google-hosted stylesheet would put a third party
+  on the critical path of a site whose whole argument is Core Web Vitals.
+
+  `preload: false` and no `display: 'swap'` competition, because only the
+  /preview route references this variable today. The file is not fetched on
+  any page that never uses it, so the live site pays nothing for it.
+*/
+const inclusiveSans = localFont({
+  src: '../public/fonts/inclusive-sans-latin.woff2',
+  weight: '300 700',
+  variable: '--font-inclusive',
+  display: 'swap',
+  preload: false,
+  fallback: ['Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
+  adjustFontFallback: 'Arial',
+})
+
 const jetbrains = localFont({
   src: '../public/fonts/jetbrains-mono-latin.woff2',
   weight: '100 800',
@@ -46,7 +65,7 @@ const jetbrains = localFont({
   adjustFontFallback: false,
 })
 
-const description = `${profile.title}, ${profile.level}, with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
+const description = `${profile.title} with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -57,6 +76,7 @@ export const metadata: Metadata = {
   description,
   keywords: [
     'Prajwal Bhatia',
+    'Senior Frontend Engineer',
     'Senior Software Engineer',
     'Frontend Engineer',
     'React',
@@ -119,7 +139,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrains.variable}`}
+      className={`${spaceGrotesk.variable} ${jetbrains.variable} ${inclusiveSans.variable}`}
     >
       <body className="min-h-dvh flex flex-col">
         <PersonSchema />

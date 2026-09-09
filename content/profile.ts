@@ -20,10 +20,9 @@ export function yearsOfExperience(from = new Date('2019-08-01')): number {
 export const profile = {
   name: 'Prajwal Bhatia',
   /** Canonical, and matches the résumé PDF exactly. */
-  title: 'Senior Software Engineer (Frontend Heavy)',
+  title: 'Senior Frontend Engineer',
   /** For tight surfaces — the OG card, the hero eyebrow, structured data. */
-  titleShort: 'Senior Software Engineer',
-  level: 'SDE-3',
+  titleShort: 'Senior Frontend Engineer',
   company: 'Virtual Internships',
   location: 'Yamunanagar, India',
   locationShort: 'India · Remote',
@@ -42,16 +41,17 @@ export const profile = {
   // Phone deliberately omitted — it lives on the résumé PDF only.
   // Public phone numbers get scraped within days.
 
-  tagline: 'I own what I ship, including the part that breaks.',
+  /* Rendered by the hero AND the OG card. Both used to hard-code their own
+     copy of this line, which is how the three drifted apart — keep it here. */
+  tagline: 'I make slow React apps fast.',
 
+  /* Parked, not rendered. This was the hero standfirst until it was pulled
+     out of the hero for reuse elsewhere — keep the wording here so it does
+     not have to be rewritten from scratch when it lands on its new section. */
   bio: [
-    `Senior software engineer, frontend-heavy, ${yearsOfExperience()} years in. I build React and`,
-    'TypeScript products and ship the backend when the problem needs it.',
+    `${yearsOfExperience()} years in React and TypeScript. Mostly performance and frontend`,
+    'architecture, plus the Node services underneath.',
   ].join(' '),
-
-  /** Used in the hero standfirst. Keep to roughly 45 words. */
-  standfirst:
-    'Currently SDE-3 at Virtual Internships, where I took our highest-traffic flow from 5.45s to 3.17s, built the async pipeline behind portfolio thumbnails, and rewrote how the team reviews code.',
 } as const
 
 export const socials = [

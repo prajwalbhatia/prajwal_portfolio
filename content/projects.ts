@@ -71,10 +71,11 @@ export const projects: Project[] = [
   },
   {
     // "28 → 12 min" originates in the product designer's case study rather
-    // than instrumentation of our own. Prajwal has confirmed it. The related
-    // submission-rate and revenue figures from the same source are still not
-    // used anywhere, and this pair stays out of `proofLedger`, which is
-    // reserved for figures measured directly.
+    // than instrumentation of our own. Prajwal has confirmed it, and has since
+    // confirmed the related +24% completion and −31% drop-off figures from the
+    // same source, which the experience bento now shows. The revenue figure is
+    // still unused. None of these enter `proofLedger`, which stays reserved
+    // for figures measured directly.
     id: 'application-flow',
     title: 'Application Flow',
     context: 'Virtual Internships · 2025–26',

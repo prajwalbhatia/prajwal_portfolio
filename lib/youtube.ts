@@ -83,6 +83,42 @@ type VideoResponse = {
  */
 const MAX_SHORT_SECONDS = 180
 
+/**
+ * Picks the best thumbnail that actually exists for a Short.
+ *
+ * `oardefault` is the vertical 9:16 crop YouTube generates for Shorts, and it
+ * is what a 9:16 card wants — but it is NOT produced for every upload. On this
+ * channel three of four 404, which rendered as empty cards because the URL was
+ * built unconditionally.
+ *
+ * `hq720` is the 16:9 master and exists for all of them, so it is the
+ * fallback. The returned dimensions describe the file actually chosen, so
+ * next/image reserves the right box either way.
+ *
+ * One HEAD per video, fired in parallel, at build time, behind the same six
+ * hour revalidate as the API calls — no visitor ever waits on it.
+ */
+async function resolveThumb(
+  id: string,
+): Promise<Pick<Explainer, 'thumb' | 'thumbWidth' | 'thumbHeight'>> {
+  const vertical = `https://i.ytimg.com/vi/${id}/oardefault.jpg`
+  try {
+    const res = await fetch(vertical, {
+      method: 'HEAD',
+      next: { revalidate: 21_600 },
+    })
+    if (res.ok) return { thumb: vertical, thumbWidth: 1080, thumbHeight: 1920 }
+  } catch {
+    // Network failure rather than a missing crop. Fall through — the 16:9
+    // variant is the likelier of the two to exist regardless.
+  }
+  return {
+    thumb: `https://i.ytimg.com/vi/${id}/hq720.jpg`,
+    thumbWidth: 1280,
+    thumbHeight: 720,
+  }
+}
+
 export async function fetchExplainers(handle: string, limit = 6): Promise<Explainer[]> {
   const channel = await get<ChannelResponse>('channels', {
     part: 'contentDetails',
@@ -105,7 +141,9 @@ export async function fetchExplainers(handle: string, limit = 6): Promise<Explai
   })
   const durations = new Map(details?.items?.map((v) => [v.id, v.contentDetails.duration]) ?? [])
 
-  const explainers: Explainer[] = []
+  // Everything except the thumbnail, which needs a network check of its own.
+  type Draft = Omit<Explainer, 'thumb' | 'thumbWidth' | 'thumbHeight'>
+  const drafts: Draft[] = []
   for (const item of items) {
     const id = item.contentDetails.videoId
     const iso = durations.get(id)
@@ -124,21 +162,16 @@ export async function fetchExplainers(handle: string, limit = 6): Promise<Explai
     const title = cleanTitle(item.snippet.title)
     if (!title) continue
 
-    explainers.push({
+    drafts.push({
       id,
       title,
       duration,
-      // `oardefault` is the vertical crop YouTube serves for Shorts; hqdefault
-      // is 16:9 with pillarboxing, which looks wrong in a 9:16 frame.
-      thumb: `https://i.ytimg.com/vi/${id}/oardefault.jpg`,
-      thumbWidth: 1080,
-      thumbHeight: 1920,
       // Shorts URL rather than /watch — these are vertical, and the player
       // should match what the viewer is being sent to.
       href: `https://www.youtube.com/shorts/${id}`,
     })
-    if (explainers.length === limit) break
+    if (drafts.length === limit) break
   }
 
-  return explainers
+  return Promise.all(drafts.map(async (d) => ({ ...d, ...(await resolveThumb(d.id)) })))
 }
