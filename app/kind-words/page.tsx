@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/band'
 import { getKindWordSections, type ResolvedKindWord } from '@/lib/kind-words'
+import { AltPage } from '@/components/alt-page'
 
 export const metadata: Metadata = {
   title: 'Kind words',
@@ -59,6 +60,7 @@ export default function KindWordsPage() {
 
   return (
     <>
+      <AltPage />
       <section className="shell gutter pt-14 pb-10">
         <p className="label mb-5 text-now">Unedited · straight from LinkedIn and Slack</p>
         <h1 className="display max-w-[16ch] text-[clamp(2.5rem,8vw,5rem)]">

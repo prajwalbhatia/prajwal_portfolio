@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 import { Pair } from '@/components/pair'
+import { AltPage } from '@/components/alt-page'
 
 /**
  * Shared shell for the case studies. They differ in prose, not structure.
@@ -29,6 +30,7 @@ export function CaseStudy({
 }) {
   return (
     <article className="case-prose shell gutter py-14">
+      <AltPage />
       <Link
         href="/work"
         className="label text-muted underline decoration-rule underline-offset-4 hover:text-ink"

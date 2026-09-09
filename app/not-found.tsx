@@ -1,8 +1,10 @@
 import Link from 'next/link'
+import { AltPage } from '@/components/alt-page'
 
 export default function NotFound() {
   return (
     <section className="shell gutter flex flex-col items-start gap-5 py-24">
+      <AltPage />
       <p className="label text-muted">404</p>
       <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Nothing here</h1>
       <p className="measure text-body">

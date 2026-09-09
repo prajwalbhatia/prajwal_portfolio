@@ -4,6 +4,7 @@ import { roles } from '@/content/experience'
 import { awards, education, profile, socials, yearsOfExperience } from '@/content/profile'
 import { skillGroups } from '@/content/skills'
 import { rich } from '@/lib/rich'
+import { AltPage } from '@/components/alt-page'
 
 export const metadata: Metadata = {
   title: 'Résumé',
@@ -17,6 +18,7 @@ function period(start: string, end: string) {
 export default function ResumePage() {
   return (
     <article className="shell gutter py-12 max-w-[62rem]">
+      <AltPage />
       <div className="no-print mb-8 flex flex-wrap items-center gap-3">
         <a
           href={profile.resumePdf}
