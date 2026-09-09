@@ -2,6 +2,12 @@ export type Project = {
   id: string
   title: string
   context: string
+  /**
+   * Outcome-first headline for the home cards — "How I cut LCP from…" rather
+   * than a project codename. `title` stays the short internal name, used by
+   * /work and the case-study pages, so nothing loses its searchable label.
+   */
+  headline?: string
   /** Mono, uppercase, hairline border. Two at most — they classify, not decorate. */
   tags: string[]
   /** What was wrong before the work. Leads the detail panel — the fix only
@@ -25,6 +31,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: 'web-vitals',
+    headline: 'How I cut LCP from 5.45s to 3.17s on our busiest flow',
     title: 'Web Vitals Programme',
     context: 'Virtual Internships · 2023–25',
     tags: ['Performance'],
@@ -40,6 +47,7 @@ export const projects: Project[] = [
   },
   {
     id: 'intern-profile-package',
+    headline: 'How I halved the bundle of a package the platform installs',
     title: 'fe-intern-profile',
     context: 'Virtual Internships · 2024–26',
     tags: ['Package', 'Performance'],
@@ -57,6 +65,7 @@ export const projects: Project[] = [
     // No pair: the 8× and 95% figures are single-valued and unverified. A
     // fabricated "before" here would cost more than the badge is worth.
     id: 'thumbnail-pipeline',
+    headline: 'How I filled a browse page that was mostly empty boxes',
     title: 'Thumbnail Pipeline',
     context: 'Virtual Internships · 2025',
     tags: ['Architecture', 'Backend'],
@@ -77,6 +86,7 @@ export const projects: Project[] = [
     // still unused. None of these enter `proofLedger`, which stays reserved
     // for figures measured directly.
     id: 'application-flow',
+    headline: 'How I stopped a five-step form losing people’s work',
     title: 'Application Flow',
     context: 'Virtual Internships · 2025–26',
     tags: ['Product', 'Reliability'],
@@ -115,6 +125,7 @@ export const projects: Project[] = [
     // suppresses a delta percentage for it; "-67%" would be arithmetic on an
     // approximation.
     id: 'signup-funnel',
+    headline: 'How I collapsed three sequential calls into one',
     title: 'Signup Funnel Rebuild',
     context: 'Virtual Internships · 2026',
     tags: ['Architecture', 'Product'],
@@ -131,6 +142,7 @@ export const projects: Project[] = [
 
   {
     id: 'batch-selection',
+    headline: 'How I broke a 500-line component apart',
     title: 'Batch Selection Re-architecture',
     context: 'Virtual Internships · 2026',
     tags: ['Architecture'],

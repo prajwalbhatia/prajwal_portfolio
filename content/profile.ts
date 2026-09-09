@@ -43,7 +43,12 @@ export const profile = {
 
   /* Rendered by the hero AND the OG card. Both used to hard-code their own
      copy of this line, which is how the three drifted apart — keep it here. */
-  tagline: 'I make slow React apps fast.',
+  tagline: 'Turning complexity into simple, scalable, and performant experiences.',
+
+  /* The short claim on the lanyard badge. Deliberately separate from
+     `tagline`: the badge pairs the role with a punchy line, the hero states
+     what the work is. */
+  badgeClaim: 'Think in systems. Build with intent. Ship with impact.',
 
   /* Parked, not rendered. This was the hero standfirst until it was pulled
      out of the hero for reuse elsewhere — keep the wording here so it does
