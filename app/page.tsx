@@ -4,6 +4,11 @@ import { ExperienceAccordion } from '@/components/experience-accordion'
 import { IdBadge } from '@/components/id-badge'
 import { StackIcon, stackHue } from '@/components/stack-icons'
 import { TerminalCard } from '@/components/terminal-card'
+import Image from 'next/image'
+
+import { BeforeAfter } from '@/components/before-after'
+import { Instrument } from '@/components/instrument'
+import { SignupTopologyDiagram } from '@/components/signup-topology-diagram'
 import { ExplainerCard } from '@/components/explainer-card'
 import { CHANNEL_HANDLE, CHANNEL_URL, EXPLAINERS_LIMIT } from '@/content/explainers'
 import { profile, socials } from '@/content/profile'
@@ -180,15 +185,35 @@ const CARDS: {
   metrics: Metric[]
   /** Omit on projects with no honest pair — the card falls back to a diagram. */
   bars?: Bars
+  /** A single screenshot for the media column. Fits the half-width column, so
+      unlike `slider` it does not restack the card. */
+  shot?: { src: string; alt: string; width: number; height: number }
+  /** A purpose-built block. `wide` restacks the card to full width, which the
+      two-panel instrument needs and a diagram does not. */
+  custom?: { node: 'instrument-vitals' | 'signup-topology'; wide?: boolean }
+  /** A real screenshot pair. Takes precedence over `bars`, and restacks the
+      card so the slider gets the full width rather than half of it. */
+  slider?: {
+    before: string
+    after: string
+    beforeAlt: string
+    afterAlt: string
+    width: number
+    height: number
+    label: string
+    caption?: string
+  }
 }[] = [
   {
     id: 'web-vitals',
     theme: 'theme-sky',
     metrics: [
-      { was: '5.45s', now: '3.17s', label: 'LCP p75', sub: '42% faster' },
-      { was: '0.229', now: '0.006', label: 'CLS p75', sub: 'near-zero shift' },
+      { was: '5.45s', now: '3.17s', label: 'LCP p75', sub: 'batch selection · 42% faster' },
+      { was: '0.229', now: '0.006', label: 'CLS p75', sub: 'intern profile' },
+      { was: '9.9s', now: '8.6s', label: 'LCP p75', sub: 'onboarding' },
+      { was: '0.44', now: '0.24', label: 'CLS p75', sub: 'dashboard' },
     ],
-    bars: { was: '5.45s', now: '3.17s', note: 'LCP p75 · batch selection · field data' },
+    custom: { node: 'instrument-vitals', wide: true },
   },
   {
     id: 'thumbnail-pipeline',
@@ -197,22 +222,46 @@ const CARDS: {
       { val: '~55%', label: 'of URLs via og:image', sub: 'in about a second' },
       { val: '8×', label: 'lower latency', sub: 'vs the Puppeteer fallback' },
       { val: '95%', label: 'success in production' },
+      { val: '2 tiers', label: 'og:image, then Puppeteer' },
     ],
     // No pair by design — these three figures are single-valued.
+    slider: {
+      before: '/thumbnail-before.png',
+      after: '/thumbnail-after.png',
+      beforeAlt:
+        'An intern row on the browse page showing two generic paperclip placeholders where project previews should be',
+      afterAlt:
+        "The same intern row showing two generated thumbnails of the intern's actual project pages",
+      width: 2700,
+      height: 540,
+      label: 'Drag to compare the browse card before and after thumbnail generation',
+      caption: 'Candidate name, institution and previous employer redacted',
+    },
   },
   {
     id: 'application-flow',
     theme: 'theme-lav',
-    metrics: [{ was: '28 min', now: '12 min', label: 'Time to apply', sub: '57% faster' }],
-    bars: { was: '28 min', now: '12 min', note: 'Time to complete · five-step application' },
+    metrics: [
+      { was: '28 min', now: '12 min', label: 'Time to apply', sub: '57% faster' },
+      { val: '+24%', label: 'completion rate' },
+      { val: '−31%', label: 'drop-off' },
+      { val: '5–8', label: 'steps', sub: 'by batch config' },
+    ],
+    shot: {
+      src: '/application.png',
+      alt: 'The résumé-profile step of the application. A rail on the left marks seven steps with the sixth active, the heading reads Step 6 of 7, and the main action offers to autofill the profile from an uploaded résumé.',
+      width: 1726,
+      height: 976,
+    },
   },
   {
     id: 'signup-funnel',
     theme: 'theme-peach',
     metrics: [
       { was: '3+', now: '1', label: 'Sequential API calls', sub: 'one transactional endpoint' },
+      { was: '3', now: '1', label: 'Signup screens', sub: 'registration page deleted' },
     ],
-    bars: { was: '3+', now: '1', note: 'Sequential calls before anything is committed' },
+    custom: { node: 'signup-topology' },
   },
 ]
 
@@ -342,10 +391,24 @@ function SelectedWork() {
             if (!p) throw new Error(`preview CARDS references unknown project: ${card.id}`)
 
             return (
-              <Link
+              /*
+                An <article> with one stretched link, not a <Link> wrapping the
+                whole card. A card carrying an interactive control cannot be an
+                anchor: `<a>` may not contain a slider, and a drag inside one
+                navigates instead of dragging.
+
+                So the headline holds the only link and its ::after covers the
+                card — whole-card clickability, one link in the accessibility
+                tree — and the slider raises itself above that layer to take
+                its own events.
+              */
+              <article
                 key={card.id}
-                href={p.href ?? '/work'}
-                className={`cs-card group grid items-stretch gap-7 p-6 transition-shadow duration-300 hover:shadow-[0_18px_44px_-22px_rgb(23_23_26/0.22)] sm:p-8 lg:grid-cols-2 lg:gap-9 ${card.theme}`}
+                className={`cs-card group relative items-stretch gap-7 p-6 transition-shadow duration-300 hover:shadow-[0_18px_44px_-22px_rgb(23_23_26/0.22)] sm:p-8 ${
+                  card.slider || card.custom?.wide
+                    ? 'flex flex-col'
+                    : 'grid lg:grid-cols-2 lg:gap-9'
+                } ${card.theme}`}
               >
                 <div className="flex flex-col justify-center gap-5">
                   <div className="flex flex-wrap items-center gap-2">
@@ -357,36 +420,82 @@ function SelectedWork() {
                   </div>
 
                   <h3 className="display max-w-[24ch] text-[clamp(1.35rem,3.2vw,2rem)]">
-                    {p.headline ?? p.title}
+                    <Link
+                      href={p.href ?? '/work'}
+                      className="after:absolute after:inset-0 after:content-['']"
+                    >
+                      {p.headline ?? p.title}
+                    </Link>
                   </h3>
 
                   <div className="grid gap-2.5 sm:grid-cols-2">
                     {card.metrics.map((m) => (
-                      <MetricCell key={m.label} m={m} />
+                      <MetricCell
+                        // Not `m.label` alone: the vitals card carries two
+                        // "LCP p75" rows and two "CLS p75" rows, told apart by
+                        // their sub-label rather than their label.
+                        key={`${m.label}-${'was' in m ? m.was : m.val}-${m.sub ?? ''}`}
+                        m={m}
+                      />
                     ))}
                   </div>
 
-                  <span className="label mt-1 inline-flex w-fit items-center pb-0.5 text-[0.64rem] text-ink cs-link">
+                  {/* Visual affordance only. The headline link above already
+                      names the destination, so announcing it twice would just
+                      duplicate the card in the a11y tree. */}
+                  <span
+                    aria-hidden="true"
+                    className="label cs-link mt-1 inline-flex w-fit items-center pb-0.5 text-[0.64rem] text-ink"
+                  >
                     Read the case study
-                    <span aria-hidden="true">→</span>
+                    <span>→</span>
                   </span>
                 </div>
 
-                {/* Her media column. Ours draws the improvement rather than
-                    showing a screenshot we cannot publish. */}
-                <div className="cs-media min-h-64 overflow-hidden">
-                  {card.bars ? (
-                    <BeforeAfterBars {...card.bars} />
-                  ) : (
-                    <div className="flex h-full flex-col justify-center gap-4 p-6 sm:p-8">
-                      <PipelineDiagram />
-                      <p className="label text-center text-[0.6rem] text-muted">
-                        og:image fast path · Puppeteer fallback
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </Link>
+                {/* Her media column. A real screenshot pair where one exists;
+                    otherwise the improvement drawn to scale, because the
+                    platform is internal and most of it cannot be published.
+
+                    `relative z-10` on the slider lifts it above the stretched
+                    link, so a drag is a drag and not a navigation. */}
+                {card.custom ? (
+                  <div className="relative z-10">
+                    {card.custom.node === 'instrument-vitals' ? (
+                      <Instrument only="vitals" />
+                    ) : (
+                      <SignupTopologyDiagram />
+                    )}
+                  </div>
+                ) : card.slider ? (
+                  <div className="relative z-10">
+                    <BeforeAfter {...card.slider} />
+                  </div>
+                ) : card.shot ? (
+                  <div className="cs-media overflow-hidden">
+                    <Image
+                      src={card.shot.src}
+                      alt={card.shot.alt}
+                      width={card.shot.width}
+                      height={card.shot.height}
+                      sizes="(min-width: 1024px) 46vw, 92vw"
+                      className="h-full w-full object-cover object-left-top"
+                    />
+                  </div>
+                ) : (
+                  <div className="cs-media min-h-64 overflow-hidden">
+                    {card.bars ? (
+                      <BeforeAfterBars {...card.bars} />
+                    ) : (
+                      <div className="flex h-full flex-col justify-center gap-4 p-6 sm:p-8">
+                        <PipelineDiagram />
+                        <p className="label text-center text-[0.6rem] text-muted">
+                          og:image fast path · Puppeteer fallback
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </article>
             )
           })}
         </div>

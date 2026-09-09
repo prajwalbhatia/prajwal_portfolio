@@ -86,16 +86,16 @@ export const projects: Project[] = [
     // still unused. None of these enter `proofLedger`, which stays reserved
     // for figures measured directly.
     id: 'application-flow',
-    headline: 'How I stopped a five-step form losing people’s work',
+    headline: 'Making a long application finishable',
     title: 'Application Flow',
     context: 'Virtual Internships · 2025–26',
     tags: ['Product', 'Reliability'],
     pair: { was: '28 min', now: '12 min', label: 'Time to apply' },
     problem:
-      "A five-step application that lost people's work. Refresh the tab mid-way and the draft was gone — the single biggest source of support tickets on the flow.",
+      "A long application that lost people's work. Refresh the tab mid-way and the draft was gone — the single biggest source of support tickets on the flow.",
     tech: ['React', 'RTK Query', 'TypeScript'],
     summary:
-      "A five-step application rebuilt around not losing people's work. Hybrid auto-save — localStorage on blur, debounced API persistence, draft recovery on refresh.",
+      "A configurable 5–8 step application, and the auto-save layer that shipped six months after it. Three write paths — blur, a one-second poller and submit — feeding one 5s debounced API write, with per-step drafts under a 24h TTL.",
     href: '/projects/application-flow',
     linkLabel: 'Read the case study',
     status: 'shipped',

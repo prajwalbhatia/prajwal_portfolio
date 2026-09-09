@@ -1,0 +1,646 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Two-Tier Thumbnail Generation Pipeline Architecture">
+  <defs>
+    <!-- Background Card Gradients -->
+    <linearGradient id="grad-browse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#f7f6f3"/>
+    </linearGradient>
+    <linearGradient id="grad-api" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#f6f4fb"/>
+    </linearGradient>
+    <linearGradient id="grad-redis" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#f9eeea"/>
+    </linearGradient>
+    <linearGradient id="grad-db" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#f6f4fb"/>
+    </linearGradient>
+    <linearGradient id="grad-bullmq" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#fbf5ee"/>
+    </linearGradient>
+    <linearGradient id="grad-worker" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#eef4f5"/>
+    </linearGradient>
+    <linearGradient id="grad-og" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#eef4ef"/>
+    </linearGradient>
+    <linearGradient id="grad-pup" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#fbf5ee"/>
+    </linearGradient>
+    <linearGradient id="grad-gcs" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffefb"/>
+      <stop offset="100%" stop-color="#e6e2f7"/>
+    </linearGradient>
+    
+    <!-- Fluid Cylinder Gradient -->
+    <linearGradient id="grad-fluid" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1f6b3f"/>
+      <stop offset="50%" stop-color="#2f7d4d"/>
+      <stop offset="100%" stop-color="#4f9670"/>
+    </linearGradient>
+
+    <!-- Thumbnail Art Gradient -->
+    <linearGradient id="grad-thumb-art" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5b4bd6"/>
+      <stop offset="50%" stop-color="#6f61da"/>
+      <stop offset="100%" stop-color="#c25a3a"/>
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glow-teal" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#2e8d9e" flood-opacity="0.8"/>
+    </filter>
+    <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#2f7d4d" flood-opacity="0.9"/>
+    </filter>
+    <filter id="glow-rust" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#c2521f" flood-opacity="0.9"/>
+    </filter>
+    <filter id="glow-indigo" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#6f61da" flood-opacity="0.7"/>
+    </filter>
+
+    <style>
+      /* --- Typography --- */
+      .font-sans  { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .font-mono  { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; }
+      
+      .eyebrow    { font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+      .node-title { font-size: 12.5px; font-weight: 700; fill: #17171a; }
+      .label-sub  { font-size: 10px; fill: #43454b; font-weight: 500; }
+      .code-tag   { font-size: 9.5px; font-weight: 600; }
+
+      .hairline      { stroke: #d3cec2; stroke-width: 1.5; fill: none; }
+      .hairline-dash { stroke: #b3afa4; stroke-width: 1.5; stroke-dasharray: 4 4; fill: none; }
+
+      /* --- Interactive Nodes --- */
+      .node-group { cursor: pointer; }
+      .node-group:focus { outline: none; }
+      .node-box {
+        stroke-width: 1.5;
+        rx: 10px;
+        transform-box: fill-box;
+        transform-origin: center center;
+        transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), stroke-width 0.2s ease, filter 0.2s ease;
+      }
+      .node-group:hover .node-box {
+        transform: translateY(-4px) scale(1.02);
+        stroke-width: 2.2;
+      }
+
+      /* Specific Interactive Accents on Hover */
+      .node-browse:hover .node-box    { stroke: #4a3ab0; filter: drop-shadow(0 10px 20px rgba(37,99,235,0.18)); }
+      .node-api:hover .node-box       { stroke: #5241c4; filter: drop-shadow(0 10px 20px rgba(124,58,237,0.18)); }
+      .node-redis:hover .node-box     { stroke: #b4471c; filter: drop-shadow(0 10px 20px rgba(225,29,72,0.18)); }
+      .node-db:hover .node-box        { stroke: #4a3ab0; filter: drop-shadow(0 10px 20px rgba(192,38,211,0.18)); }
+      .node-bullmq:hover .node-box    { stroke: #b4471c; filter: drop-shadow(0 10px 20px rgba(217,119,6,0.18)); }
+      .node-worker:hover .node-box    { stroke: #1d6a7a; filter: drop-shadow(0 10px 20px rgba(8,145,178,0.18)); }
+      .node-og:hover .node-box        { stroke: #1f6b3f; filter: drop-shadow(0 10px 20px rgba(5,150,105,0.2)); }
+      .node-pup:hover .node-box       { stroke: #c2521f; filter: drop-shadow(0 10px 20px rgba(234,88,12,0.2)); }
+      .node-gcs:hover .node-box       { stroke: #5241c4; filter: drop-shadow(0 10px 20px rgba(79,70,229,0.2)); }
+
+      .hover-tag {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        transform: translateY(4px);
+      }
+      .node-group:hover .hover-tag {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* --- Static Fallback for Reduced Motion --- */
+      .anim-packet { display: none; }
+      .badge-redis-miss, .badge-db-miss { opacity: 0; }
+      .card-placeholder { opacity: 0; }
+      .card-real-thumb { opacity: 1; }
+      .db-status-pending { opacity: 0; }
+      .db-status-ready { opacity: 1; }
+      .cache-hit-pill { opacity: 1; }
+      .gcs-fill-level { transform: scaleY(1); }
+      .og-deadend-flag { opacity: 0; }
+      .stat-og-counter { opacity: 1; }
+      .label-8x-slower { opacity: 1; }
+
+      /* --- Animation Orchestration (14s Loop) --- */
+      @media (prefers-reduced-motion: no-preference) {
+        .anim-packet { display: block; }
+        
+        /* 0.0s - 1.0s: Req 1 Browse -> API (Teal) */
+        .p-req1 { animation: animReq1 14s linear infinite; }
+        @keyframes animReq1 {
+          0%    { cx: 145px; cy: 260px; opacity: 0; }
+          1.5%  { cx: 145px; cy: 260px; opacity: 1; }
+          7.1%  { cx: 215px; cy: 260px; opacity: 1; }
+          7.2%  { cx: 215px; cy: 260px; opacity: 0; }
+          100%  { opacity: 0; }
+        }
+
+        /* 1.0s - 1.8s: API ping Redis */
+        .p-redis { animation: animPingRedis 14s linear infinite; }
+        @keyframes animPingRedis {
+          0%, 7.1%   { cx: 275px; cy: 212px; opacity: 0; }
+          7.2%       { cx: 275px; cy: 212px; opacity: 1; }
+          12.8%      { cx: 275px; cy: 158px; opacity: 1; }
+          12.9%, 100%{ opacity: 0; }
+        }
+
+        /* 1.0s: Redis MISS badge */
+        .badge-redis-miss { animation: animRedisMiss 14s ease infinite; }
+        @keyframes animRedisMiss {
+          0%, 7.5%  { opacity: 0; transform: scale(0.85); }
+          8.5%, 15% { opacity: 1; transform: scale(1); }
+          17%, 100% { opacity: 0; }
+        }
+
+        /* 1.8s - 2.6s: API ping DB */
+        .p-db { animation: animPingDB 14s linear infinite; }
+        @keyframes animPingDB {
+          0%, 12.8%  { cx: 315px; cy: 212px; opacity: 0; }
+          12.9%      { cx: 315px; cy: 212px; opacity: 1; }
+          18.5%      { cx: 435px; cy: 158px; opacity: 1; }
+          18.6%, 100%{ opacity: 0; }
+        }
+
+        /* 1.8s: DB MISS badge */
+        .badge-db-miss { animation: animDBMiss 14s ease infinite; }
+        @keyframes animDBMiss {
+          0%, 13.5% { opacity: 0; transform: scale(0.85); }
+          14.5%, 20%{ opacity: 1; transform: scale(1); }
+          22%, 100% { opacity: 0; }
+        }
+
+        /* 2.6s KEY BEAT (a): Instant Green Return to Browse */
+        .p-instant-reply { animation: animInstantReply 14s cubic-bezier(0.15, 0.85, 0.35, 1) infinite; }
+        @keyframes animInstantReply {
+          0%, 18.5%  { cx: 215px; cy: 275px; opacity: 0; }
+          18.6%      { cx: 215px; cy: 275px; opacity: 1; }
+          23.5%      { cx: 145px; cy: 275px; opacity: 1; }
+          24.5%, 100%{ opacity: 0; }
+        }
+
+        /* 2.6s KEY BEAT: Placeholder reveals immediately */
+        .card-placeholder { animation: animPlaceholder 14s ease-out infinite; }
+        @keyframes animPlaceholder {
+          0%, 20%    { opacity: 0; transform: scale(0.95); }
+          22.5%, 94% { opacity: 1; transform: scale(1); }
+          96.5%, 100%{ opacity: 0; }
+        }
+
+        /* 2.6s KEY BEAT (b): Concurrent Forward to BullMQ */
+        .p-to-queue { animation: animToQueue 14s linear infinite; }
+        @keyframes animToQueue {
+          0%, 18.5%  { cx: 335px; cy: 260px; opacity: 0; }
+          18.6%      { cx: 335px; cy: 260px; opacity: 1; }
+          25.7%      { cx: 450px; cy: 260px; opacity: 1; }
+          25.8%, 100%{ opacity: 0; }
+        }
+
+        /* 3.4s - 4.0s: BullMQ to Worker */
+        .p-queue-out { animation: animQueueOut 14s linear infinite; }
+        @keyframes animQueueOut {
+          0%, 25.7%  { cx: 565px; cy: 260px; opacity: 0; }
+          25.8%      { cx: 565px; cy: 260px; opacity: 1; }
+          28.5%      { cx: 640px; cy: 260px; opacity: 1; }
+          28.6%, 100%{ opacity: 0; }
+        }
+
+        /* 4.0s: SSRF Shield Validation Pulse */
+        .ssrf-gate { animation: animSSRF 14s ease infinite; }
+        @keyframes animSSRF {
+          0%, 26%    { stroke: #d3cec2; stroke-width: 1.5; }
+          28.5%      { stroke: #6f61da; stroke-width: 3; filter: drop-shadow(0 0 6px #6f61da); }
+          32%        { stroke: #2f7d4d; stroke-width: 2; filter: drop-shadow(0 0 4px #2f7d4d); }
+          75%        { stroke: #2f7d4d; stroke-width: 2; }
+          76%, 100%  { stroke: #d3cec2; stroke-width: 1.5; filter: none; }
+        }
+
+        /* 4.8s - 6.5s: og:image Branch (Fast Emerald Neon) */
+        .path-og-run { animation: animOgTrack 14s ease-out infinite; }
+        @keyframes animOgTrack {
+          0%, 34%    { stroke-dashoffset: 400; opacity: 0; }
+          34.5%      { opacity: 1; stroke-dashoffset: 400; }
+          43%        { stroke-dashoffset: 0; opacity: 1; }
+          47%        { opacity: 1; }
+          49%, 100%  { opacity: 0.2; }
+        }
+        .p-og-flight { animation: animOgDot 14s ease-in-out infinite; }
+        @keyframes animOgDot {
+          0%, 34.2%  { offset-distance: 0%; opacity: 0; }
+          34.5%      { opacity: 1; }
+          42%        { offset-distance: 100%; opacity: 1; }
+          42.5%, 100%{ opacity: 0; }
+        }
+
+        .stat-og-counter { animation: animOgCounter 14s ease infinite; }
+        @keyframes animOgCounter {
+          0%, 38%    { opacity: 0; transform: translateY(4px); }
+          42%, 70%   { opacity: 1; transform: translateY(0); }
+          73%, 100%  { opacity: 0; }
+        }
+
+        /* 7.0s - 10.2s: Second Request Falls through to Puppeteer */
+        .og-deadend-flag { animation: animDeadEnd 14s ease infinite; }
+        @keyframes animDeadEnd {
+          0%, 49.9%  { opacity: 0; transform: scale(0.85); }
+          50.5%, 65% { opacity: 1; transform: scale(1); }
+          67%, 100%  { opacity: 0; }
+        }
+
+        .path-puppeteer-run { animation: animPupTrack 14s linear infinite; }
+        @keyframes animPupTrack {
+          0%, 51%    { stroke-dashoffset: 400; opacity: 0; }
+          52%        { opacity: 1; stroke-dashoffset: 400; }
+          68%        { stroke-dashoffset: 0; opacity: 1; }
+          74%        { opacity: 1; }
+          76%, 100%  { opacity: 0.2; }
+        }
+
+        .pup-shutter { animation: animShutter 14s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        @keyframes animShutter {
+          0%, 55%    { opacity: 0; fill: #c2521f; }
+          56%, 62%   { opacity: 0.2; fill: #c2521f; }
+          63%        { opacity: 0.95; fill: #fffefb; }
+          64%, 72%   { opacity: 0.3; fill: #2f7d4d; }
+          74%, 100%  { opacity: 0; }
+        }
+
+        .label-8x-slower { animation: animSlowTag 14s ease infinite; }
+        @keyframes animSlowTag {
+          0%, 54%    { opacity: 0; }
+          57%, 73%   { opacity: 1; }
+          75%, 100%  { opacity: 0; }
+        }
+
+        /* 10.5s: Convergence into GCS */
+        .gcs-fill-level { animation: animGcsFill 14s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-origin: 1045px 290px; }
+        @keyframes animGcsFill {
+          0%, 72%    { transform: scaleY(0.15); opacity: 0.4; }
+          75%, 96%   { transform: scaleY(1); opacity: 0.85; }
+          100%       { transform: scaleY(0.15); opacity: 0.4; }
+        }
+
+        /* 11.5s: Writeback to DB */
+        .p-db-writeback { animation: animDbWrite 14s ease-in-out infinite; }
+        @keyframes animDbWrite {
+          0%, 80%    { offset-distance: 0%; opacity: 0; }
+          81%        { opacity: 1; }
+          87%        { offset-distance: 100%; opacity: 1; }
+          87.5%, 100%{ opacity: 0; }
+        }
+
+        .db-status-pending { animation: animDbPending 14s ease infinite; }
+        @keyframes animDbPending {
+          0%, 82%    { opacity: 1; }
+          84%, 100%  { opacity: 0; }
+        }
+        .db-status-ready { animation: animDbReady 14s ease infinite; }
+        @keyframes animDbReady {
+          0%, 82%    { opacity: 0; }
+          84%, 97%   { opacity: 1; }
+          100%       { opacity: 0; }
+        }
+
+        /* 12.5s: Req 3 Cache Hit */
+        .p-req3-in { animation: animReq3In 14s linear infinite; }
+        @keyframes animReq3In {
+          0%, 88%    { cx: 145px; cy: 260px; opacity: 0; }
+          88.5%      { cx: 145px; cy: 260px; opacity: 1; }
+          90%        { cx: 275px; cy: 212px; opacity: 1; }
+          90.5%      { cx: 275px; cy: 158px; opacity: 1; }
+          91%, 100%  { opacity: 0; }
+        }
+        .p-req3-out { animation: animReq3Out 14s cubic-bezier(0.1, 0.9, 0.2, 1) infinite; }
+        @keyframes animReq3Out {
+          0%, 91%    { cx: 275px; cy: 158px; opacity: 0; }
+          91.2%      { cx: 275px; cy: 158px; opacity: 1; }
+          92%        { cx: 215px; cy: 260px; opacity: 1; }
+          93.5%      { cx: 145px; cy: 260px; opacity: 1; }
+          94.5%, 100%{ opacity: 0; }
+        }
+        .cache-hit-pill { animation: animHitPill 14s ease infinite; }
+        @keyframes animHitPill {
+          0%, 90%    { opacity: 0; transform: scale(0.9); }
+          91%, 96.5% { opacity: 1; transform: scale(1); }
+          98%, 100%  { opacity: 0; }
+        }
+
+        /* 13.5s: Final Cross-fade to Artwork */
+        .card-real-thumb { animation: animThumbCrossfade 14s ease-in-out infinite; }
+        @keyframes animThumbCrossfade {
+          0%, 94%    { opacity: 0; }
+          96.5%, 99% { opacity: 1; }
+          100%       { opacity: 0; }
+        }
+      }
+    </style>
+
+    <!-- Path Definitions Adjusted for Widened Spacing -->
+    <path id="wire-og-branch" d="M 710,245 C 735,245 745,182 770,182 L 950,182 C 980,182 995,245 1015,255" />
+    <path id="wire-pup-branch" d="M 710,275 C 735,275 745,355 770,355 L 950,355 C 980,355 995,275 1015,265" />
+    <path id="wire-db-callback" d="M 1045,300 L 1045,435 L 435,435 L 435,158" />
+  </defs>
+
+  <!-- ================================================================= -->
+  <!-- HEADER & SUBTITLE                                                 -->
+  <!-- ================================================================= -->
+  <g transform="translate(35, 42)">
+    <rect x="0" y="-12" width="168" height="20" rx="10" fill="#e6e2f7" />
+    <text x="10" y="2" class="font-mono eyebrow" fill="#5241c4">PIPELINE TOPOLOGY</text>
+    <text y="24" class="font-sans node-title" style="font-size: 16px;">Two-Tier Asynchronous Thumbnail Generation Engine</text>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- BASE PIPELINE WIRES & SPLINES                                     -->
+  <!-- ================================================================= -->
+  <g class="hairline">
+    <line x1="145" y1="260" x2="215" y2="260" />
+    <line x1="335" y1="260" x2="450" y2="260" />
+    <line x1="565" y1="260" x2="640" y2="260" />
+    
+    <path d="M 275,212 L 275,158" />
+    <path d="M 315,212 L 315,188 L 435,188 L 435,158" />
+  </g>
+
+  <!-- Asynchronous DB Loopback Wire -->
+  <use href="#wire-db-callback" class="hairline-dash" stroke="#6f61da" />
+
+  <!-- Inactive Branch Paths -->
+  <use href="#wire-og-branch" class="hairline" stroke="#b8d6c2" />
+  <use href="#wire-pup-branch" class="hairline" stroke="#eed3bd" />
+
+  <!-- Animated Active Neon Runners -->
+  <path href="#wire-og-branch" class="path-og-run" stroke="#2f7d4d" stroke-width="3" fill="none" stroke-dasharray="400" stroke-dashoffset="400" filter="url(#glow-green)" />
+  <path href="#wire-pup-branch" class="path-puppeteer-run" stroke="#c2521f" stroke-width="3" fill="none" stroke-dasharray="400" stroke-dashoffset="400" filter="url(#glow-rust)" />
+
+  <!-- ================================================================= -->
+  <!-- 1. BROWSE PAGE (Interactive Colorful Card)                        -->
+  <!-- ================================================================= -->
+  <g class="node-group node-browse" id="node-browse" transform="translate(35, 175)" tabindex="0" role="region" aria-label="Browse Page Client Card">
+    <rect width="110" height="170" fill="url(#grad-browse)" stroke="#a79ee3" class="node-box" />
+    <text x="14" y="24" class="font-mono eyebrow" fill="#4a3ab0">CLIENT</text>
+    <text x="14" y="42" class="font-sans node-title">Browse page</text>
+    
+    <!-- Card Frame Interior -->
+    <rect x="12" y="55" width="86" height="98" rx="6" fill="#fffefb" stroke="#c9c2ee" stroke-width="1.2" />
+    
+    <!-- State 0: Minimal Link Glyph -->
+    <g transform="translate(45, 86)" stroke="#5b4bd6" stroke-width="1.8" fill="none">
+      <path d="M-4,4 L4,-4 M-7,0 C-10,-3 -10,-8 -7,-11 C-4,-14 1,-14 4,-11 L6,-8" />
+      <path d="M-6,8 L-4,11 C-1,14 4,14 7,11 C10,8 10,3 7,0 L4,-3" />
+    </g>
+
+    <!-- State 1: Placeholder Reveal -->
+    <g class="card-placeholder">
+      <rect x="17" y="61" width="76" height="48" rx="4" fill="#f7f6f3" stroke="#d3cec2" stroke-width="1" />
+      <text x="55" y="88" class="font-mono" text-anchor="middle" font-size="7.5" fill="#5f6168" font-weight="600">ms placeholder</text>
+      <line x1="22" y1="120" x2="78" y2="120" stroke="#a79ee3" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="22" y1="128" x2="52" y2="128" stroke="#d3cec2" stroke-width="2.5" stroke-linecap="round" />
+    </g>
+
+    <!-- State 2: High-Fidelity Vibrant Thumbnail Art -->
+    <g class="card-real-thumb">
+      <rect x="17" y="61" width="76" height="48" rx="4" fill="url(#grad-thumb-art)" stroke="#6f61da" stroke-width="1" />
+      <circle cx="32" cy="76" r="5.5" fill="#fffefb" fill-opacity="0.8" />
+      <path d="M18,98 L37,82 L53,94 L66,85 L92,103 L18,103 Z" fill="#fffefb" fill-opacity="0.9" />
+      <rect x="22" y="118" width="66" height="4" rx="2" fill="#17171a" />
+      <rect x="22" y="126" width="36" height="4" rx="2" fill="#5f6168" />
+    </g>
+
+    <!-- Hover Tooltip Tag -->
+    <g class="hover-tag" transform="translate(6, 158)">
+      <rect width="98" height="18" rx="4" fill="#2a2a2e" />
+      <text x="49" y="12" class="font-mono" font-size="7.5" fill="#f7f6f3" text-anchor="middle">Non-blocking UI</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 2. CANDIDATES API (W: 120px to comfortably hold full label)       -->
+  <!-- ================================================================= -->
+  <g class="node-group node-api" id="node-api" transform="translate(215, 212)" tabindex="0" role="region" aria-label="Candidates API">
+    <rect width="120" height="96" fill="url(#grad-api)" stroke="#c9c2ee" class="node-box" />
+    <text x="14" y="24" class="font-mono eyebrow" fill="#5241c4">INGRESS</text>
+    <text x="14" y="44" class="font-sans node-title">Candidates API</text>
+    <text x="14" y="62" class="font-mono code-tag" fill="#4a3ab0">dispatch router</text>
+
+    <g class="hover-tag" transform="translate(14, 73)">
+      <rect width="84" height="15" rx="3" fill="#5241c4" />
+      <text x="42" y="10.5" class="font-mono" font-size="7.5" fill="#fffefb" text-anchor="middle">Fork dispatch</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 3. REDIS CACHE (W: 110px, clear badge alignment)                  -->
+  <!-- ================================================================= -->
+  <g class="node-group node-redis" id="node-redis" transform="translate(215, 95)" tabindex="0" role="region" aria-label="Redis Cache">
+    <rect width="110" height="63" fill="url(#grad-redis)" stroke="#eccfc4" class="node-box" />
+    <text x="12" y="20" class="font-mono eyebrow" fill="#b4471c">CACHE</text>
+    <text x="12" y="37" class="font-sans node-title">Redis</text>
+    <text x="12" y="52" class="font-mono code-tag" fill="#963915">10 min TTL</text>
+
+    <!-- Miss Badge -->
+    <g class="badge-redis-miss" transform="translate(68, 10)">
+      <rect width="32" height="16" rx="4" fill="#c2521f" />
+      <text x="16" y="11.5" class="font-mono" font-size="8.5" fill="#fffefb" text-anchor="middle" font-weight="700">MISS</text>
+    </g>
+
+    <!-- Cache Hit Pill -->
+    <g class="cache-hit-pill" transform="translate(5, -22)">
+      <rect width="100" height="19" rx="5" fill="#2f7d4d" filter="url(#glow-green)" />
+      <text x="50" y="13" class="font-mono" font-size="8.5" fill="#fffefb" text-anchor="middle" font-weight="700">CACHE HIT · 2ms</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 4. DATABASE (W: 155px to ensure no text collisions)               -->
+  <!-- ================================================================= -->
+  <g class="node-group node-db" id="node-db" transform="translate(350, 95)" tabindex="0" role="region" aria-label="Database url_hash storage">
+    <rect width="155" height="63" fill="url(#grad-db)" stroke="#ded6f2" class="node-box" />
+    <text x="14" y="20" class="font-mono eyebrow" fill="#4a3ab0">REGISTRY</text>
+    <text x="14" y="37" class="font-sans node-title">Database</text>
+    <text x="14" y="52" class="font-mono code-tag" fill="#3d2f95">url_hash · SHA2</text>
+
+    <!-- Miss Badge -->
+    <g class="badge-db-miss" transform="translate(108, 10)">
+      <rect width="34" height="16" rx="4" fill="#c2521f" />
+      <text x="17" y="11.5" class="font-mono" font-size="8.5" fill="#fffefb" text-anchor="middle" font-weight="700">MISS</text>
+    </g>
+
+    <!-- DB State Flip: PENDING -> READY -->
+    <g transform="translate(94, 39)">
+      <g class="db-status-pending">
+        <text class="font-mono" font-size="8.5" fill="#c2521f" font-weight="800">PENDING</text>
+      </g>
+      <g class="db-status-ready">
+        <text class="font-mono" font-size="8.5" fill="#2f7d4d" font-weight="800">READY ✓</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 5. BULLMQ QUEUE (W: 115px so BullMQ queue fits cleanly)           -->
+  <!-- ================================================================= -->
+  <g class="node-group node-bullmq" id="node-queue" transform="translate(450, 212)" tabindex="0" role="region" aria-label="BullMQ Queue Stack">
+    <rect width="115" height="96" fill="url(#grad-bullmq)" stroke="#ecdcb0" class="node-box" />
+    <text x="14" y="22" class="font-mono eyebrow" fill="#b4471c">BUFFER</text>
+    <text x="14" y="40" class="font-sans node-title">BullMQ queue</text>
+    
+    <!-- Stacked Job Chips with Generous Width -->
+    <rect x="14" y="50" width="87" height="8" rx="3" fill="#f6ecd9" stroke="#dfc067" stroke-width="1" />
+    <rect x="14" y="62" width="87" height="8" rx="3" fill="#f6ecd9" stroke="#dfc067" stroke-width="1" />
+    <rect x="14" y="74" width="87" height="8" rx="3" fill="#ecdcb0" stroke="#d6a53a" stroke-width="1" />
+    <rect x="18" y="77" width="22" height="2.5" rx="1" fill="#b4471c" />
+
+    <g class="hover-tag" transform="translate(14, 73)">
+      <rect width="87" height="15" rx="3" fill="#b4471c" />
+      <text x="43.5" y="10.5" class="font-mono" font-size="7.5" fill="#fffefb" text-anchor="middle">Redis backed</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- SECURITY GATE: SSRF VALIDATION                                   -->
+  <!-- ================================================================= -->
+  <g class="node-group" transform="translate(585, 243)" tabindex="0" role="region" aria-label="SSRF Validation Gate">
+    <path class="ssrf-gate hairline" d="M 12,0 L 24,5 L 24,19 C 24,28 12,34 12,34 C 12,34 0,28 0,19 L 0,5 Z" fill="#fffefb" />
+    <text x="12" y="46" class="font-mono eyebrow" text-anchor="middle" fill="#6f61da">SSRF</text>
+    <text x="12" y="56" class="font-mono eyebrow" text-anchor="middle" font-size="7" fill="#6f61da">GATE</text>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 6. WORKER                                                         -->
+  <!-- ================================================================= -->
+  <g class="node-group node-worker" id="node-worker" transform="translate(640, 212)" tabindex="0" role="region" aria-label="Worker Node">
+    <rect width="70" height="96" fill="url(#grad-worker)" stroke="#b5d6db" class="node-box" />
+    <text x="12" y="22" class="font-mono eyebrow" fill="#1d6a7a">EXEC</text>
+    <text x="12" y="40" class="font-sans node-title">Worker</text>
+    <path d="M 18,60 L 50,52 M 18,60 L 50,68" stroke="#1d6a7a" stroke-width="2" stroke-linecap="round" />
+    
+    <g class="hover-tag" transform="translate(8, 73)">
+      <rect width="54" height="15" rx="3" fill="#1d6a7a" />
+      <text x="27" y="10.5" class="font-mono" font-size="7.5" fill="#fffefb" text-anchor="middle">Dual-tier</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 6a. TIER 1: CHEERIO / OG:IMAGE (W: 180px, Spacious Layout)        -->
+  <!-- ================================================================= -->
+  <g class="node-group node-og" id="node-og" transform="translate(770, 142)" tabindex="0" role="region" aria-label="Fast Tier Cheerio og:image Branch">
+    <rect width="180" height="80" fill="url(#grad-og)" stroke="#8cc0a0" class="node-box" />
+    <text x="14" y="20" class="font-mono eyebrow" fill="#1f6b3f">TIER 1 · FAST</text>
+    <text x="14" y="39" class="font-sans node-title">og:image</text>
+    <text x="14" y="55" class="font-mono code-tag" fill="#185634">cheerio · 1 request</text>
+    <text x="14" y="69" class="font-mono label-sub" fill="#12452a">~1s duration</text>
+
+    <!-- Emerald Success Stat Badge -->
+    <g class="stat-og-counter" transform="translate(116, 8)">
+      <rect width="54" height="16" rx="4" fill="#2f7d4d" />
+      <text x="27" y="11.5" class="font-mono" font-size="7.5" fill="#fffefb" font-weight="700" text-anchor="middle">~55% URLs</text>
+    </g>
+
+    <!-- Dead-End Badge -->
+    <g class="og-deadend-flag" transform="translate(108, 28)">
+      <rect width="62" height="16" rx="4" fill="#c2521f" />
+      <text x="31" y="11.5" class="font-mono" font-size="7.5" fill="#fffefb" font-weight="700" text-anchor="middle">NO OG TAG</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 6b. TIER 2: PUPPETEER HEADLESS (W: 180px, "1200 × 630" spaced)   -->
+  <!-- ================================================================= -->
+  <g class="node-group node-pup" id="node-pup" transform="translate(770, 310)" tabindex="0" role="region" aria-label="Slow Tier Puppeteer Fallback Branch">
+    <rect width="180" height="90" fill="url(#grad-pup)" stroke="#ddb094" class="node-box" />
+    <text x="14" y="20" class="font-mono eyebrow" fill="#a03f18">TIER 2 · SLOW</text>
+    <text x="14" y="39" class="font-sans node-title">Puppeteer</text>
+    <text x="14" y="55" class="font-mono code-tag" fill="#7f3213">headless · 1200 × 630</text>
+    <text x="14" y="69" class="font-mono label-sub" fill="#5f2610">2–5s full render</text>
+
+    <!-- Camera Lens / Browser Frame -->
+    <rect x="136" y="24" width="32" height="20" rx="4" fill="#f7e6d8" stroke="#cf7f4d" stroke-width="1.2" />
+    <rect x="136" y="24" width="32" height="20" rx="4" class="pup-shutter" />
+
+    <!-- 8x Slower Tag -->
+    <g class="label-8x-slower" transform="translate(108, 67)">
+      <rect width="62" height="15" rx="3" fill="#c2521f" />
+      <text x="31" y="11" class="font-mono" font-size="7.5" fill="#fffefb" font-weight="700" text-anchor="middle">8x SLOWER</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- 7. GCS CLOUD STORAGE CYLINDER                                     -->
+  <!-- ================================================================= -->
+  <g class="node-group node-gcs" id="node-gcs" transform="translate(1015, 215)" tabindex="0" role="region" aria-label="GCS Storage Cylinder">
+    <g class="node-box">
+      <rect x="0" y="15" width="60" height="60" fill="url(#grad-gcs)" stroke="#a79ee3" rx="0" />
+      <ellipse cx="30" cy="15" rx="30" ry="12" fill="#c9c2ee" stroke="#a79ee3" stroke-width="1.5" />
+      <ellipse cx="30" cy="75" rx="30" ry="12" fill="url(#grad-gcs)" stroke="#a79ee3" stroke-width="1.5" />
+      
+      <!-- Vivid Emerald Fluid Fill Gauge -->
+      <path class="gcs-fill-level" d="M 0,55 Q 30,67 60,55 L 60,75 Q 30,87 0,75 Z" fill="url(#grad-fluid)" />
+      <ellipse cx="30" cy="15" rx="30" ry="12" fill="#e6e2f7" stroke="#a79ee3" stroke-width="1" />
+    </g>
+
+    <text x="30" y="42" class="font-mono eyebrow" text-anchor="middle" fill="#5241c4">STORE</text>
+    <text x="30" y="58" class="font-sans node-title" text-anchor="middle">GCS</text>
+
+    <g class="hover-tag" transform="translate(-18, 92)">
+      <rect width="96" height="16" rx="4" fill="#2e2470" />
+      <text x="48" y="11" class="font-mono" font-size="7.5" fill="#fffefb" text-anchor="middle">Public CDN Edge</text>
+    </g>
+  </g>
+
+  <!-- ================================================================= -->
+  <!-- GLOWING PACKETS (Recalibrated for Realigned Nodes)                -->
+  <!-- ================================================================= -->
+
+  <!-- Packet: Req 1 In Flight (Cyan Glow) -->
+  <circle class="anim-packet p-req1" r="5" fill="#2e8d9e" filter="url(#glow-teal)" />
+
+  <!-- Packets: Redis & DB Ping (Teal / Cyan) -->
+  <circle class="anim-packet p-redis" r="4.5" fill="#2e8d9e" filter="url(#glow-teal)" />
+  <circle class="anim-packet p-db" r="4.5" fill="#2e8d9e" filter="url(#glow-teal)" />
+
+  <!-- 2.6s KEY BEAT (a): Instant Response to Browse (Emerald Neon Glow) -->
+  <circle class="anim-packet p-instant-reply" r="5.5" fill="#2f7d4d" filter="url(#glow-green)" />
+
+  <!-- 2.6s KEY BEAT (b): Concurrent Forward to BullMQ (Cyan Neon Glow) -->
+  <circle class="anim-packet p-to-queue" r="5" fill="#2e8d9e" filter="url(#glow-teal)" />
+
+  <!-- Packet: BullMQ -> Worker (Cyan) -->
+  <circle class="anim-packet p-queue-out" r="5" fill="#2e8d9e" filter="url(#glow-teal)" />
+
+  <!-- Packet: og:image Flight (Emerald Glow) -->
+  <circle class="anim-packet p-og-flight" r="4.5" fill="#2f7d4d" filter="url(#glow-green)" style="offset-path: path('M 710,245 C 735,245 745,182 770,182 L 950,182 C 980,182 995,245 1015,255');" />
+
+  <!-- Packet: DB Writeback Loop (Emerald Glow) -->
+  <circle class="anim-packet p-db-writeback" r="4.5" fill="#2f7d4d" filter="url(#glow-green)" style="offset-path: path('M 1045,300 L 1045,435 L 435,435 L 435,158');" />
+
+  <!-- Packet: Req 3 Cache Hit Instant In (Cyan) & Out (Emerald) -->
+  <circle class="anim-packet p-req3-in" r="5" fill="#2e8d9e" filter="url(#glow-teal)" />
+  <circle class="anim-packet p-req3-out" r="5.5" fill="#2f7d4d" filter="url(#glow-green)" />
+
+  <!-- ================================================================= -->
+  <!-- FOOTER / LEGEND                                                   -->
+  <!-- ================================================================= -->
+  <g transform="translate(35, 485)">
+    <circle cx="0" cy="-4" r="4.5" fill="#2f7d4d" filter="url(#glow-green)" />
+    <text x="12" y="0" class="font-mono code-tag" fill="#12452a">Fast / Hit (#2f7d4d)</text>
+
+    <circle cx="165" cy="-4" r="4.5" fill="#c2521f" filter="url(#glow-rust)" />
+    <text x="177" y="0" class="font-mono code-tag" fill="#7f3213">Slow / Miss (#c2521f)</text>
+
+    <circle cx="375" cy="-4" r="4.5" fill="#2e8d9e" filter="url(#glow-teal)" />
+    <text x="387" y="0" class="font-mono code-tag" fill="#175864">In Flight (#2e8d9e)</text>
+    
+    <circle cx="530" cy="-4" r="4.5" fill="#6f61da" filter="url(#glow-indigo)" />
+    <text x="542" y="0" class="font-mono code-tag" fill="#4a3ab0">SSRF Gate / Accents</text>
+
+    <text x="825" y="0" class="font-mono eyebrow" fill="#5f6168">HOVER ANY CARD · 14.0s CYCLIC REPLAY</text>
+  </g>
+</svg>

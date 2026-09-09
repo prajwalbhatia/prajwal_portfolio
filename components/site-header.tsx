@@ -57,8 +57,9 @@ export function SiteHeader({
 
         <div className="flex items-center gap-4">
           {profile.openToWork && (
-            <span className="label hidden items-center gap-2 text-ink sm:flex">
-              <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-live" />
+            <span className="label live-pill live-signal hidden text-[0.66rem] sm:inline-flex">
+              {/* currentColor, so the dot and its halo inherit the pill's hue */}
+              <span aria-hidden="true" className="live-blip size-1.5 rounded-full bg-current" />
               {profile.availabilityLabel}
             </span>
           )}

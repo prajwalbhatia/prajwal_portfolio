@@ -56,6 +56,16 @@
   /* Identity only — the surname, section marks, core stack chips. 6.3:1. */
   --color-accent: #5b4bd6;
 
+  /* "Available for hire" and nothing else. Separate from the four above on
+     purpose: was/now are before/after, live is in-flight, accent is identity,
+     and none of them should start meaning "hire me". Green because that is
+     the convention for availability.
+
+     #15803d is the brightest green that still carries white text at 12px —
+     5.02:1. The obvious brighter picks fail: #16a34a is 3.30 and #059669 is
+     3.77, both under the 4.5 floor for small text. */
+  --color-open: #15803d;
+
   /* Inclusive Sans sets body and display; JetBrains Mono every label, figure
      and the terminal panel. Both self-hosted latin subsets — a font CDN on
      the critical path of a site that argues about Core Web Vitals is not a
@@ -150,6 +160,114 @@ body:has([data-page='alt']) {
 }
 
 @layer components {
+
+  /* ── Before/after compare slider — components/before-after.tsx ── */
+  .ba {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-rule);
+    border-radius: 14px;
+    background: var(--color-surface);
+  }
+
+  /* Clip rather than resize: the image always occupies the full frame, and
+     only the visible region changes. No JS width syncing, no squashing. */
+  .ba-before {
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+
+  .ba-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    margin-left: -1px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgb(23 23 26 / 0.12);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .ba-knob {
+    position: absolute;
+    top: 50%;
+    left: var(--pos);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: -19px 0 0 -19px;
+    border-radius: 50%;
+    background: #fff;
+    color: #33333a;
+    box-shadow: 0 4px 14px rgb(23 23 26 / 0.28);
+    pointer-events: none;
+    z-index: 4;
+  }
+  .ba-knob svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .ba-tag {
+    position: absolute;
+    bottom: 10px;
+    z-index: 4;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgb(23 23 26 / 0.72);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .ba-tag--before {
+    left: 10px;
+  }
+  .ba-tag--after {
+    right: 10px;
+  }
+
+  /* The real control: stretched over the frame, thumb invisible so the
+     decorative knob above can sit exactly on --pos. Keyboard, touch and
+     screen-reader behaviour all come from the native element. */
+  .ba-range {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: ew-resize;
+  }
+  .ba-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: ew-resize;
+  }
+  .ba-range::-moz-range-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: ew-resize;
+  }
+  .ba-range:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 
   /* ==========================================================
      Promoted from the /preview prototype, Sep 2026. Indented into
@@ -778,6 +896,15 @@ body:has([data-page='alt']) {
     max-width: 68ch;
   }
 
+  /* Case-study prose runs in --color-body; a bolded figure inside it needs to
+     lift to ink or the emphasis is weight alone, which barely registers at
+     this size. Tabular figures so 55% and 95% line up down the page. */
+  .case-prose strong {
+    color: var(--color-ink);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
   .case-prose code {
     font-family: var(--font-mono);
     font-size: 0.85em;
@@ -870,18 +997,71 @@ body:has([data-page='alt']) {
 }
 
 /* Availability dot. The only ambient motion on the site. */
+/* ── Availability signal ──
+
+   Two paired animations, deliberately out of phase with each other so the
+   whole thing reads as one live indicator rather than two things blinking.
+
+   `live-pulse` is the dot: it fades and grows a soft halo, which is the part
+   that carries the "this is live" meaning.
+
+   `live-breathe` is the label beside it, and it is kept very shallow on
+   purpose — 1 down to 0.72 over four seconds. Anything deeper reads as a
+   broken element or a cheap advert, and text that flashes hard is genuinely
+   unpleasant to sit next to while reading the rest of the page. Slower than
+   the dot too, so the two never sync up into a single throb.
+
+   Both stop under prefers-reduced-motion via the global reset in @layer base,
+   which nulls animation-duration site-wide. */
 @keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 45%, transparent);
+  }
+  50% {
+    opacity: 0.45;
+    box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 0%, transparent);
+  }
+}
+
+@keyframes live-breathe {
   0%,
   100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.3;
+    opacity: 0.72;
   }
 }
 
 .live-blip {
   animation: live-pulse 2.6s ease-in-out infinite;
+}
+
+/* Sits on the wrapper holding the dot and the label. */
+.live-signal {
+  animation: live-breathe 4s ease-in-out infinite;
+}
+
+/* The availability pill itself — a solid fill, not a tint.
+
+   A tinted pill was legible and completely inert; this is the one element on
+   the page whose whole job is to be noticed. White text and a white dot on
+   --color-open, with the border a shade darker than the fill so the edge
+   reads without a second colour. */
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.36rem 0.78rem 0.36rem 0.68rem;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--color-open);
+  border: 1px solid color-mix(in srgb, #000 14%, var(--color-open));
+  box-shadow:
+    0 1px 3px color-mix(in srgb, var(--color-open) 35%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.2);
 }
 
 /* ============================================================

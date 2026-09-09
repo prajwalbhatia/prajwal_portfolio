@@ -78,10 +78,10 @@ export function IdBadge() {
 
             <div className="relative z-1 mb-3 flex items-center justify-between">
               {profile.openToWork && (
-                <span className="idcard-pill">
+                <span className="idcard-pill live-signal">
                   {/* live-blip is the existing breathing animation from globals.css */}
                   <span aria-hidden="true" className="idcard-dot live-blip" />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-white/45">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#6ee7b7]">
                     {profile.availabilityLabel}
                   </span>
                 </span>
