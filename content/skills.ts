@@ -24,27 +24,29 @@ export const stack: Skill[] = [
   { name: 'Accessibility' },
 ]
 
-/** Grouped view for /resume, mirroring the PDF. */
+/**
+ * Grouped view for /resume, following the PDF's two groups, with two
+ * deliberate divergences:
+ *
+ *  - React Native is omitted. The PDF carries it for ATS keyword matching;
+ *    the site does not claim it, for the reason given on `stack` above.
+ *  - HTML5/CSS3, GCS, Core Web Vitals and Lighthouse are kept. The PDF
+ *    dropped them in the Sep 2026 revision, but GCS carries the thumbnail
+ *    pipeline and Core Web Vitals is the whole SDE-2 story — a skills list
+ *    that omits them contradicts the case studies it sits next to.
+ *
+ * So this is a superset of the PDF by four items, on purpose. The PDF is the
+ * side that needs updating; when it is, this comment can lose its second half.
+ */
 export const skillGroups = [
   {
-    group: 'Languages',
-    items: 'JavaScript (ES6+), TypeScript, HTML5, CSS3',
-  },
-  {
-    group: 'Frontend',
+    group: 'Frontend & Architecture',
     items:
-      'React, Next.js, Redux + RTK Query, Component Libraries / Design Systems, Material UI, Responsive Web Design, Accessibility',
+      'JavaScript (ES6+), TypeScript, HTML5, CSS3, React, Next.js, React Router, Vite, Material UI, Redux Toolkit, RTK Query, Component Architecture, Design Systems, Accessibility',
   },
   {
-    group: 'Testing & Quality',
-    items: 'Jest / RTL, code review at scale',
-  },
-  {
-    group: 'Backend & Tools',
-    items: 'Node.js, Express, BullMQ, Redis, Puppeteer, GCS, REST APIs',
-  },
-  {
-    group: 'Monitoring & Performance',
-    items: 'Core Web Vitals (LCP, CLS, INP), Datadog RUM, Sentry, Lighthouse',
+    group: 'Backend, Testing & Production',
+    items:
+      'Node.js, Express, BullMQ, Redis, Puppeteer, GCS, TypeORM, REST APIs, Jest, React Testing Library, Core Web Vitals (LCP, CLS, INP), Datadog, Sentry, Lighthouse',
   },
 ] as const

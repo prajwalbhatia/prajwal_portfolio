@@ -31,14 +31,14 @@ export const roles: Role[] = [
     start: '04/2025',
     end: 'present',
     promotion: true,
-    coreWork: 'Async thumbnail pipeline · review standards · P0 ownership',
+    coreWork: 'Batch Selection · thumbnail pipeline · shared frontend repo',
     result: '95% / 8×',
     highlights: [
-      'Built an async thumbnail extraction service on **Node, BullMQ, Puppeteer and GCS** — a two-tier pipeline whose OG-tag fast path clears **~55% of URLs in ~1s**, **8× faster** than the Puppeteer fallback, at a **95%** success rate in production.',
-      'Re-architected the Batch Selection flow: a **500-line component** decomposed into focused hooks, Redux thunks migrated to **RTK Query**, and business rules moved server-side for a single source of truth.',
-      "Co-authored the team's **AI-assisted development standards** — frontend guidelines and a reusable skills library across core repos.",
-      'Rebuilt PR review from code-only into a three-layer standard covering code, functionality and design. Caught **17 issues** in one admin-surface review before release.',
-      'Mentored **2 interns** through onboarding and review cycles; one converted to a full-time offer.',
+      'Re-architected the **Batch Selection** flow: a **500-line component** decomposed into focused hooks, Redux thunks migrated to **RTK Query** with caching and deduplication, and business rules moved server-side.',
+      'Built an asynchronous thumbnail extraction service on **Node.js, BullMQ, Puppeteer and GCS** — an OG-tag fast path resolves **~55% of URLs in ~1s** at **8× lower latency** than the Puppeteer fallback, with **95%** success in production.',
+      'Designed a reusable **react-window** virtualised filter adopted across **10+** autocomplete and filter surfaces, gated at 200 items to avoid unnecessary overhead.',
+      'Owned cross-stack features across notes, recommendations, candidature, interview, offer and internship workflows — frontend flows alongside **Node.js** APIs, **TypeORM**, migrations, indexing, background jobs and notifications.',
+      'Evolved a shared frontend repository used across multiple product surfaces: extracted reusable components, built **Resume Builder** capabilities, and improved accessibility, testing, CI and dependency/security hygiene.',
     ],
   },
   {
@@ -49,13 +49,13 @@ export const roles: Role[] = [
     location: 'Remote, United Kingdom',
     start: '01/2023',
     end: '04/2025',
-    coreWork: 'Core Web Vitals programme across four flows',
+    coreWork: 'Core Web Vitals · Material UI migration · Browse workflows',
     result: '−42% LCP',
     highlights: [
-      'Led Core Web Vitals optimisation on high-traffic pages: batch-selection **LCP p75 5.45s → 3.17s (−42%)** through LCP image preloading, third-party preconnects and deferred analytics.',
-      'Improved intern-profile **CLS p75 from 0.229 → 0.006** using reserved layout space and skeleton loaders.',
-      'Earlier onboarding and dashboard work: LCP **9.9s → 8.6s** and **5.9s → 5.5s**, CLS **0.44 → 0.24** and **0.38 → 0.24**.',
-      'Resolved complex cross-browser and cross-platform production issues through systematic debugging and targeted automated testing.',
+      'Led Core Web Vitals optimisation, reducing Batch Selection **LCP p75 from 5.45s to 3.17s (−42%)** through LCP image preloading, third-party preconnects and deferred analytics.',
+      'Improved Intern Profile **CLS p75 from 0.229 to 0.006** by reserving layout space and introducing skeleton loaders, eliminating major layout shifts during load.',
+      'Led migration of core UI surfaces from **EUI and Ant Design to Material UI** — drawers, modals, navigation, file pickers, loading states, timelines, notifications and forms — establishing consistent theme typography.',
+      'Developed and evolved Browse Interns/Candidates workflows on a global platform with **285K+ active applications** and **23K+ companies**, improving filtering, shortlisting, URL-driven state, pagination, API efficiency, responsiveness and duplicate-request handling.',
     ],
   },
   {
@@ -68,8 +68,7 @@ export const roles: Role[] = [
     end: '01/2023',
     coreWork: 'Video player platform, background downloads',
     highlights: [
-      'Owned the **video player platform** end to end — playback, background video downloads, session activity tracking and milestone event instrumentation.',
-      'Refactored legacy frontend modules into reusable, documented React components, standardising UI patterns across the team.',
+      'Owned the **video player platform** end to end — playback, background downloads, session activity tracking, milestone event instrumentation and reusable React component refactoring.',
     ],
   },
   {
@@ -83,8 +82,7 @@ export const roles: Role[] = [
     coreWork: 'Client caching, request dedup, TTL invalidation',
     result: '−50% calls',
     highlights: [
-      'Reduced API call volume by **50%** with client-side caching, request deduplication and TTL-based invalidation, lowering server load on data-heavy workflows.',
-      "Translated high-fidelity wireframes into responsive React interfaces and reusable component patterns for the team's evolving design system.",
+      'Reduced API call volume by **50%** through client-side caching, request deduplication and TTL-based invalidation; built responsive React interfaces and REST API workflows.',
     ],
   },
 ]

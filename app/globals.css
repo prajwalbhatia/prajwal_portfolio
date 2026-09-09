@@ -1,60 +1,94 @@
 @import 'tailwindcss';
 
 /* ============================================================
-   Instrument — design tokens
+   Design tokens
 
-   The site's argument is change over time, and the home page is a
-   working demo of it. Two accent colours carry that and nothing
-   else:
+   The site's argument is change over time, and the case-study
+   cards are a working demo of it. Two accent colours carry that
+   and nothing else:
 
-     --color-was  orange  the before, the slow path, the legacy
-     --color-now  green   the after, the fast path, the shipped
+     --color-was  rust   the before, the slow path, the legacy
+     --color-now  green  the after, the fast path, the shipped
 
    They are never used for emphasis, links, hover, focus or
    decoration. A section with no genuine before gets no accent at
-   all. The moment orange means "look here" instead of "this was",
+   all. The moment rust means "look here" instead of "this was",
    the system stops signalling and becomes a colour scheme.
 
    --color-live is a third state the pair cannot express: in flight,
    running, currently happening. Never used for a measured value.
 
-   Dark only, deliberately. The instrument panels read as screens;
-   a light inversion would turn them into paper and break the
-   metaphor. `color-scheme: dark` is set so form controls follow.
+   --color-accent is the identity colour, and exists precisely so
+   that was/now never have to do decorative work.
+
+   Light, warm rather than white. This replaced a dark-only palette
+   in Sep 2026; the was/now values could not simply be inverted —
+   the old acid #a0ff5a is invisible on paper — so both were
+   re-picked against this ground rather than flipped.
    ============================================================ */
 @theme {
-  --color-ground: #101314;
-  --color-surface: #151819;
-  --color-raise: #191d1f;
-  --color-ink: #e7e5e1;
-  /* Running prose, at ~11:1 on every ground. Well past AAA — the first
-     attempt sat at 7.2 and still read dim on a dark screen, which is the
-     usual story: the WCAG floor is a floor, not a target. Kept ~4 points
-     below ink so headings still lead. */
-  --color-body: #c7c7c3;
-  /* Secondary metadata and mono labels only. Raised from #8a8880. */
-  --color-muted: #a09f97;
-  /* 3.1–3.4:1 on these grounds — clears the 3:1 UI-component threshold but
-     NOT the 4.5:1 text one. Idle indicators and inactive glyphs only. Never
-     body copy, never a label anyone has to read. Use --color-muted for that
-     (5.0:1+ everywhere). */
-  --color-dim: #6b6863;
-  --color-rule: #1e2324;
+  --color-ground: #f7f6f3;
+  --color-surface: #fffefb;
+  /* A real third level, not a duplicate. The card-inside-a-panel nesting
+     needs three distinguishable grounds; collapsing surface and raise into
+     white is what makes a light theme look flat. */
+  --color-raise: #f1efe9;
+  --color-ink: #17171a;
+  /* Running prose at ~9.6:1 on ground. Kept clearly below ink so headings
+     still lead. */
+  --color-body: #43454b;
+  /* Secondary metadata and mono labels. 5.72:1 on ground, 5.15:1 on the
+     deeper ground the inner pages use — so it clears 4.5:1 on both. The
+     first light pass had #6b6d74 here at 4.78:1, which passed on the home
+     ground and then failed at 4.30:1 the moment a page went deeper. */
+  --color-muted: #5f6168;
+  /* 3.70:1 / 3.33:1 — clears the 3:1 UI-component threshold on both grounds
+     but NOT the 4.5:1 text one. Idle indicators and inactive glyphs only,
+     never body copy; use --color-muted for anything anyone has to read.
+     Was #9a9ca2, which measured 2.54:1 and did not clear even 3:1. */
+  --color-dim: #7d7f85;
+  --color-rule: #e2dfd7;
 
-  --color-was: #e8703a;
-  --color-now: #a0ff5a;
-  --color-live: #4ecfc4;
+  --color-was: #b4471c;
+  --color-now: #1f6b3f;
+  --color-live: #1d6a7a;
 
-  /* Two families, not three. 2a sets everything in Space Grotesk and uses
-     JetBrains Mono for labels; Syne belongs to the other direction. */
-  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
-  --font-sans: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
+  /* Identity only — the surname, section marks, core stack chips. 6.3:1. */
+  --color-accent: #5b4bd6;
+
+  /* Inclusive Sans sets body and display; JetBrains Mono every label, figure
+     and the terminal panel. Both self-hosted latin subsets — a font CDN on
+     the critical path of a site that argues about Core Web Vitals is not a
+     trade worth making. */
+  --font-display: var(--font-inclusive), 'Segoe UI', system-ui, sans-serif;
+  --font-sans: var(--font-inclusive), 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* ============================================================
+   Inner pages sit a step deeper than the home page.
+
+   The home page is dense with tinted cards, so the lighter ground
+   works there. Everywhere else is mostly text and `bg-surface`
+   cards, and surface against the home ground is a 1.07:1
+   difference — effectively invisible. Dropping the ground takes
+   that to 1.19:1, which is enough to read as a card.
+
+   `rule` darkens with it: at #e2dfd7 it measured 1.11:1 against
+   this ground and all the hairlines dissolved.
+
+   Applied by marker so one attribute flips the whole page,
+   header and footer included — see components/alt-page.tsx.
+   ============================================================ */
+body:has([data-page='alt']) {
+  --color-ground: #eeeae1;
+  --color-raise: #e5e0d5;
+  --color-rule: #d3cec2;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
   }
 
@@ -82,14 +116,16 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Inverting ink/ground here gives a near-black block with white text, which
+     is far heavier on paper than the reverse was on a dark screen. */
   ::selection {
-    background: var(--color-ink);
-    color: var(--color-ground);
+    background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+    color: var(--color-ink);
   }
 
   /* Load-bearing: accessibility is a claimed skill on this site. */
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
     border-radius: 1px;
   }
@@ -114,13 +150,590 @@
 }
 
 @layer components {
+
+  /* ==========================================================
+     Promoted from the /preview prototype, Sep 2026. Indented into
+     @layer components so utilities still win over them.
+     ========================================================== */
+  /* ── Card colour families ──
+     Her .cs-card--sky / --green / --peach each recolour four separate things
+     in step: the card ground, the chips, the metric tiles and the arrow.
+     Rather than repeat four rules per variant, each variant sets one hue and
+     the generic rules below derive everything from it with color-mix(). Adding
+     a fifth family is then two lines, not eight.
+
+     color-mix() is safe here — Tailwind v4 already emits it for every opacity
+     modifier on this site, so the browser floor is the same. */
+  .theme-sky {
+    --card-hue: #2f6da3;
+    --card-bg: #e8f1f9;
+    --card-tile: #f4f9fc;
+  }
+  .theme-green {
+    --card-hue: #3f7d4c;
+    --card-bg: #e9f3ea;
+    --card-tile: #f4faf5;
+  }
+  .theme-peach {
+    --card-hue: #b06a2c;
+    --card-bg: #fbefe2;
+    --card-tile: #fdf7f0;
+  }
+  .theme-lav {
+    --card-hue: #5b4bd6;
+    --card-bg: #eeecf9;
+    --card-tile: #f7f6fd;
+  }
+
+  .cs-card {
+    background: var(--card-bg);
+    border-radius: 22px;
+  }
+
+  .cs-chip {
+    border-radius: 999px;
+    color: var(--card-hue);
+    background: color-mix(in srgb, var(--card-hue) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-hue) 24%, transparent);
+  }
+
+  /* Letterpressed tile — a hue-tinted shadow from above and a white one from
+     below is what makes it read as pressed into the card rather than sat on it. */
+  .cs-tile {
+    border-radius: 12px;
+    background: var(--card-tile);
+    border: 1px solid color-mix(in srgb, var(--card-hue) 16%, transparent);
+    box-shadow:
+      inset 0 2px 5px color-mix(in srgb, var(--card-hue) 12%, transparent),
+      inset 0 -1px 2px rgb(255 255 255 / 0.7);
+  }
+
+  .cs-hue {
+    color: var(--card-hue);
+  }
+
+  /* Her arrow is deliberately much smaller than the figures and sits raised off
+     the baseline, so it separates the two numbers without competing with them. */
+  .cs-arrow {
+    font-size: 0.52em;
+    margin: 0 0.3em;
+    position: relative;
+    top: -0.16em;
+    color: var(--card-hue);
+  }
+
+  /* Underline thickens into the hue and the arrow slides out on hover. */
+  .cs-link {
+    border-bottom: 1.5px solid rgb(23 23 26 / 0.2);
+    gap: 0.45rem;
+    transition:
+      gap 180ms ease,
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+  .group:hover .cs-link {
+    border-color: var(--card-hue);
+    color: var(--card-hue);
+    gap: 0.7rem;
+  }
+
+  /* The media slot. Hers holds a screenshot or a video; ours holds a drawn
+     before/after, so it only needs the frame and the radius. */
+  .cs-media {
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--card-hue) 5%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--card-hue) 14%, transparent);
+  }
+
+  /* ── Tints still used by the systems cards and the experience tiles ── */
+  .tint-sky {
+    background: #eef3f7;
+    border-color: #d8e4ec;
+  }
+  .tint-green {
+    background: #eef4ee;
+    border-color: #d9e6da;
+  }
+  .tint-lav {
+    background: #f2f0f7;
+    border-color: #e1dded;
+  }
+  .tint-sand {
+    background: #f8f4ea;
+    border-color: #ede3d0;
+  }
+
+  /* ── Terminal card ── */
+  .term {
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    border-radius: 10px;
+    box-shadow:
+      0 1px 2px rgb(23 23 26 / 0.04),
+      0 12px 32px -12px rgb(23 23 26 / 0.10);
+  }
+  .term-bar {
+    background: #f0ede6;
+    border-bottom: 1px solid var(--color-rule);
+    border-radius: 10px 10px 0 0;
+  }
+  .term-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+  }
+
+  /* ── Stack marquee ──
+        Two identical sets sit side by side and the track slides exactly
+        half its width, so the loop is seamless with no JS. */
+  @keyframes preview-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  /* The band. A tinted gradient with hairlines top and bottom, so the strip
+     reads as its own surface rather than a gap between two sections. The accent
+     tint is what makes it catch the eye against the warm neutral page. */
+  .stack-band {
+    border-top: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule);
+    background:
+      radial-gradient(
+        120% 100% at 50% 0%,
+        color-mix(in srgb, var(--color-accent) 5%, transparent) 0%,
+        transparent 70%
+      ),
+      linear-gradient(180deg, #fbfaf7 0%, #f1efe9 100%);
+  }
+
+  /* Each item is a raised chip rather than plain text — that plus the icon is
+     most of the difference between "a list of words" and something worth
+     looking at. */
+  /* --chip-hue is set per element in the markup; everything below derives from
+     it, so the colour lives in one map in stack-icons.tsx rather than in CSS. */
+  .stack-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    color: var(--color-body);
+    background: color-mix(in srgb, var(--chip-hue) 6%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--chip-hue) 24%, transparent);
+    box-shadow:
+      0 1px 2px rgb(23 23 26 / 0.04),
+      0 1px 0 rgb(255 255 255 / 0.8) inset;
+  }
+
+  /* The icon always carries full colour; the label only does on core entries.
+     Colouring every label too made the strip read as one smear. */
+  .stack-chip svg {
+    color: var(--chip-hue);
+  }
+
+  /* `core: true` — what he writes every day. Stronger tint, heavier border and
+     the label in the hue, so the four everyday tools still lead. */
+  .stack-chip--core {
+    color: var(--chip-hue);
+    font-weight: 600;
+    background: color-mix(in srgb, var(--chip-hue) 13%, var(--color-surface));
+    border-color: color-mix(in srgb, var(--chip-hue) 42%, transparent);
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    width: max-content;
+    animation: preview-marquee 42s linear infinite;
+  }
+  .marquee-mask:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* ============================================================
+     ID BADGE ON A LANYARD — her .hero-card-floating
+
+     Deliberately dark on a light page: it reads as a physical
+     plastic badge, and the contrast is what makes it pop rather
+     than blend. Hers is dark for the same reason on the same
+     light ground.
+
+     The whole thing hangs from `transform-origin: top center` and
+     swings as a pendulum, so the strap, hook and card move as one
+     rigid object rather than animating separately.
+     ============================================================ */
+
+  /* Left, as hers is (.hero-card-floating sits at left: 130px). */
+  .idcard-hang {
+    position: absolute;
+    top: 0;
+    left: clamp(1rem, 5vw, 4.5rem);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .idcard-pivot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform-origin: top center;
+    animation: idcard-pendulum 2.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+  }
+  @keyframes idcard-pendulum {
+    from {
+      transform: rotate(-2.4deg);
+    }
+    to {
+      transform: rotate(2.4deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .idcard-pivot {
+      animation: none;
+    }
+  }
+
+  /* Woven strap. The repeating gradient is the weave; the vertical
+     text is set with writing-mode and flipped so it reads downward. */
+  .idcard-strap {
+    width: 30px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #2a2a2e;
+    border-right: 1px solid #2a2a2e;
+    background: repeating-linear-gradient(
+      to right,
+      #1b1b1e 0px,
+      #232327 5px,
+      #151517 10px,
+      #1e1e22 16px,
+      #1b1b1e 20px
+    );
+  }
+  .idcard-strap-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.18);
+    white-space: nowrap;
+  }
+
+  .idcard {
+    width: 236px;
+    margin-top: -2px;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.07);
+    border-radius: 20px;
+    background: #18181b;
+    box-shadow: 0 20px 44px -20px rgb(23 23 26 / 0.45);
+    /* The card's own links stay clickable inside the non-interactive hanger. */
+    pointer-events: auto;
+  }
+
+  .idcard-top {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    border-bottom: 1px solid rgb(0 0 0 / 0.55);
+    background: linear-gradient(155deg, #4a4a50 0%, #2d2d32 55%, #1f1f23 100%);
+  }
+  .idcard-dots {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(255 255 255 / 0.065) 1.5px, transparent 1.5px);
+    background-size: 14px 14px;
+  }
+
+  .idcard-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border: 1px solid rgb(255 255 255 / 0.09);
+    border-radius: 20px;
+    background: rgb(255 255 255 / 0.06);
+  }
+  .idcard-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #6ee7b7;
+  }
+  .idcard-li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 7px;
+    background: rgb(255 255 255 / 0.07);
+    transition:
+      background 200ms ease,
+      border-color 200ms ease;
+  }
+  .idcard-li:hover {
+    background: rgb(10 102 194 / 0.25);
+    border-color: rgb(10 102 194 / 0.5);
+  }
+  .idcard-li svg {
+    width: 14px;
+    height: 14px;
+    fill: rgb(255 255 255 / 0.5);
+    transition: fill 200ms ease;
+  }
+  .idcard-li:hover svg {
+    fill: #70b3f0;
+  }
+
+  /* One background across the whole card — the photo area is the same dark
+     plastic as the header, per her .hero-card-bottom. */
+  .idcard-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 15px 14px;
+    background: #18181b;
+  }
+  .idcard-ring {
+    width: 132px;
+    height: 132px;
+    padding: 2px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3a3a40, #111114);
+    box-shadow: inset 0 2px 5px rgb(0 0 0 / 0.7);
+  }
+  /* NOTE: prajwal.jpg is a cutout on opaque white, so the portrait fills this
+     circle with its own white ground — no background set here can show through.
+     Getting the subject to sit directly on the dark card needs a PNG with real
+     alpha, which cannot be produced from this JPEG without an image library
+     (none installed, and pip is externally managed on this machine). */
+  .idcard-ring-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #17171a;
+  }
+  .idcard-ring-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    display: block;
+  }
+
+  /* ============================================================
+     EXPERIENCE — her .exp-item / .vi-grid
+
+     Four things do the work here, all taken from hers:
+       · each role is a raised card that lifts on hover, not a flat row
+       · the +/- is two rotating hairlines, not a glyph swap
+       · the drawer animates grid-template-rows 0fr -> 1fr, so it
+         opens to the content's real height with no measuring
+       · the tiles inside cascade in on a per-child delay, which is
+         most of why hers feels alive rather than just "open"
+     ============================================================ */
+
+  .exp-card {
+    border: 1.5px solid var(--color-rule);
+    border-radius: 20px;
+    background: var(--color-surface);
+    transition:
+      transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .exp-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -22px rgb(23 23 26 / 0.18);
+  }
+
+  /* Initials plate, standing in for her company logos. */
+  .exp-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    background: #f0ece4;
+    border: 1px solid #e4e0d8;
+    transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .exp-card:hover .exp-logo {
+    transform: scale(1.05);
+  }
+
+  /* Two hairlines crossed into a plus. Open rotates both to 180deg, so they
+     land on top of each other as a minus — one transition, no icon swap. */
+  .exp-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    color: var(--color-muted);
+    transition: color 300ms ease;
+  }
+  .exp-card:hover .exp-icon {
+    color: var(--color-ink);
+  }
+  .exp-icon i {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    margin-top: -0.75px;
+    background: currentColor;
+    transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .exp-icon i:nth-child(2) {
+    transform: rotate(90deg);
+  }
+  [data-open='true'] .exp-icon i {
+    transform: rotate(180deg);
+  }
+
+  .drawer {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 700ms cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 700ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .drawer[data-open='true'] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  .drawer > div {
+    overflow: hidden;
+  }
+
+  /* ── Bento ── */
+  .bento {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+  @media (min-width: 640px) {
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1024px) {
+    .bento {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bento-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 118px;
+    padding: 18px 20px;
+    border-radius: 16px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .drawer[data-open='true'] .bento-tile {
+    opacity: 1;
+    transform: none;
+  }
+  /* The wave. Without the stagger the tiles all arrive at once and the drawer
+     just pops; with it the eye is led across the grid. */
+  .drawer[data-open='true'] .bento-tile:nth-child(1) { transition-delay: 180ms; }
+  .drawer[data-open='true'] .bento-tile:nth-child(2) { transition-delay: 260ms; }
+  .drawer[data-open='true'] .bento-tile:nth-child(3) { transition-delay: 340ms; }
+  .drawer[data-open='true'] .bento-tile:nth-child(4) { transition-delay: 420ms; }
+  .drawer[data-open='true'] .bento-tile:nth-child(5) { transition-delay: 500ms; }
+  .drawer[data-open='true'] .bento-tile:nth-child(6) { transition-delay: 580ms; }
+
+  @media (min-width: 640px) {
+    .bento-span2 {
+      grid-column: span 2;
+    }
+  }
+
+  /* Full bleed at every column count, so it needs no breakpoint of its own. */
+  .bento-span3 {
+    grid-column: 1 / -1;
+  }
+
+  /* Her .vi-metrics-row — figures side by side under the heading. */
+  .bento-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+  }
+
+  /* Nine pastels, matched to the warm light ground. */
+  .t-purple  { background: #eceaf8; }
+  .t-cream   { background: #f4efe0; }
+  .t-mint    { background: #e5f1eb; }
+  .t-lavender{ background: #f1ebf8; }
+  .t-coral   { background: #fce7d8; }
+  .t-sky     { background: #eaf2fb; }
+  .t-yellow  { background: #faf1de; }
+  .t-pink    { background: #f8e3eb; }
+  .t-blue    { background: #e6eefb; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer,
+    .bento-tile,
+    .exp-card,
+    .exp-logo,
+    .exp-icon i {
+      transition: none;
+    }
+    .bento-tile {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Display voice. Space Grotesk at 700, tight, never uppercase — the mono
      already owns uppercase and two shouty registers fight each other. */
+  /* -0.022em, not the -0.035em this had for Space Grotesk: Inclusive Sans is
+     wider and rounder, and at hero sizes the tighter value collided. */
   .display {
     font-family: var(--font-display);
     font-weight: 700;
     line-height: 1.02;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.022em;
+  }
+
+  /* Space Grotesk is a 300–700 variable face, so `font-weight: 700` on
+     `.display` is already its heaviest — `font-bold` on top of it changes
+     nothing. This is how the name goes heavier than the family allows: a
+     hairline stroke in the current text colour thickens every glyph without
+     loading a second font file. Kept at 0.02em; past about 0.03em the
+     counters in "a" and "e" start to fill in and it reads as smudged.
+     Deliberately not applied to .display globally — only the hero name is
+     meant to carry this much weight. */
+  .display-heavy {
+    -webkit-text-stroke: 0.02em currentColor;
   }
 
   /* Data, labels, code. The only uppercase on the site. */
@@ -296,6 +909,17 @@
     --color-was: #a8461a;
     --color-now: #2f6a12;
     --color-live: #1f1f1f;
+  }
+
+  /* The inner-page ground is set on `body`, and a custom property applied
+     directly to an element beats the value it would inherit from :root — so
+     without this the block above never reaches /resume or a case study and
+     they print on grey. */
+  body:has([data-page='alt']) {
+    --color-ground: #ffffff;
+    --color-surface: #ffffff;
+    --color-raise: #ffffff;
+    --color-rule: #c9c9c9;
   }
 
   @page {

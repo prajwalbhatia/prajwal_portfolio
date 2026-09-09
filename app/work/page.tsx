@@ -8,6 +8,7 @@ import { WorkFilter } from '@/components/work-filter'
 import { roles } from '@/content/experience'
 import { profile } from '@/content/profile'
 import { workProjects } from '@/content/projects'
+import { AltPage } from '@/components/alt-page'
 
 export const metadata: Metadata = {
   title: 'Work',
@@ -26,6 +27,7 @@ const roleTags: Record<string, string> = {
 export default function WorkPage() {
   return (
     <>
+      <AltPage />
       <section className="shell gutter pt-14 pb-10">
         <p className="label mb-5 text-now">Every number here is measured, not estimated</p>
         <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">Work</h1>

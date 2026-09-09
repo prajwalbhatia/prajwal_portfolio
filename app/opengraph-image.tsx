@@ -7,13 +7,20 @@ export const alt = `${profile.name} — ${profile.title}`
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-// Dark ground only — an OG card has no viewer theme to respond to.
-const GROUND = '#191d21'
-const INK = '#e9e7e2'
-const MUTED = '#8d9299'
-const RULE = '#2c3238'
-const WAS = '#b3714a'
-const NOW = '#56b3a7'
+/*
+  One fixed palette — an OG card has no viewer theme to respond to.
+
+  These are literals because Satori cannot read CSS custom properties, so they
+  have to be kept in step with @theme in globals.css by hand. They had drifted
+  a full generation before this (the old NOW was actually the live teal); these
+  match the Sep 2026 light palette exactly.
+*/
+const GROUND = '#f7f6f3'
+const INK = '#17171a'
+const MUTED = '#6b6d74'
+const RULE = '#e2dfd7'
+const WAS = '#b4471c'
+const NOW = '#1f6b3f'
 
 /**
  * Generated at build time. Carries the motif rather than a name on a
@@ -40,7 +47,7 @@ export default function Image() {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: 22, letterSpacing: 3, color: MUTED }}>
-            {profile.titleShort.toUpperCase()} · {profile.level}
+            {profile.titleShort.toUpperCase()}
           </span>
           {profile.openToWork && (
             <span style={{ fontSize: 22, letterSpacing: 3, color: INK }}>
@@ -52,7 +59,7 @@ export default function Image() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <span style={{ fontSize: 104, lineHeight: 1, letterSpacing: -3 }}>{profile.name}</span>
           <span style={{ fontSize: 40, lineHeight: 1.2, color: MUTED, letterSpacing: -1 }}>
-            I own what I ship, including the part that breaks.
+            {profile.tagline}
           </span>
         </div>
 

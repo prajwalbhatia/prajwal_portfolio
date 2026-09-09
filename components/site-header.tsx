@@ -34,7 +34,7 @@ export function SiteHeader({
   ]
 
   return (
-    <header className="no-print sticky top-0 z-40 border-b border-rule bg-ground/95 backdrop-blur-sm">
+    <header className="no-print sticky top-0 z-40 border-b border-rule bg-surface/85 backdrop-blur-md">
       <div className="shell gutter flex items-center justify-between gap-4 py-3">
         <Link href="/" className="display shrink-0 text-base">
           {profile.name}

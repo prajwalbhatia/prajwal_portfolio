@@ -25,6 +25,9 @@ export function ExplainerCard({ explainer }: { explainer: Explainer }) {
           height={explainer.thumbHeight}
           sizes="(min-width: 1024px) 16vw, (min-width: 640px) 30vw, 45vw"
           loading="lazy"
+          /* Always cover. Where lib/youtube.ts fell back to the 16:9 `hq720`
+             because a Short had no vertical crop, this shows the middle ~32%
+             of the frame rather than letterboxing it. */
           className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
         />
         <span

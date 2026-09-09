@@ -15,22 +15,31 @@ import './globals.css'
   pair. No font CDN: a site whose home page is a performance demo should not
   put a third party on its own critical path.
 
-  Space Grotesk carries display, body and UI; JetBrains Mono every label and
-  figure. Two families is the whole system. Space Grotesk preloads — it
-  renders the hero claim, which is the LCP element.
+  Inclusive Sans carries display, body and UI; JetBrains Mono every label,
+  figure and the terminal panel. Two families is the whole system.
 
   On `display`: the body and mono faces use `optional` rather than `swap`.
   With all three on swap, late arrivals reflowed the hero and cost CLS 0.108
   on a case-study page. `optional` gives them a ~100ms window and otherwise
   keeps the fallback for that load, so there is no swap and no shift.
 */
-const spaceGrotesk = localFont({
-  src: '../public/fonts/space-grotesk-latin.woff2',
+/*
+  Inclusive Sans — body, UI and display. Self-hosted latin subset: a
+  Google-hosted stylesheet would put a third party on the critical path of a
+  site whose whole argument is Core Web Vitals.
+
+  Preloaded, because it renders the hero name — the LCP element. This
+  replaced Space Grotesk in Sep 2026; that face had `preload: true` and was
+  briefly left registered but unused, which meant next/font emitted no
+  preload at all and the LCP text waited on an unhinted request.
+*/
+const inclusiveSans = localFont({
+  src: '../public/fonts/inclusive-sans-latin.woff2',
   weight: '300 700',
-  variable: '--font-space-grotesk',
+  variable: '--font-inclusive',
   display: 'swap',
   preload: true,
-  fallback: ['Arial', 'system-ui', 'sans-serif'],
+  fallback: ['Segoe UI', 'system-ui', '-apple-system', 'sans-serif'],
   adjustFontFallback: 'Arial',
 })
 
@@ -46,7 +55,7 @@ const jetbrains = localFont({
   adjustFontFallback: false,
 })
 
-const description = `${profile.title}, ${profile.level}, with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
+const description = `${profile.title} with ${yearsOfExperience()} years building React and TypeScript products. Core Web Vitals, production reliability, and the backend when the problem needs it.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -57,6 +66,7 @@ export const metadata: Metadata = {
   description,
   keywords: [
     'Prajwal Bhatia',
+    'Senior Frontend Engineer',
     'Senior Software Engineer',
     'Frontend Engineer',
     'React',
@@ -119,7 +129,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrains.variable}`}
+      className={`${jetbrains.variable} ${inclusiveSans.variable}`}
     >
       <body className="min-h-dvh flex flex-col">
         <PersonSchema />
