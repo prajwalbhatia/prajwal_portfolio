@@ -43,7 +43,8 @@ export const profile = {
 
   /* Rendered by the hero AND the OG card. Both used to hard-code their own
      copy of this line, which is how the three drifted apart — keep it here. */
-  tagline: 'Turning complexity into simple, scalable, and performant experiences.',
+  tagline:
+    'I like taking complex problems, breaking them down, and turning them into simple frontend solutions.',
 
   /* The short claim on the lanyard badge. Deliberately separate from
      `tagline`: the badge pairs the role with a punchy line, the hero states

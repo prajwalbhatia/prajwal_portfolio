@@ -94,18 +94,6 @@ export default function KindWordsPage() {
         </div>
       </section>
 
-      {recommendations.length > 0 && (
-        <Band title="LinkedIn recommendations">
-          <ul className="grid gap-4 md:grid-cols-2">
-            {recommendations.map((k) => (
-              <li key={k.id}>
-                <Card item={k} large />
-              </li>
-            ))}
-          </ul>
-        </Band>
-      )}
-
       {notes.length > 0 && (
         <Band title="Slack, PR threads and review notes">
           {/* Single column, deliberately. Slack messages are ~1560x200 — a
@@ -117,6 +105,18 @@ export default function KindWordsPage() {
             {notes.map((k) => (
               <li key={k.id}>
                 <Card item={k} wide />
+              </li>
+            ))}
+          </ul>
+        </Band>
+      )}
+
+      {recommendations.length > 0 && (
+        <Band title="LinkedIn recommendations">
+          <ul className="grid gap-4 md:grid-cols-2">
+            {recommendations.map((k) => (
+              <li key={k.id}>
+                <Card item={k} large />
               </li>
             ))}
           </ul>

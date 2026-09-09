@@ -237,7 +237,7 @@ function Chunks({
 
 /* ------------------------------------------------------------------ shell */
 
-export function Instrument() {
+export function Instrument({ only }: { only?: string } = {}) {
   const [active, setActive] = useState(0)
   const [p, setP] = useState(1)
   const [playing, setPlaying] = useState(false)
@@ -246,7 +246,14 @@ export function Instrument() {
   const sectionRef = useRef<HTMLElement | null>(null)
   const playedOnce = useRef(false)
 
-  const demo = demos[active]
+  /*
+    `only` narrows the panel to a single demo so it can sit inside a card whose
+    numbers it explains, rather than as a standalone section of four unlabelled
+    tabs — which is what made it confusing in the first place. The full
+    four-tab version is unchanged when the prop is omitted.
+  */
+  const shown = only ? demos.filter((d) => d.id === only) : demos
+  const demo = shown[Math.min(active, shown.length - 1)]
 
   const stop = useCallback(() => {
     if (raf.current !== null) cancelAnimationFrame(raf.current)
@@ -321,16 +328,32 @@ export function Instrument() {
   const f = formState(p)
   const b = bundleState(p)
 
-  return (
-    <section ref={sectionRef} aria-labelledby="instrument-heading" className="rule-t">
-      <div className="shell gutter py-10 sm:py-14">
-        <h2 id="instrument-heading" className="sr-only">
-          Interactive before-and-after demonstrations
-        </h2>
+  /*
+    Embedded (`only` set) the outer chrome is wrong: `rule-t` draws a border
+    inside a card that already has one, `shell gutter` re-applies a page
+    max-width and padding inside padding, and the sr-only <h2> would sit under
+    the card's <h3> and break heading order. Standalone, all three are right.
+  */
+  const embedded = Boolean(only)
 
-        {/* tabs */}
+  return (
+    <section
+      ref={sectionRef}
+      aria-labelledby={embedded ? undefined : 'instrument-heading'}
+      aria-label={embedded ? `${demo.tab} — before and after, scrubbable` : undefined}
+      className={embedded ? '' : 'rule-t'}
+    >
+      <div className={embedded ? '' : 'shell gutter py-10 sm:py-14'}>
+        {!embedded && (
+          <h2 id="instrument-heading" className="sr-only">
+            Interactive before-and-after demonstrations
+          </h2>
+        )}
+
+        {/* tabs — pointless with one demo */}
+        {shown.length > 1 && (
         <div role="tablist" aria-label="Choose a demonstration" className="flex flex-wrap border border-rule">
-          {demos.map((d, i) => (
+          {shown.map((d, i) => (
             <button
               key={d.id}
               role="tab"
@@ -345,7 +368,7 @@ export function Instrument() {
               onClick={() => select(i)}
               onKeyDown={(e) => {
                 // Roving tabindex: a tablist is one tab stop, arrows move within.
-                const last = demos.length - 1
+                const last = shown.length - 1
                 const to =
                   e.key === 'ArrowRight' ? (i === last ? 0 : i + 1)
                   : e.key === 'ArrowLeft' ? (i === 0 ? last : i - 1)
@@ -366,6 +389,7 @@ export function Instrument() {
             </button>
           ))}
         </div>
+        )}
 
         {/* the instrument */}
         <div

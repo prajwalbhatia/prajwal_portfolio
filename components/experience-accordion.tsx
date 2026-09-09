@@ -57,7 +57,7 @@ const TILES: Record<string, Tile[]> = {
         { val: '↓31%', lbl: 'drop-off' },
         { val: '3 mo', lbl: 'to ship' },
       ],
-      sub: 'Designed with a product designer. I built the flow: hybrid auto-save, draft recovery and step persistence.',
+      sub: 'One of nine engineers on it. The auto-save and draft-recovery layer is mine end to end.',
       tint: 't-coral',
       full: true,
     },
