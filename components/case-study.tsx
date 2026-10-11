@@ -20,12 +20,14 @@ export function CaseStudy({
   title,
   pair,
   lede,
+  action,
   children,
 }: {
   context: string
   title: string
   pair?: { was: string; now: string; label: string }
   lede: string
+  action?: { href: string; label: string }
   children: ReactNode
 }) {
   return (
@@ -43,6 +45,16 @@ export function CaseStudy({
         <h1 className="display text-[clamp(2.25rem,6.5vw,3.75rem)]">{title}</h1>
         {pair && <Pair size="lg" was={pair.was} now={pair.now} label={pair.label} />}
         <p className="measure text-lg leading-relaxed text-body">{lede}</p>
+        {action && (
+          <a
+            href={action.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="label w-fit text-now underline decoration-rule underline-offset-4 transition-opacity hover:opacity-70"
+          >
+            {action.label} ↗
+          </a>
+        )}
       </header>
 
       <div className="flex flex-col gap-10">{children}</div>

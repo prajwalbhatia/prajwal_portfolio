@@ -169,7 +169,7 @@ function BeforeAfterBars({ was: wasLabel, now: nowLabel, note }: Bars) {
 /* ------------------------------------------------------------------- data */
 
 /**
- * Which four projects lead the home page, and how each one is presented.
+ * Which projects lead the home page, and how each one is presented.
  *
  * Headlines live on the Project in content/projects.ts; the theme, metrics and
  * bars are presentation and belong here.
@@ -204,6 +204,17 @@ const CARDS: {
     caption?: string
   }
 }[] = [
+  {
+    id: 'ownfolio',
+    theme: 'theme-lav',
+    metrics: [],
+    shot: {
+      src: '/ownfolio-home.png',
+      alt: 'Ownfolio homepage showing a fictional Career Profile with a project, colleague acknowledgement and supporting link',
+      width: 1440,
+      height: 933,
+    },
+  },
   {
     id: 'web-vitals',
     theme: 'theme-sky',
@@ -428,17 +439,23 @@ function SelectedWork() {
                     </Link>
                   </h3>
 
-                  <div className="grid gap-2.5 sm:grid-cols-2">
-                    {card.metrics.map((m) => (
-                      <MetricCell
-                        // Not `m.label` alone: the vitals card carries two
-                        // "LCP p75" rows and two "CLS p75" rows, told apart by
-                        // their sub-label rather than their label.
-                        key={`${m.label}-${'was' in m ? m.was : m.val}-${m.sub ?? ''}`}
-                        m={m}
-                      />
-                    ))}
-                  </div>
+                  {card.metrics.length > 0 ? (
+                    <div className="grid gap-2.5 sm:grid-cols-2">
+                      {card.metrics.map((m) => (
+                        <MetricCell
+                          // Not `m.label` alone: the vitals card carries two
+                          // "LCP p75" rows and two "CLS p75" rows, told apart by
+                          // their sub-label rather than their label.
+                          key={`${m.label}-${'was' in m ? m.was : m.val}-${m.sub ?? ''}`}
+                          m={m}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="max-w-[52ch] text-[0.95rem] leading-relaxed text-body">
+                      {p.summary}
+                    </p>
+                  )}
 
                   {/* Visual affordance only. The headline link above already
                       names the destination, so announcing it twice would just
@@ -500,7 +517,7 @@ function SelectedWork() {
           })}
         </div>
 
-        {/* Closes the list rather than sitting beside the heading: these four
+        {/* Closes the list rather than sitting beside the heading: these cards
             are a selection, so the way out belongs after them, once you have
             seen what is on offer. */}
         <div className="mt-10 flex justify-center">

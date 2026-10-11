@@ -13,7 +13,7 @@ import { AltPage } from '@/components/alt-page'
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    'Projects and roles, newest first — Core Web Vitals, a thumbnail pipeline, a signup rebuild and a published React package.',
+    'Projects and roles, newest first — including Ownfolio, an independently built career platform, and production work in performance, product and architecture.',
 }
 
 /** Short rail labels, keyed by role id. Purely editorial, so it lives here. */
@@ -32,7 +32,8 @@ export default function WorkPage() {
         <p className="label mb-5 text-now">Every number here is measured, not estimated</p>
         <h1 className="display text-[clamp(2.75rem,9vw,6rem)]">Work</h1>
         <p className="measure mt-6 text-base leading-relaxed text-body sm:text-lg">
-          Projects and the roles they came out of. Each one links to a longer write-up.
+          An independent product and projects from the roles below. Open a case study for the
+          longer story.
         </p>
       </section>
 

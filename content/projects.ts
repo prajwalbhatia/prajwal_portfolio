@@ -30,6 +30,20 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: 'ownfolio',
+    title: 'Ownfolio',
+    context: 'Independent product · 2026',
+    tags: ['Product', 'Full-stack'],
+    problem:
+      'The projects and decisions behind a career scatter across chats, tickets and repositories. When access goes away, the detail needed to tell that story often goes with it.',
+    tech: ['Next.js', 'TypeScript', 'Node.js', 'PostgreSQL'],
+    summary:
+      'Designed, built and publicly released a place to capture work while it is fresh, turn notes into career records, keep supporting evidence, invite colleague acknowledgements and publish a selected Career Profile.',
+    href: '/projects/ownfolio',
+    linkLabel: 'Read the case study',
+    status: 'shipped',
+  },
+  {
     id: 'web-vitals',
     headline: 'How I cut LCP from 5.45s to 3.17s on our busiest flow',
     title: 'Web Vitals Programme',
@@ -165,13 +179,14 @@ export const projects: Project[] = [
 ]
 
 /**
- * The home page shows four, in this order. /work carries everything.
+ * The home page shows five, in this order. /work carries everything.
  *
  * An explicit list rather than a `featured` flag: the home page is the one
  * surface where order and count are a design decision, and a boolean spread
- * across nine entries lets that quietly grow to five and then six.
+ * across entries lets that quietly grow without a deliberate edit here.
  */
 const HOME_IDS = [
+  'ownfolio',
   'web-vitals',
   'thumbnail-pipeline',
   'application-flow',
