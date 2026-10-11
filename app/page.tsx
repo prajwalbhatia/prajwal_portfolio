@@ -183,6 +183,8 @@ const CARDS: {
   id: string
   theme: string
   metrics: Metric[]
+  /** Optional direct product link, separate from the case-study card link. */
+  liveUrl?: string
   /** Omit on projects with no honest pair — the card falls back to a diagram. */
   bars?: Bars
   /** A single screenshot for the media column. Fits the half-width column, so
@@ -208,6 +210,7 @@ const CARDS: {
     id: 'ownfolio',
     theme: 'theme-lav',
     metrics: [],
+    liveUrl: 'https://ownfolio.in',
     shot: {
       src: '/ownfolio-home.png',
       alt: 'Ownfolio homepage showing a fictional Career Profile with a project, colleague acknowledgement and supporting link',
@@ -408,10 +411,9 @@ function SelectedWork() {
                 anchor: `<a>` may not contain a slider, and a drag inside one
                 navigates instead of dragging.
 
-                So the headline holds the only link and its ::after covers the
-                card — whole-card clickability, one link in the accessibility
-                tree — and the slider raises itself above that layer to take
-                its own events.
+                The headline link's ::after covers the card. Interactive media
+                and any direct product link rise above it to take their own
+                events.
               */
               <article
                 key={card.id}
@@ -457,16 +459,26 @@ function SelectedWork() {
                     </p>
                   )}
 
-                  {/* Visual affordance only. The headline link above already
-                      names the destination, so announcing it twice would just
-                      duplicate the card in the a11y tree. */}
-                  <span
-                    aria-hidden="true"
-                    className="label cs-link mt-1 inline-flex w-fit items-center pb-0.5 text-[0.64rem] text-ink"
-                  >
-                    Read the case study
-                    <span>→</span>
-                  </span>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    {/* The headline link already names this destination. */}
+                    <span
+                      aria-hidden="true"
+                      className="label cs-link inline-flex w-fit items-center pb-0.5 text-[0.64rem] text-ink"
+                    >
+                      Read the case study
+                      <span>→</span>
+                    </span>
+                    {card.liveUrl && (
+                      <a
+                        href={card.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="label relative z-10 w-fit border-b border-now pb-0.5 text-[0.64rem] text-now transition-opacity hover:opacity-70"
+                      >
+                        Visit Ownfolio ↗
+                      </a>
+                    )}
+                  </div>
                 </div>
 
                 {/* Her media column. A real screenshot pair where one exists;
