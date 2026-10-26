@@ -6,7 +6,7 @@ import { CaseSection, CaseStudy } from '@/components/case-study'
 export const metadata: Metadata = {
   title: 'Ownfolio',
   description:
-    'Why I built Ownfolio, a public career platform for capturing work, keeping evidence and publishing a selected record of a professional journey.',
+    'How I built Ownfolio, a private career workspace for capturing work, bringing in past experience and curating a public profile.',
 }
 
 export default function OwnfolioPage() {
@@ -14,88 +14,83 @@ export default function OwnfolioPage() {
     <CaseStudy
       context="Independent product · 2026"
       title="Ownfolio"
-      lede="When I tried to look back on my own engineering work, too much of it lived in old tickets, conversations and repositories. I built Ownfolio so the projects, decisions and impact behind a career can be recorded while they are still fresh. I designed, built and released the first version solo."
+      lede="I built Ownfolio so people can keep a record of the work they have done, even after the tickets, chats and repositories are out of reach. What began as a way to capture new work now also helps people bring in years of earlier experience. I design, build and release the product solo."
       action={{ href: 'https://ownfolio.in', label: 'Visit Ownfolio' }}
     >
-      <CaseSection heading="The problem I kept running into">
+      <CaseSection heading="The problem">
         <p>
-          Engineers spend years solving difficult problems, then struggle to remember the details
-          when it is time to update a résumé or prepare for an interview. The evidence is scattered
-          across Slack conversations, Jira tickets, pull requests and documents. Leave an
-          organization, and some of those sources are no longer available. A product can disappear
-          too, leaving its work as a vague memory.
-        </p>
-        <p>
-          I wanted a record that belongs to the person who did the work: something more useful than
-          a list of job titles, and something they can build gradually instead of reconstructing
-          years later.
+          The details behind a project are easy to lose. They live in company tools, and access may
+          disappear when a role ends. Starting a career record from scratch is also a lot to ask of
+          someone who already has years of work behind them. Ownfolio gives both kinds of work a
+          place to start.
         </p>
       </CaseSection>
 
-      <CaseSection heading="What the first version lets you do">
-        <p>
-          The path starts with a quick note. The original words stay in Raw captures, and the owner
-          can review that note into a structured career record when ready. Records can be grouped
-          into career chapters, linked to supporting evidence and acknowledged by colleagues.
-        </p>
-        <p>
-          A Career Profile is a separate publishing step. The owner selects and orders confirmed
-          public records, then chooses when to publish the profile. It gives the work a shareable
-          home without making every private note public by default.
-        </p>
-      </CaseSection>
-
-      <CaseSection heading="The product in the browser">
+      <CaseSection heading="How it works today">
+        <ol className="list-decimal space-y-3 pl-5 marker:font-semibold marker:text-accent">
+          <li>
+            <strong className="text-ink">Start with a note or a résumé.</strong> Write freely, follow
+            prompts or upload a PDF résumé to review suggested chapters and records.
+          </li>
+          <li>
+            <strong className="text-ink">Make the record your own.</strong> Edit drafts, organize them
+            into career chapters, add skills and evidence, and invite colleague acknowledgements.
+          </li>
+          <li>
+            <strong className="text-ink">Choose what to share.</strong> Keep original notes private
+            and select confirmed records for a public Career Profile. Evidence and colleague replies
+            have their own visibility controls.
+          </li>
+        </ol>
         <figure className="overflow-hidden rounded-xl border border-rule bg-surface">
           <Image
             src="/ownfolio-home.png"
-            alt="Ownfolio homepage showing its career-record message beside a clearly labelled fictional Career Profile with a project, colleague acknowledgement and supporting link"
+            alt="Ownfolio homepage with a fictional Career Profile preview"
             width={1440}
             height={933}
             sizes="(min-width: 1024px) 80vw, 100vw"
             className="h-auto w-full"
           />
           <figcaption className="label border-t border-rule px-4 py-3 text-muted">
-            Public homepage. The profile preview uses fictional people and work.
+            Public homepage; the profile preview uses fictional people and work.
           </figcaption>
         </figure>
       </CaseSection>
 
-      <CaseSection heading="Private first, shared deliberately">
+      <CaseSection heading="How the product evolved">
         <p>
-          A career record may contain details that should stay private. In Ownfolio, a record must
-          be confirmed, marked public and selected before it can appear on a published profile.
-          Evidence links need their own sharing choice. A colleague&apos;s name and response appear
-          publicly only if that colleague consents.
+          The early product focused on capturing work and publishing a selected profile. Verified
+          production releases in October 2026 expanded that path:
+        </p>
+        <ul className="list-disc space-y-2 pl-5 marker:text-accent">
+          <li><strong className="text-ink">15 October:</strong> email verification, account recovery and session revocation.</li>
+          <li><strong className="text-ink">17 October:</strong> editable AI draft suggestions with passages from the original note.</li>
+          <li><strong className="text-ink">19 October:</strong> career chapters with month-and-year dates, without inventing unknown days.</li>
+          <li><strong className="text-ink">23–25 October:</strong> résumé import, review and selection, followed by background draft preparation for imported records.</li>
+        </ul>
+      </CaseSection>
+
+      <CaseSection heading="The decisions behind it">
+        <p>
+          AI can help turn notes and résumés into useful drafts, but it can also misstate a person's
+          contribution. Ownfolio shows source passages and keeps suggestions separate from saved
+          records until the owner reviews them. Imported records begin as private drafts.
         </p>
         <p>
-          The owner also writes the record themselves. Draft assistance has a separate review and
-          apply step; the public release does not automatically turn a rough note into a published
-          story.
+          Privacy and accuracy shaped the less visible work too: résumé upload requires explicit
+          consent, public sharing is a separate choice, and chapter dates can stay incomplete when
+          the exact date is unknown.
         </p>
       </CaseSection>
 
-      <CaseSection heading="Building and releasing it solo">
+      <CaseSection heading="My role">
         <p>
-          I built the Next.js web app, the Express API and its PostgreSQL data layer, including
-          account sessions, email verification, career records, evidence and public profiles. The
-          repository also has a separate worker path for optional draft proposals. Shipping the
-          first version meant carrying the product from the initial problem and interface design
-          through implementation, testing and deployment.
-        </p>
-        <p>
-          Ownfolio is now publicly available at{' '}
-          <a
-            href="https://ownfolio.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-now underline decoration-rule underline-offset-4 hover:opacity-70"
-          >
-            ownfolio.in
-          </a>
-          . The result I can claim today is a working release and the complete path from a private
-          note to a selected public profile; I am not attaching adoption or impact numbers before
-          they are measured.
+          I built the responsive Next.js app, Express API, PostgreSQL schema, authentication,
+          background jobs and release process. I also set up staging and production deployments,
+          monitoring and checks that record what actually reached production. Ownfolio is live at{' '}
+          <a href="https://ownfolio.in" target="_blank" rel="noopener noreferrer">ownfolio.in</a>
+          {' '}and I am continuing to develop it. I do not have verified adoption or impact numbers
+          to report yet.
         </p>
       </CaseSection>
     </CaseStudy>

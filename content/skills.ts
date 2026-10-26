@@ -24,29 +24,21 @@ export const stack: Skill[] = [
   { name: 'Accessibility' },
 ]
 
-/**
- * Grouped view for /resume, following the PDF's two groups, with two
- * deliberate divergences:
- *
- *  - React Native is omitted. The PDF carries it for ATS keyword matching;
- *    the site does not claim it, for the reason given on `stack` above.
- *  - HTML5/CSS3, GCS, Core Web Vitals and Lighthouse are kept. The PDF
- *    dropped them in the Sep 2026 revision, but GCS carries the thumbnail
- *    pipeline and Core Web Vitals is the whole SDE-2 story — a skills list
- *    that omits them contradicts the case studies it sits next to.
- *
- * So this is a superset of the PDF by four items, on purpose. The PDF is the
- * side that needs updating; when it is, this comment can lose its second half.
- */
+/** Grouped skills for the HTML résumé, aligned with the downloadable PDF. */
 export const skillGroups = [
   {
-    group: 'Frontend & Architecture',
+    group: 'Frontend',
     items:
-      'JavaScript (ES6+), TypeScript, HTML5, CSS3, React, Next.js, React Router, Vite, Material UI, Redux Toolkit, RTK Query, Component Architecture, Design Systems, Accessibility',
+      'React, TypeScript, JavaScript, Next.js, Redux Toolkit, RTK Query, TanStack Query, React Native, Material UI, Tailwind CSS, HTML, CSS, Vite',
   },
   {
-    group: 'Backend, Testing & Production',
+    group: 'Architecture & quality',
     items:
-      'Node.js, Express, BullMQ, Redis, Puppeteer, GCS, TypeORM, REST APIs, Jest, React Testing Library, Core Web Vitals (LCP, CLS, INP), Datadog, Sentry, Lighthouse',
+      'System design, design systems, Core Web Vitals, WCAG, Jest, React Testing Library',
+  },
+  {
+    group: 'Backend & tools',
+    items:
+      'Node.js, Express.js, REST APIs, PostgreSQL, TypeORM, Drizzle ORM, Redis, BullMQ, Git, CI/CD, Lighthouse, Datadog, Sentry',
   },
 ] as const

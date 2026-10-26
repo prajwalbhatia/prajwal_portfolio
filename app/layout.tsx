@@ -95,7 +95,6 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
-  alternates: { canonical: SITE_URL },
 }
 
 /** Tells Google this is a person, not a company. Improves the knowledge panel. */
@@ -104,11 +103,10 @@ function PersonSchema() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: profile.name,
-    jobTitle: profile.titleShort,
+    jobTitle: profile.title,
     email: `mailto:${profile.email}`,
     url: SITE_URL,
     address: { '@type': 'PostalAddress', addressLocality: profile.location },
-    worksFor: { '@type': 'Organization', name: profile.company },
     sameAs: socials.map((s) => s.href),
     knowsAbout: ['React', 'TypeScript', 'Next.js', 'Core Web Vitals', 'Node.js'],
   }

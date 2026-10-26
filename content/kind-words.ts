@@ -128,6 +128,3 @@ export const kindWords: KindWord[] = [
     alt: 'Slack message from Nitin: “Want to appreciate the effort you’re putting in AI. I promise this will be 10x meaningful for your career as well.”',
   },
 ]
-
-/** Interns mentored — from the résumé, not derivable from this file. */
-export const INTERNS_MENTORED = 2

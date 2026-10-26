@@ -75,27 +75,6 @@
   --font-mono: var(--font-jetbrains), ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
-/* ============================================================
-   Inner pages sit a step deeper than the home page.
-
-   The home page is dense with tinted cards, so the lighter ground
-   works there. Everywhere else is mostly text and `bg-surface`
-   cards, and surface against the home ground is a 1.07:1
-   difference — effectively invisible. Dropping the ground takes
-   that to 1.19:1, which is enough to read as a card.
-
-   `rule` darkens with it: at #e2dfd7 it measured 1.11:1 against
-   this ground and all the hairlines dissolved.
-
-   Applied by marker so one attribute flips the whole page,
-   header and footer included — see components/alt-page.tsx.
-   ============================================================ */
-body:has([data-page='alt']) {
-  --color-ground: #eeeae1;
-  --color-raise: #e5e0d5;
-  --color-rule: #d3cec2;
-}
-
 @layer base {
   html {
     color-scheme: light;
@@ -896,6 +875,17 @@ body:has([data-page='alt']) {
     max-width: 68ch;
   }
 
+  .case-prose p a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-rule);
+    text-underline-offset: 0.2em;
+  }
+
+  .case-prose p a:hover {
+    text-decoration-color: currentColor;
+  }
+
   /* Case-study prose runs in --color-body; a bolded figure inside it needs to
      lift to ink or the emphasis is weight alone, which barely registers at
      this size. Tabular figures so 55% and 95% line up down the page. */
@@ -1089,17 +1079,6 @@ body:has([data-page='alt']) {
     --color-was: #a8461a;
     --color-now: #2f6a12;
     --color-live: #1f1f1f;
-  }
-
-  /* The inner-page ground is set on `body`, and a custom property applied
-     directly to an element beats the value it would inherit from :root — so
-     without this the block above never reaches /resume or a case study and
-     they print on grey. */
-  body:has([data-page='alt']) {
-    --color-ground: #ffffff;
-    --color-surface: #ffffff;
-    --color-raise: #ffffff;
-    --color-rule: #c9c9c9;
   }
 
   @page {

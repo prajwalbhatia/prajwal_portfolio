@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation'
 
 import { Band } from '@/components/band'
 import { getKindWordSections, type ResolvedKindWord } from '@/lib/kind-words'
-import { AltPage } from '@/components/alt-page'
 
 export const metadata: Metadata = {
   title: 'Kind words',
@@ -55,43 +54,18 @@ function Card({
 }
 
 export default function KindWordsPage() {
-  const { all, recommendations, notes, stats } = getKindWordSections()
+  const { all, recommendations, notes } = getKindWordSections()
   if (all.length === 0) notFound()
 
   return (
     <>
-      <AltPage />
       <section className="shell gutter pt-14 pb-10">
-        <p className="label mb-5 text-now">Unedited · straight from LinkedIn and Slack</p>
         <h1 className="display max-w-[16ch] text-[clamp(2.5rem,8vw,5rem)]">
-          What people say when I&rsquo;m not in the room.
+          Kind words
         </h1>
-
-        <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
-          <p className="measure text-base leading-relaxed text-body sm:text-lg">
-            Recommendations, review notes and the odd Slack message. I&rsquo;ve left them as
-            screenshots so you can see who wrote them.
-          </p>
-
-          <dl className="flex gap-10">
-            <div>
-              <dd className="display text-3xl text-now tabular-nums">
-                {stats.recommendations}
-              </dd>
-              <dt className="label mt-1 text-muted">Recommendations</dt>
-            </div>
-            <div>
-              <dd className="display text-3xl text-now tabular-nums">{stats.people}</dd>
-              <dt className="label mt-1 text-muted">People</dt>
-            </div>
-            <div>
-              <dd className="display text-3xl text-now tabular-nums">
-                {stats.internsMentored}
-              </dd>
-              <dt className="label mt-1 text-muted">Interns mentored</dt>
-            </div>
-          </dl>
-        </div>
+        <p className="measure mt-6 text-base leading-relaxed text-body sm:text-lg">
+          Recommendations and work notes, kept as screenshots with their original attribution.
+        </p>
       </section>
 
       {notes.length > 0 && (

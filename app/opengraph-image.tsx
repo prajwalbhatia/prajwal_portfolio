@@ -47,7 +47,7 @@ export default function Image() {
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: 22, letterSpacing: 3, color: MUTED }}>
-            {profile.titleShort.toUpperCase()}
+            {profile.title.toUpperCase()}
           </span>
           {profile.openToWork && (
             <span style={{ fontSize: 22, letterSpacing: 3, color: INK }}>
