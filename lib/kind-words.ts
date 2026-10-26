@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { INTERNS_MENTORED, kindWords, type KindWord } from '@/content/kind-words'
+import { kindWords, type KindWord } from '@/content/kind-words'
 
 /**
  * Resolves endorsements against the files actually present in public/.
@@ -82,10 +82,5 @@ export function getKindWordSections() {
     all,
     recommendations: all.filter((k) => k.source === 'LinkedIn'),
     notes: all.filter((k) => k.source !== 'LinkedIn'),
-    stats: {
-      recommendations: all.filter((k) => k.source === 'LinkedIn').length,
-      people: new Set(all.map((k) => k.name)).size,
-      internsMentored: INTERNS_MENTORED,
-    },
   }
 }

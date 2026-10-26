@@ -5,7 +5,6 @@ import { Band } from '@/components/band'
 import { ExplainerCard } from '@/components/explainer-card'
 import { CHANNEL_HANDLE, CHANNEL_URL, EXPLAINERS_LIMIT } from '@/content/explainers'
 import { fetchExplainers } from '@/lib/youtube'
-import { AltPage } from '@/components/alt-page'
 
 export const metadata: Metadata = {
   title: 'Explainers',
@@ -26,13 +25,10 @@ export default async function ExplainersPage() {
 
   return (
     <>
-      <AltPage />
       <section className="shell gutter pt-14 pb-8">
         <h1 className="display text-[clamp(2.25rem,7vw,4rem)]">Explainers</h1>
         <p className="measure mt-5 text-body">
-          Short explainers on React, TypeScript and performance — the same problems I work on during
-          the day, in under a minute. Being able to explain a thing simply is most of understanding
-          it.
+          Short videos on React, TypeScript and web performance.
         </p>
         <a
           href={CHANNEL_URL}
@@ -44,7 +40,7 @@ export default async function ExplainersPage() {
         </a>
       </section>
 
-      <Band title="Every one">
+      <Band title="Videos">
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {explainers.map((e) => (
             <li key={e.id}>

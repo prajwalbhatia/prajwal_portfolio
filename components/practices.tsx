@@ -1,38 +1,25 @@
 import { practices } from '@/content/experience'
 
-/**
- * The same before/after applied to process rather than code.
- *
- * Rendered as prose rather than with `Pair`, because these are sentences: a
- * hairline rule between two clauses reads as a typo. The was/now colours still
- * carry the relationship, and each row states why the change mattered — that
- * is the question an interviewer asks next.
- */
+const featuredAreas = ['Code review', 'Incident response', 'Mentoring']
+
 export function Practices() {
   return (
-    <ul className="flex flex-col">
-      {practices.map((p) => (
-        <li
-          key={p.area}
-          className="grid gap-x-10 gap-y-4 border-b border-rule py-7 first:border-t md:grid-cols-[11rem_1fr]"
-        >
-          <h3 className="label text-ink">{p.area}</h3>
+    <ul className="grid gap-5 md:grid-cols-3">
+      {featuredAreas.map((area) => {
+        const practice = practices.find((item) => item.area === area)
+        if (!practice) return null
 
-          <div className="flex flex-col gap-3">
-            <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[0.95rem]">
-              <span className="text-was line-through decoration-was/50">{p.was}</span>
-              <span aria-hidden="true" className="text-body">
-                →
-              </span>
-              <span className="font-semibold text-now">{p.now}</span>
-            </p>
-
-            <p className="max-w-[68ch] text-[0.9rem] leading-relaxed text-body">{p.detail}</p>
-
-            {p.evidence && <p className="label text-muted">{p.evidence}</p>}
-          </div>
-        </li>
-      ))}
+        return (
+          <li key={practice.area} className="flex h-full flex-col rounded-2xl border border-rule bg-surface p-6 sm:p-7">
+            <h3 className="label text-muted">{practice.area}</h3>
+            <p className="mt-7 text-lg font-semibold leading-snug text-ink">{practice.title}</p>
+            <p className="mt-5 flex-1 text-[0.9rem] leading-relaxed text-body">{practice.detail}</p>
+            {practice.evidence && (
+              <p className="label mt-6 border-t border-rule pt-4 text-muted">{practice.evidence}</p>
+            )}
+          </li>
+        )
+      })}
     </ul>
   )
 }

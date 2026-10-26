@@ -12,7 +12,10 @@ const nextConfig: NextConfig = {
   turbopack: { root: path.resolve(process.cwd()) },
   async redirects() {
     // /projects was folded into /work — they had become the same page.
-    return [{ source: '/projects', destination: '/work', permanent: true }]
+    return [
+      { source: '/projects', destination: '/work', permanent: true },
+      { source: '/projects/partner-landing', destination: '/work', permanent: true },
+    ]
   },
   experimental: {
     // Inlines the stylesheet into the document, removing a render-blocking

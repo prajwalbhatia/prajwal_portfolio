@@ -1,83 +1,50 @@
 import Link from 'next/link'
+import Image from 'next/image'
+import type { Metadata } from 'next'
 
-import { ExperienceAccordion } from '@/components/experience-accordion'
 import { IdBadge } from '@/components/id-badge'
+import { ExplainerCard } from '@/components/explainer-card'
 import { StackIcon, stackHue } from '@/components/stack-icons'
 import { TerminalCard } from '@/components/terminal-card'
-import Image from 'next/image'
-
-import { BeforeAfter } from '@/components/before-after'
 import { Instrument } from '@/components/instrument'
-import { SignupTopologyDiagram } from '@/components/signup-topology-diagram'
-import { ExplainerCard } from '@/components/explainer-card'
-import { CHANNEL_HANDLE, CHANNEL_URL, EXPLAINERS_LIMIT } from '@/content/explainers'
-import { profile, socials } from '@/content/profile'
+import {
+  CHANNEL_HANDLE,
+  CHANNEL_URL,
+  EXPLAINERS_LIMIT,
+  HOME_EXPLAINERS,
+  type Explainer,
+} from '@/content/explainers'
+import { profile, socials, SITE_URL } from '@/content/profile'
 import { projects } from '@/content/projects'
 import { stack } from '@/content/skills'
 import { fetchExplainers } from '@/lib/youtube'
 
-/* ------------------------------------------------------------------ pieces */
+export const metadata: Metadata = {
+  alternates: { canonical: SITE_URL },
+}
 
-/**
- * Her .cs-hdr-row / .ai-hdr-row / .exp-hdr-row: an eyebrow, a hand-drawn
- * line, and the rest of the title. Hers is a scribbled SVG squiggle; this is
- * a restrained version of the same idea — swap `path` for a straight rule if
- * it reads as too much of her signature.
- */
-function SectionHead({
-  lead,
-  trail,
-  sub,
-  action,
-  actionHref,
-  center = false,
-}: {
-  lead: string
-  trail?: string
-  sub?: string
-  action?: string
-  actionHref?: string
-  /** Centres the heading and its standfirst. */
-  center?: boolean
-}) {
+function SectionHead() {
   return (
-    <header className={`mb-8 flex flex-col gap-3 ${center ? 'items-center text-center' : ''}`}>
-      <div
-        className={`flex flex-wrap items-center gap-x-4 gap-y-2 ${center ? 'justify-center' : ''}`}
-      >
-        <h2 className="display text-[clamp(1.75rem,4.5vw,2.6rem)]">
-          {lead}
-          {/* The squiggle is an inline SVG and contributes no whitespace, so
-              without these the two words render as "SelectedWork". */}
-          {trail !== undefined && (
-            <>
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 120 12"
-                className="mx-3 inline-block h-3 w-22 align-middle text-now"
-                fill="none"
-              >
-                <path
-                  d="M1 7c14-6 26 4 40-1s24 5 38 0 26-3 40 1"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-              {trail && <span>{trail}</span>}
-            </>
-          )}
-        </h2>
-        {action && actionHref && (
-          <Link
-            href={actionHref}
-            className="label ml-auto text-muted transition-colors hover:text-ink"
+    <header className="mb-8 flex flex-col items-center gap-3 text-center">
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+        <h2 id="work-heading" className="display text-[clamp(1.75rem,4.5vw,2.6rem)]">
+          Selected
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 120 12"
+            className="mx-3 inline-block h-3 w-22 align-middle text-now"
+            fill="none"
           >
-            {action} →
-          </Link>
-        )}
+            <path
+              d="M1 7c14-6 26 4 40-1s24 5 38 0 26-3 40 1"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+          Work
+        </h2>
       </div>
-      {sub && <p className="max-w-[58ch] text-body">{sub}</p>}
     </header>
   )
 }
@@ -86,10 +53,6 @@ type Metric =
   | { was: string; now: string; label: string; sub?: string }
   | { val: string; label: string; sub?: string }
 
-/** Drives the drawn before/after in the card's media slot. */
-type Bars = { was: string; now: string; note: string }
-
-/** Letterpressed tile, per her .cs-metric. The arrow is small and raised. */
 function MetricCell({ m }: { m: Metric }) {
   return (
     <div className="cs-tile flex flex-col gap-1 px-3.5 py-3">
@@ -112,99 +75,17 @@ function MetricCell({ m }: { m: Metric }) {
   )
 }
 
-/** "5.45s" → 5.45, "513KB" → 513, "28 min" → 28, "3+" → 3. */
-function magnitude(v: string) {
-  const n = Number.parseFloat(v.replace(/[^0-9.]/g, ''))
-  return Number.isFinite(n) ? n : 0
-}
-
-/**
- * Fills her .cs-card-image slot. Hers holds a screenshot or a screen
- * recording; we have neither, and the platform is internal.
- *
- * So it holds the improvement drawn to scale instead — two bars whose lengths
- * are the real ratio between the before and after. This is the one place the
- * was/now pair is used exactly as globals.css intends: the orange bar IS the
- * before and the green one IS the after, not decoration.
- *
- * The proportions are honest, which means CLS 0.229 → 0.006 renders as a
- * sliver next to a full bar. That is the point.
- */
-function BeforeAfterBars({ was: wasLabel, now: nowLabel, note }: Bars) {
-  const was = magnitude(wasLabel)
-  const now = magnitude(nowLabel)
-  // Floor at 1.5% so a near-total reduction still leaves something visible.
-  const nowPct = was > 0 ? Math.max((now / was) * 100, 1.5) : 0
-
-  return (
-    <figure className="flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
-      <div className="flex flex-col gap-2.5">
-        <div className="flex items-baseline justify-between gap-3">
-          <span className="label text-[0.62rem] text-was">Before</span>
-          <span className="font-mono text-[0.8rem] tabular-nums text-body">{wasLabel}</span>
-        </div>
-        <span className="block h-3 w-full rounded-full bg-was/25">
-          <span className="block h-full rounded-full bg-was" style={{ width: '100%' }} />
-        </span>
-      </div>
-
-      <div className="flex flex-col gap-2.5">
-        <div className="flex items-baseline justify-between gap-3">
-          <span className="label text-[0.62rem] text-now">After</span>
-          <span className="font-mono text-[0.8rem] tabular-nums text-body">{nowLabel}</span>
-        </div>
-        <span className="block h-3 w-full rounded-full bg-now/20">
-          <span
-            className="block h-full rounded-full bg-now"
-            style={{ width: `${nowPct.toFixed(1)}%` }}
-          />
-        </span>
-      </div>
-
-      <figcaption className="label text-[0.6rem] text-muted">{note}</figcaption>
-    </figure>
-  )
-}
-
 /* ------------------------------------------------------------------- data */
 
-/**
- * Which projects lead the home page, and how each one is presented.
- *
- * Headlines live on the Project in content/projects.ts; the theme, metrics and
- * bars are presentation and belong here.
- *
- * The single-value figures (~55%, 8×, 95%) are real and come from
- * content/experience.ts. They are deliberately NOT in `proofLedger`, which is
- * reserved for genuine before/after pairs — inventing a "before" for them
- * would undo the whole argument.
- */
+/** Three featured projects; /work carries the full list. */
 const CARDS: {
   id: string
   theme: string
   metrics: Metric[]
   /** Optional direct product link, separate from the case-study card link. */
   liveUrl?: string
-  /** Omit on projects with no honest pair — the card falls back to a diagram. */
-  bars?: Bars
-  /** A single screenshot for the media column. Fits the half-width column, so
-      unlike `slider` it does not restack the card. */
   shot?: { src: string; alt: string; width: number; height: number }
-  /** A purpose-built block. `wide` restacks the card to full width, which the
-      two-panel instrument needs and a diagram does not. */
-  custom?: { node: 'instrument-vitals' | 'signup-topology'; wide?: boolean }
-  /** A real screenshot pair. Takes precedence over `bars`, and restacks the
-      card so the slider gets the full width rather than half of it. */
-  slider?: {
-    before: string
-    after: string
-    beforeAlt: string
-    afterAlt: string
-    width: number
-    height: number
-    label: string
-    caption?: string
-  }
+  custom?: { node: 'instrument-vitals'; wide?: boolean }
 }[] = [
   {
     id: 'ownfolio',
@@ -224,33 +105,8 @@ const CARDS: {
     metrics: [
       { was: '5.45s', now: '3.17s', label: 'LCP p75', sub: 'batch selection · 42% faster' },
       { was: '0.229', now: '0.006', label: 'CLS p75', sub: 'intern profile' },
-      { was: '9.9s', now: '8.6s', label: 'LCP p75', sub: 'onboarding' },
-      { was: '0.44', now: '0.24', label: 'CLS p75', sub: 'dashboard' },
     ],
     custom: { node: 'instrument-vitals', wide: true },
-  },
-  {
-    id: 'thumbnail-pipeline',
-    theme: 'theme-green',
-    metrics: [
-      { val: '~55%', label: 'of URLs via og:image', sub: 'in about a second' },
-      { val: '8×', label: 'lower latency', sub: 'vs the Puppeteer fallback' },
-      { val: '95%', label: 'success in production' },
-      { val: '2 tiers', label: 'og:image, then Puppeteer' },
-    ],
-    // No pair by design — these three figures are single-valued.
-    slider: {
-      before: '/thumbnail-before.png',
-      after: '/thumbnail-after.png',
-      beforeAlt:
-        'An intern row on the browse page showing two generic paperclip placeholders where project previews should be',
-      afterAlt:
-        "The same intern row showing two generated thumbnails of the intern's actual project pages",
-      width: 2700,
-      height: 540,
-      label: 'Drag to compare the browse card before and after thumbnail generation',
-      caption: 'Candidate name, institution and previous employer redacted',
-    },
   },
   {
     id: 'application-flow',
@@ -258,8 +114,6 @@ const CARDS: {
     metrics: [
       { was: '28 min', now: '12 min', label: 'Time to apply', sub: '57% faster' },
       { val: '+24%', label: 'completion rate' },
-      { val: '−31%', label: 'drop-off' },
-      { val: '5–8', label: 'steps', sub: 'by batch config' },
     ],
     shot: {
       src: '/application.png',
@@ -267,15 +121,6 @@ const CARDS: {
       width: 1726,
       height: 976,
     },
-  },
-  {
-    id: 'signup-funnel',
-    theme: 'theme-peach',
-    metrics: [
-      { was: '3+', now: '1', label: 'Sequential API calls', sub: 'one transactional endpoint' },
-      { was: '3', now: '1', label: 'Signup screens', sub: 'registration page deleted' },
-    ],
-    custom: { node: 'signup-topology' },
   },
 ]
 
@@ -393,32 +238,22 @@ function SelectedWork() {
   return (
     <section id="work" aria-labelledby="work-heading" className="rule-t">
       <div className="shell gutter py-14">
-        <div id="work-heading">
-          <SectionHead lead="Selected" trail="Work" center />
-        </div>
+        <SectionHead />
 
-        {/* Her .cs-cards-wrap: a single column of wide cards, generously
-            spaced, each internally two columns — copy left, media right. */}
         <div className="flex flex-col gap-8">
           {CARDS.map((card) => {
             const p = projects.find((x) => x.id === card.id)
-            if (!p) throw new Error(`preview CARDS references unknown project: ${card.id}`)
+            if (!p) throw new Error(`Featured project is missing: ${card.id}`)
 
             return (
               /*
-                An <article> with one stretched link, not a <Link> wrapping the
-                whole card. A card carrying an interactive control cannot be an
-                anchor: `<a>` may not contain a slider, and a drag inside one
-                navigates instead of dragging.
-
-                The headline link's ::after covers the card. Interactive media
-                and any direct product link rise above it to take their own
-                events.
+                The headline link covers the card. The direct product link sits
+                above it so visitors can choose either destination.
               */
               <article
                 key={card.id}
                 className={`cs-card group relative items-stretch gap-7 p-6 transition-shadow duration-300 hover:shadow-[0_18px_44px_-22px_rgb(23_23_26/0.22)] sm:p-8 ${
-                  card.slider || card.custom?.wide
+                  card.custom?.wide
                     ? 'flex flex-col'
                     : 'grid lg:grid-cols-2 lg:gap-9'
                 } ${card.theme}`}
@@ -434,7 +269,7 @@ function SelectedWork() {
 
                   <h3 className="display max-w-[24ch] text-[clamp(1.35rem,3.2vw,2rem)]">
                     <Link
-                      href={p.href ?? '/work'}
+                      href={p.href}
                       className="after:absolute after:inset-0 after:content-['']"
                     >
                       {p.headline ?? p.title}
@@ -445,9 +280,6 @@ function SelectedWork() {
                     <div className="grid gap-2.5 sm:grid-cols-2">
                       {card.metrics.map((m) => (
                         <MetricCell
-                          // Not `m.label` alone: the vitals card carries two
-                          // "LCP p75" rows and two "CLS p75" rows, told apart by
-                          // their sub-label rather than their label.
                           key={`${m.label}-${'was' in m ? m.was : m.val}-${m.sub ?? ''}`}
                           m={m}
                         />
@@ -481,23 +313,9 @@ function SelectedWork() {
                   </div>
                 </div>
 
-                {/* Her media column. A real screenshot pair where one exists;
-                    otherwise the improvement drawn to scale, because the
-                    platform is internal and most of it cannot be published.
-
-                    `relative z-10` on the slider lifts it above the stretched
-                    link, so a drag is a drag and not a navigation. */}
                 {card.custom ? (
                   <div className="relative z-10">
-                    {card.custom.node === 'instrument-vitals' ? (
-                      <Instrument only="vitals" />
-                    ) : (
-                      <SignupTopologyDiagram />
-                    )}
-                  </div>
-                ) : card.slider ? (
-                  <div className="relative z-10">
-                    <BeforeAfter {...card.slider} />
+                    <Instrument only="vitals" />
                   </div>
                 ) : card.shot ? (
                   <div className="cs-media overflow-hidden">
@@ -510,20 +328,7 @@ function SelectedWork() {
                       className="h-full w-full object-cover object-left-top"
                     />
                   </div>
-                ) : (
-                  <div className="cs-media min-h-64 overflow-hidden">
-                    {card.bars ? (
-                      <BeforeAfterBars {...card.bars} />
-                    ) : (
-                      <div className="flex h-full flex-col justify-center gap-4 p-6 sm:p-8">
-                        <PipelineDiagram />
-                        <p className="label text-center text-[0.6rem] text-muted">
-                          og:image fast path · Puppeteer fallback
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                ) : null}
               </article>
             )
           })}
@@ -546,31 +351,28 @@ function SelectedWork() {
   )
 }
 
-function Explainers({ items }: { items: Awaited<ReturnType<typeof fetchExplainers>> }) {
+function Explainers({ items }: { items: Explainer[] }) {
+  if (items.length === 0) return null
+
   return (
     <section id="explainers" aria-labelledby="explainers-heading" className="rule-t">
       <div className="shell gutter py-14">
-        <div id="explainers-heading">
-          <SectionHead
-            lead="Explainers"
-            trail=""
-            sub="Sixty-second breakdowns of the browser behaviour behind the work."
-            center
-          />
-        </div>
-
-        {items.length > 0 && (
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {items.slice(0, 4).map((e) => (
-              <li key={e.id}>
-                <ExplainerCard explainer={e} />
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {/* Same shape as Selected Work: the way out closes the list rather
-            than sitting beside the heading. External, so a plain anchor. */}
+        <h2
+          id="explainers-heading"
+          className="display text-center text-[clamp(1.75rem,4.5vw,2.6rem)]"
+        >
+          Explainers
+        </h2>
+        <p className="mx-auto mt-3 max-w-[58ch] text-center text-body">
+          Short videos on React, TypeScript and web performance.
+        </p>
+        <ul className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {items.slice(0, HOME_EXPLAINERS).map((item) => (
+            <li key={item.id}>
+              <ExplainerCard explainer={item} />
+            </li>
+          ))}
+        </ul>
         <div className="mt-10 flex justify-center">
           <a
             href={CHANNEL_URL}
@@ -578,50 +380,9 @@ function Explainers({ items }: { items: Awaited<ReturnType<typeof fetchExplainer
             rel="noopener noreferrer"
             className="label inline-flex items-center gap-2 rounded-full border border-rule bg-surface px-6 py-3 text-[0.68rem] text-ink transition-colors hover:border-muted"
           >
-            Watch the channel
-            <span aria-hidden="true">→</span>
+            Watch the channel <span aria-hidden="true">→</span>
           </a>
         </div>
-      </div>
-    </section>
-  )
-}
-
-/** Stands in for her .aib-shot screenshots, which we have no assets for. */
-function PipelineDiagram() {
-  return (
-    <svg viewBox="0 0 260 88" className="w-full text-dim" fill="none" aria-hidden="true">
-      <rect x="1" y="30" width="58" height="26" rx="3" stroke="currentColor" />
-      <text x="30" y="47" textAnchor="middle" className="fill-body text-[9px]">
-        URL
-      </text>
-      <path d="M60 43h22" stroke="currentColor" strokeDasharray="3 3" />
-      <rect x="83" y="4" width="76" height="26" rx="3" className="stroke-now" />
-      <text x="121" y="21" textAnchor="middle" className="fill-body text-[9px]">
-        og:image ~1s
-      </text>
-      <rect x="83" y="56" width="76" height="26" rx="3" stroke="currentColor" />
-      <text x="121" y="73" textAnchor="middle" className="fill-body text-[9px]">
-        Puppeteer
-      </text>
-      <path d="M82 43 83 17M82 43l1 26" stroke="currentColor" />
-      <path d="M160 17h20v26h20M160 69h20" stroke="currentColor" strokeDasharray="3 3" />
-      <rect x="201" y="30" width="58" height="26" rx="3" className="stroke-now" />
-      <text x="230" y="47" textAnchor="middle" className="fill-body text-[9px]">
-        GCS
-      </text>
-    </svg>
-  )
-}
-
-function Experience() {
-  return (
-    <section id="experience" aria-labelledby="experience-heading" className="rule-t">
-      <div className="shell gutter py-14">
-        <div id="experience-heading">
-          <SectionHead lead="Experience" trail="" center />
-        </div>
-        <ExperienceAccordion />
       </div>
     </section>
   )
@@ -681,7 +442,6 @@ export default async function HomePage() {
       <StackMarquee />
       <SelectedWork />
       <Explainers items={explainers} />
-      <Experience />
       <ContactPills />
     </>
   )

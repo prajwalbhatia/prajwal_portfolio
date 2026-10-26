@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 
 import { CaseSection, CaseStudy } from '@/components/case-study'
 
 export const metadata: Metadata = {
   title: 'Batch Selection Re-architecture',
   description:
-    'Splitting a 500-line component into three hooks, moving business rules server-side so frontend state could be deleted, and finding a bug that had been dropping query params on every request.',
+    'Simplifying a large batch-selection component, moving eligibility rules server-side and fixing missing query parameters.',
 }
 
 export default function BatchSelectionPage() {
@@ -13,42 +14,29 @@ export default function BatchSelectionPage() {
     <CaseStudy
       context="Virtual Internships · 2026"
       title="Batch Selection"
-      lede="Batch selection was a 500-line component holding its own copy of rules that belonged to the backend — which flow the user was in, which batches they were eligible for, whether selection was locked. Frontend state mirroring server truth is a bug generator; the two drift and you find out in production."
+      lede="Batch selection had a 500-line component that duplicated backend rules. I split the frontend into focused hooks, moved eligibility decisions to the API and deleted state that no longer needed to exist in the browser."
     >
-      <CaseSection heading="Three parts">
+      <CaseSection heading="A smaller frontend">
         <p>
-          Split the component into <code>useBatchSelection</code>,{' '}
-          <code>useBatchSelectionSubmit</code> and <code>useBatchSelectionEventLogger</code>, each
-          with one job. Replace the legacy <code>getBatchList</code> thunk with RTK Query. Then move
-          the rules to the API — and once the backend returns only the relevant batch,{' '}
-          <code>isLocked</code> and <code>isSingleBatchScenario</code> don&rsquo;t need
-          reimplementing, they need deleting.
-        </p>
-        <p>The win was state removed, not state reorganised.</p>
-      </CaseSection>
-
-      <CaseSection heading="A useMemo doing nothing">
-        <p>
-          I also took out a <code>useMemo</code> that was doing nothing: RTK Query already
-          deep-equals its query arguments, so memoising them buys you a comparison you were getting
-          for free.
+          The component became separate hooks for data, submission and event logging. I replaced
+          legacy Redux thunks with RTK Query and changed the API to return only relevant batches.
+          That removed frontend copies of lock and single-batch rules that could drift from the
+          server.
         </p>
       </CaseSection>
 
-      <CaseSection heading="The bug underneath">
+      <CaseSection heading="A bug the rewrite exposed">
         <p>
-          Then the thing worth the whole exercise. Rewriting the data layer surfaced that{' '}
-          <code>partner_slug</code> and <code>batch_code</code> had never been reaching the API —{' '}
-          <code>customBaseQuery</code> silently ignored RTK Query&rsquo;s <code>params</code> field,
-          so the partner flow had been fetching without its filters. Fixed by building the URL with{' '}
-          <code>URLSearchParams</code>, matching the pattern already used elsewhere in the codebase.
+          Partner and batch filters had silently been dropped from requests because our custom RTK
+          Query base query ignored its <code>params</code> field. I fixed the URL construction and
+          added tests and an accessibility pass alongside the rewrite.
         </p>
       </CaseSection>
 
-      <CaseSection heading="What shipped with it">
+      <CaseSection heading="Related work">
         <p>
-          Unit tests, an axe-core pass, and <code>role=&quot;list&quot;</code> added to satisfy{' '}
-          <code>aria-required-parent</code> on the cards.
+          The <Link href="/projects/signup-funnel">signup rebuild</Link> also moved business rules
+          into the backend while simplifying the frontend flow.
         </p>
       </CaseSection>
     </CaseStudy>

@@ -19,11 +19,7 @@ export function yearsOfExperience(from = new Date('2019-08-01')): number {
 
 export const profile = {
   name: 'Prajwal Bhatia',
-  /** Canonical, and matches the résumé PDF exactly. */
   title: 'Senior Frontend Engineer',
-  /** For tight surfaces — the OG card, the hero eyebrow, structured data. */
-  titleShort: 'Senior Frontend Engineer',
-  company: 'Virtual Internships',
   location: 'Yamunanagar, India',
   locationShort: 'India · Remote',
 
@@ -32,11 +28,7 @@ export const profile = {
   availabilityLabel: 'Open to senior roles',
 
   email: 'prajwal6bhatia@gmail.com',
-  /* Prajwal's own export, replaced by hand at public/prajwal-bhatia-resume.pdf.
-     Deliberately NOT generated from /resume — he maintains the document
-     separately. The consequence to watch is drift: the previous PDF still said
-     "6.5+ years" and listed Kafka long after the site had corrected both, so
-     whenever résumé content changes here, re-export there. */
+  /* Replace this PDF when the résumé changes. */
   resumePdf: '/prajwal-bhatia-resume.pdf',
   // Phone deliberately omitted — it lives on the résumé PDF only.
   // Public phone numbers get scraped within days.
@@ -46,18 +38,6 @@ export const profile = {
   tagline:
     'I like taking complex problems, breaking them down, and turning them into simple frontend solutions.',
 
-  /* The short claim on the lanyard badge. Deliberately separate from
-     `tagline`: the badge pairs the role with a punchy line, the hero states
-     what the work is. */
-  badgeClaim: 'Think in systems. Build with intent. Ship with impact.',
-
-  /* Parked, not rendered. This was the hero standfirst until it was pulled
-     out of the hero for reuse elsewhere — keep the wording here so it does
-     not have to be rewritten from scratch when it lands on its new section. */
-  bio: [
-    `${yearsOfExperience()} years in React and TypeScript. Mostly performance and frontend`,
-    'architecture, plus the Node services underneath.',
-  ].join(' '),
 } as const
 
 export const socials = [
