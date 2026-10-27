@@ -53,7 +53,7 @@ export const roles: Role[] = [
     company: 'Extramarks Education India Pvt. Ltd.',
     location: 'Noida, India',
     start: '07/2021',
-    end: '01/2023',
+    end: '12/2022',
     highlights: [
       'Built interactive learning-video features across **React web and React Native** applications, synchronising animations, games, PDFs and timestamped assessments with progress milestones.',
       'Implemented **offline video downloads** with profile-specific media caching and class, chapter and topic filters.',
