@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Practices } from '@/components/practices'
+import { OpenSourceHighlight } from '@/components/open-source-highlight'
 import { ProjectGrid } from '@/components/project-grid'
 import { RoleEntry } from '@/components/role-entry'
 import { roles } from '@/content/experience'
@@ -47,8 +48,9 @@ export default function WorkPage() {
                 Selected projects
               </h2>
             </div>
-            <p className="label text-muted">{workProjects.length} stories</p>
+            <p className="label text-muted">{workProjects.length} case studies</p>
           </div>
+          <OpenSourceHighlight className="mb-8" />
           <ProjectGrid projects={workProjects} />
         </div>
       </section>
