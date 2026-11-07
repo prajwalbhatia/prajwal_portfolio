@@ -7,6 +7,7 @@ import { ExplainerCard } from '@/components/explainer-card'
 import { StackIcon, stackHue } from '@/components/stack-icons'
 import { TerminalCard } from '@/components/terminal-card'
 import { Instrument } from '@/components/instrument'
+import { OpenSourceHighlight } from '@/components/open-source-highlight'
 import {
   CHANNEL_HANDLE,
   CHANNEL_URL,
@@ -239,6 +240,8 @@ function SelectedWork() {
     <section id="work" aria-labelledby="work-heading" className="rule-t">
       <div className="shell gutter py-14">
         <SectionHead />
+
+        <OpenSourceHighlight className="mb-8" />
 
         <div className="flex flex-col gap-8">
           {CARDS.map((card) => {
