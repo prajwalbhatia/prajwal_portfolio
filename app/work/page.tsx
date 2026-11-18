@@ -9,6 +9,11 @@ import { roles } from '@/content/experience'
 import { profile } from '@/content/profile'
 import { workProjects } from '@/content/projects'
 
+const personalProjects = workProjects.filter((project) =>
+  ['ownfolio', 'papermode'].includes(project.id),
+)
+const companyProjects = workProjects.filter((project) => !personalProjects.includes(project))
+
 export const metadata: Metadata = {
   title: 'Work',
   description:
@@ -48,10 +53,44 @@ export default function WorkPage() {
                 Selected projects
               </h2>
             </div>
-            <p className="label text-muted">{workProjects.length} case studies</p>
+            <p className="label text-muted">{workProjects.length} projects</p>
           </div>
-          <OpenSourceHighlight className="mb-8" />
-          <ProjectGrid projects={workProjects} />
+          <section aria-labelledby="personal-projects-heading">
+            <p className="label text-muted">Personal projects</p>
+            <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 id="personal-projects-heading" className="display text-[clamp(1.8rem,3.5vw,3rem)]">
+                  Products I build independently
+                </h3>
+                <p className="mt-3 max-w-[60ch] text-body">
+                  Tools and open-source contributions shaped by problems I have experienced myself.
+                </p>
+              </div>
+              <p className="label shrink-0 text-muted">{personalProjects.length} projects</p>
+            </div>
+            <OpenSourceHighlight className="mt-8 mb-8 sm:mb-10" />
+            <ProjectGrid projects={personalProjects} totalProjects={workProjects.length} />
+          </section>
+
+          <section aria-labelledby="company-projects-heading" className="mt-14 border-t border-rule pt-14 sm:mt-20 sm:pt-20">
+            <p className="label text-muted">Company projects</p>
+            <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h3 id="company-projects-heading" className="display text-[clamp(1.8rem,3.5vw,3rem)]">
+                  Production work at Virtual Internships
+                </h3>
+                <p className="mt-3 max-w-[60ch] text-body">
+                  Performance, product and platform work delivered as part of the engineering team.
+                </p>
+              </div>
+              <p className="label shrink-0 text-muted">{companyProjects.length} projects</p>
+            </div>
+            <ProjectGrid
+              projects={companyProjects}
+              positionStart={personalProjects.length + 1}
+              totalProjects={workProjects.length}
+            />
+          </section>
         </div>
       </section>
 

@@ -7,6 +7,8 @@ export type Project = {
   tech?: string[]
   summary: string
   href: string
+  external?: boolean
+  sourceUrl?: string
 }
 
 /** The Work index highlights five projects; Home selects three by ID. */
@@ -20,6 +22,18 @@ export const projects: Project[] = [
     summary:
       'I built a career workspace for capturing new work, importing earlier experience and curating a public profile.',
     href: '/projects/ownfolio',
+  },
+  {
+    id: 'papermode',
+    title: 'PaperMode',
+    context: 'Independent macOS utility · 2026',
+    tags: ['Open source', 'macOS'],
+    tech: ['Electron', 'JavaScript', 'Swift'],
+    summary:
+      'A macOS utility that locks the keyboard and trackpad for handwritten notes while keeping a video lesson visible and playing.',
+    href: 'https://prajwalbhatia.github.io/paperMode/',
+    external: true,
+    sourceUrl: 'https://github.com/prajwalbhatia/paperMode',
   },
   {
     id: 'web-vitals',
